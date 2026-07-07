@@ -6,6 +6,7 @@
 | How is tap metadata checked? | [`scripts/check-tap.mjs`](../scripts/check-tap.mjs) and [`tap-manifest.json`](../tap-manifest.json) |
 | How does Buildchain manage this repository? | [`buildchain.toml`](../buildchain.toml) |
 | How is the floating Buildchain runtime pinned? | [`buildchain.contract-lock.json`](../buildchain.contract-lock.json) and [`tap-check.yml`](../.github/workflows/tap-check.yml) |
+| How does the tap support KFD-1/2/3? | [`kfd/README.md`](../kfd/README.md), [`kfd/kfd-1.witness.json`](../kfd/kfd-1.witness.json), [`kfd/kfd-2.release-claims.json`](../kfd/kfd-2.release-claims.json), and [`kfd/kfd-3.witness.json`](../kfd/kfd-3.witness.json) |
 | How do I contribute? | [`CONTRIBUTING.md`](../CONTRIBUTING.md) |
 | How do I report a vulnerability? | [`SECURITY.md`](../SECURITY.md) |
 
@@ -18,6 +19,7 @@ scripts/check-tap.mjs Drift check for formulae and upstream release evidence
 buildchain.toml       Buildchain lifecycle declaration
 buildchain.contract-lock.json
                       Accepted Buildchain @v2 runtime contract lock
+kfd/                  Tap-local KFD-1/2/3 claims and witnesses
 ```
 
 ## Fact Boundary
@@ -29,3 +31,7 @@ the upstream passport first, then the formula.
 The Buildchain floating runtime is also not accepted blindly. The tap records
 the reviewed `@v2` runtime contract in `buildchain.contract-lock.json`; CI
 checks that contract before running repository lifecycle verification.
+
+The tap-local KFD files are generated from repository facts. `scripts/check-tap.mjs`
+checks their hashes and closed-world file list so a new script, workflow,
+formula, manual, or KFD surface cannot become an undeclared control surface.

@@ -10,6 +10,7 @@ process.
 - Binds each entry to upstream release evidence.
 - Uses Buildchain checks to keep tap metadata from drifting away from upstream
   release passports.
+- Declares tap-local KFD-1 / KFD-2 / KFD-3 support under [`kfd/`](kfd/).
 
 ## Where to start
 
@@ -39,6 +40,14 @@ buildchain.contract-lock.json
 
 The `Tap Check` workflow calls Buildchain's reusable workflow, which checks this
 lock before running the tap lifecycle verification.
+
+Regenerate tap-local KFD witnesses after changing a formula, workflow, script,
+public manual, or KFD file:
+
+```sh
+node scripts/update-kfd-witnesses.mjs
+node scripts/check-tap.mjs
+```
 
 When this file and a source-of-truth document disagree, follow
 [`docs/MAP.md`](docs/MAP.md) for routing and the checked manifest files for

@@ -1,0 +1,182 @@
+{
+  "schemaVersion": 1,
+  "contract": "kfd-3-witness",
+  "standard": "kfd-3",
+  "product": {
+    "name": "Kungfu Systems Homebrew Tap",
+    "version": "repository-current",
+    "repository": "kungfu-systems/homebrew-tap"
+  },
+  "collaborationInterface": {
+    "schemaId": "https://kfd.libkungfu.dev/schemas/kfd-3/collaboration-interface.schema.json",
+    "digest": "sha256:6f6cce98f544fef4f3c100a4dc8c1d39e54ac2ac8ef0da01c0d87a890df9e842"
+  },
+  "sourceRegistry": {
+    "path": "kfd/kfd-3.collaboration-interface.json",
+    "sha256": "6f6cce98f544fef4f3c100a4dc8c1d39e54ac2ac8ef0da01c0d87a890df9e842"
+  },
+  "evidence": {
+    "minimalEntrypoints": [
+      {
+        "path": "README.md",
+        "sha256": "31987014b11969bde24681e27a5395d2704c4c6135537671ba79fab1d3fc6d31",
+        "description": "Install packages and understand the tap role."
+      },
+      {
+        "path": "AGENTS.md",
+        "sha256": "73c66343d52d0b3f40fab119a938fd123f4ff1586582b851558b535a66363665",
+        "description": "Route agents to usage, repository map, contribution, and verification surfaces."
+      },
+      {
+        "path": "docs/MAP.md",
+        "sha256": "ef6d098764d725225308a9b950a117d9ea5df8c137dcb50e868f364c93e3029d",
+        "description": "Find tap structure, checks, KFD claims, and governance documents."
+      },
+      {
+        "path": "tap-manifest.json",
+        "sha256": "bfde0b2b9b9d47bbb3bacd8e52a48c2b44f74dddaba4512bddd79ed1428ab064",
+        "description": "Consume the machine-readable distribution index."
+      },
+      {
+        "path": "kfd/README.md",
+        "sha256": "634632bff716b60eb3e39c8d4398b931cea97321f76fb0607ad1dfb99eb7eecc",
+        "description": "Inspect the tap-local KFD claim and witness map."
+      }
+    ],
+    "discoverability": [
+      {
+        "path": "README.md",
+        "sha256": "31987014b11969bde24681e27a5395d2704c4c6135537671ba79fab1d3fc6d31",
+        "description": "Install and release-evidence entrypoint."
+      },
+      {
+        "path": "AGENTS.md",
+        "sha256": "73c66343d52d0b3f40fab119a938fd123f4ff1586582b851558b535a66363665",
+        "description": "Agent routing entrypoint."
+      },
+      {
+        "path": "docs/MAP.md",
+        "sha256": "ef6d098764d725225308a9b950a117d9ea5df8c137dcb50e868f364c93e3029d",
+        "description": "Documentation map."
+      },
+      {
+        "path": "tap-manifest.json",
+        "sha256": "bfde0b2b9b9d47bbb3bacd8e52a48c2b44f74dddaba4512bddd79ed1428ab064",
+        "description": "Machine-readable tap entry facts."
+      },
+      {
+        "path": "kfd/README.md",
+        "sha256": "634632bff716b60eb3e39c8d4398b931cea97321f76fb0607ad1dfb99eb7eecc",
+        "description": "Tap-local KFD map."
+      }
+    ],
+    "transparentConstraints": [
+      {
+        "path": "scripts/check-tap.mjs",
+        "sha256": "8880a089b4c76b0166bd30ccccc9d17278afad21ba45afe98717790eec82c305",
+        "description": "Closed-world verification command."
+      },
+      {
+        "path": ".github/workflows/tap-check.yml",
+        "sha256": "dae6c30d341f3495196daea8551fecf2bef870a9a55772ecf3c74458df34874f",
+        "description": "Buildchain reusable workflow trust gate."
+      },
+      {
+        "path": ".github/workflows/buildchain-validate.yml",
+        "sha256": "8cea7e04b1f5a0f0f6e25e55a79dd3595299c814bb1fd71e18afc101e1867845",
+        "description": "Config and lock presence validation."
+      }
+    ],
+    "choicePaths": [
+      {
+        "path": "README.md",
+        "sha256": "31987014b11969bde24681e27a5395d2704c4c6135537671ba79fab1d3fc6d31",
+        "description": "Install path."
+      },
+      {
+        "path": "docs/MAP.md",
+        "sha256": "ef6d098764d725225308a9b950a117d9ea5df8c137dcb50e868f364c93e3029d",
+        "description": "Inspection path."
+      },
+      {
+        "path": "CONTRIBUTING.md",
+        "sha256": "a81a399e57bab69f070960e92ccfc36a9584247bf3aa6aed0456b95db2a41294",
+        "description": "Maintenance path."
+      },
+      {
+        "path": "kfd/kfd-2.release-claims.json",
+        "sha256": "86f09f365ddeed38f94908122370bc9cabe1217c3f321773a0747a0bd1a1e105",
+        "description": "Public trust claim path."
+      }
+    ],
+    "manuals": [
+      {
+        "path": "README.md",
+        "sha256": "31987014b11969bde24681e27a5395d2704c4c6135537671ba79fab1d3fc6d31"
+      },
+      {
+        "path": "AGENTS.md",
+        "sha256": "73c66343d52d0b3f40fab119a938fd123f4ff1586582b851558b535a66363665"
+      },
+      {
+        "path": "docs/MAP.md",
+        "sha256": "ef6d098764d725225308a9b950a117d9ea5df8c137dcb50e868f364c93e3029d"
+      },
+      {
+        "path": "CONTRIBUTING.md",
+        "sha256": "a81a399e57bab69f070960e92ccfc36a9584247bf3aa6aed0456b95db2a41294"
+      },
+      {
+        "path": "kfd/README.md",
+        "sha256": "634632bff716b60eb3e39c8d4398b931cea97321f76fb0607ad1dfb99eb7eecc"
+      }
+    ]
+  },
+  "closure": {
+    "classificationMode": "closed-world",
+    "reachableEntrypoints": [
+      "readme",
+      "agents",
+      "docs-map",
+      "tap-manifest",
+      "kfd-readme"
+    ],
+    "classifiedEntrypoints": [
+      "readme",
+      "agents",
+      "docs-map",
+      "tap-manifest",
+      "kfd-readme"
+    ],
+    "unclassifiedEntrypoints": [],
+    "declaredFiles": [
+      ".github/ISSUE_TEMPLATE/config.yml",
+      ".github/pull_request_template.md",
+      ".github/workflows/buildchain-validate.yml",
+      ".github/workflows/tap-check.yml",
+      "ACCEPTABLE_USE.md",
+      "AGENTS.md",
+      "CONTRIBUTING.md",
+      "Formula/buildchain.rb",
+      "LICENSE",
+      "PROVIDER_COMPLIANCE.md",
+      "README.md",
+      "SECURITY.md",
+      "TRADEMARK.md",
+      "buildchain.contract-lock.json",
+      "buildchain.toml",
+      "docs/MAP.md",
+      "kfd/README.md",
+      "kfd/kfd-1.contract-world.json",
+      "kfd/kfd-1.witness.json",
+      "kfd/kfd-2.release-claims.json",
+      "kfd/kfd-3.collaboration-interface.json",
+      "kfd/kfd-3.witness.json",
+      "scripts/check-tap.mjs",
+      "scripts/update-kfd-witnesses.mjs",
+      "tap-manifest.json"
+    ]
+  },
+  "result": "pass",
+  "residualRisk": []
+}

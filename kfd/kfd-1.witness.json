@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "contract": "kfd-1-witness",
+  "standard": "kfd-1",
+  "product": {
+    "name": "Kungfu Systems Homebrew Tap",
+    "version": "repository-current",
+    "repository": "kungfu-systems/homebrew-tap"
+  },
+  "contractWorld": {
+    "schemaId": "https://kfd.libkungfu.dev/schemas/kfd-1/contract-world.schema.json",
+    "digest": "sha256:76fa84d156ff248227ba1f0a55402d6a308947151302179e99fb85a1b21c56a1"
+  },
+  "evidence": [
+    {
+      "kind": "file",
+      "path": "tap-manifest.json",
+      "sha256": "bfde0b2b9b9d47bbb3bacd8e52a48c2b44f74dddaba4512bddd79ed1428ab064"
+    },
+    {
+      "kind": "file",
+      "path": "Formula/buildchain.rb",
+      "sha256": "91d4107a8ac5e540720a07a29fc12551cdaca3322e77d41394b61ffbb0e51297"
+    },
+    {
+      "kind": "file",
+      "path": "buildchain.contract-lock.json",
+      "sha256": "aadc67760ca0075ea2bc088faa746ee029920dcdb72e71dc621350cd996e9c14"
+    },
+    {
+      "kind": "file",
+      "path": ".github/workflows/tap-check.yml",
+      "sha256": "dae6c30d341f3495196daea8551fecf2bef870a9a55772ecf3c74458df34874f"
+    },
+    {
+      "kind": "file",
+      "path": "scripts/check-tap.mjs",
+      "sha256": "8880a089b4c76b0166bd30ccccc9d17278afad21ba45afe98717790eec82c305"
+    },
+    {
+      "kind": "file",
+      "path": "kfd/kfd-1.contract-world.json",
+      "sha256": "76fa84d156ff248227ba1f0a55402d6a308947151302179e99fb85a1b21c56a1"
+    }
+  ],
+  "closure": {
+    "mode": "declared-files",
+    "declaredFiles": [
+      ".github/ISSUE_TEMPLATE/config.yml",
+      ".github/pull_request_template.md",
+      ".github/workflows/buildchain-validate.yml",
+      ".github/workflows/tap-check.yml",
+      "ACCEPTABLE_USE.md",
+      "AGENTS.md",
+      "CONTRIBUTING.md",
+      "Formula/buildchain.rb",
+      "LICENSE",
+      "PROVIDER_COMPLIANCE.md",
+      "README.md",
+      "SECURITY.md",
+      "TRADEMARK.md",
+      "buildchain.contract-lock.json",
+      "buildchain.toml",
+      "docs/MAP.md",
+      "kfd/README.md",
+      "kfd/kfd-1.contract-world.json",
+      "kfd/kfd-1.witness.json",
+      "kfd/kfd-2.release-claims.json",
+      "kfd/kfd-3.collaboration-interface.json",
+      "kfd/kfd-3.witness.json",
+      "scripts/check-tap.mjs",
+      "scripts/update-kfd-witnesses.mjs",
+      "tap-manifest.json"
+    ]
+  },
+  "result": "pass"
+}
