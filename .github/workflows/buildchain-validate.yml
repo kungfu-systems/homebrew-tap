@@ -1,0 +1,20 @@
+name: Buildchain Validate
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate buildchain.toml
+        uses: kungfu-systems/buildchain/actions/validate-config@v2
+        with:
+          require-lifecycle-stages: "verify"
