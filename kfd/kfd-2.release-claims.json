@@ -74,7 +74,7 @@
       "source": {
         "kind": "file",
         "path": "buildchain.contract-lock.json",
-        "sha256": "aadc67760ca0075ea2bc088faa746ee029920dcdb72e71dc621350cd996e9c14"
+        "sha256": "7bf4591865693a64af683aedb18189aba8a2641c18723a057664c6c3e3e14d91"
       },
       "evidence": [
         {
@@ -82,7 +82,7 @@
           "pointer": {
             "kind": "file",
             "path": "buildchain.contract-lock.json",
-            "sha256": "aadc67760ca0075ea2bc088faa746ee029920dcdb72e71dc621350cd996e9c14"
+            "sha256": "7bf4591865693a64af683aedb18189aba8a2641c18723a057664c6c3e3e14d91"
           },
           "description": "Accepted Buildchain @v2 contract digest and breaking-surface set."
         },
@@ -146,7 +146,7 @@
           "pointer": {
             "kind": "file",
             "path": "kfd/kfd-1.witness.json",
-            "sha256": "ae820dda888235fc99fd8ebdcf166cfb930ab7b6011dc738fccbbdb7fa580f13"
+            "sha256": "83d1247e17b4898cc71ea1e5dbe753c22681bc47fcc03a72955a1b328aca6dec"
           },
           "description": "KFD-1 witness for declared fact surfaces."
         },

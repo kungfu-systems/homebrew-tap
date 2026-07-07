@@ -105,7 +105,7 @@
       },
       {
         "path": "kfd/kfd-2.release-claims.json",
-        "sha256": "86f09f365ddeed38f94908122370bc9cabe1217c3f321773a0747a0bd1a1e105",
+        "sha256": "1748e2d8702303495b0f8548e7b1a2a1b357196d46281892c4b63d4b801faef5",
         "description": "Public trust claim path."
       }
     ],
