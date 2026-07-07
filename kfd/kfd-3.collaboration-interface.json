@@ -1,0 +1,388 @@
+{
+  "schemaVersion": 1,
+  "contract": "kfd-3-collaboration-interface",
+  "standard": "kfd-3",
+  "product": {
+    "name": "Kungfu Systems Homebrew Tap",
+    "version": "repository-current",
+    "repository": "kungfu-systems/homebrew-tap"
+  },
+  "sourceRegistry": {
+    "path": "kfd/kfd-3.collaboration-interface.json"
+  },
+  "factSources": [
+    {
+      "id": "homebrew-tap-repository",
+      "kind": "git-repository",
+      "host": "github",
+      "repository": "kungfu-systems/homebrew-tap",
+      "url": "https://github.com/kungfu-systems/homebrew-tap",
+      "loadBearingCoordinate": "commit-addressed repository contents",
+      "canonicalPaths": [
+        ".github/ISSUE_TEMPLATE/config.yml",
+        ".github/pull_request_template.md",
+        ".github/workflows/buildchain-validate.yml",
+        ".github/workflows/tap-check.yml",
+        "ACCEPTABLE_USE.md",
+        "AGENTS.md",
+        "CONTRIBUTING.md",
+        "Formula/buildchain.rb",
+        "LICENSE",
+        "PROVIDER_COMPLIANCE.md",
+        "README.md",
+        "SECURITY.md",
+        "TRADEMARK.md",
+        "buildchain.contract-lock.json",
+        "buildchain.toml",
+        "docs/MAP.md",
+        "kfd/README.md",
+        "kfd/kfd-1.contract-world.json",
+        "kfd/kfd-1.witness.json",
+        "kfd/kfd-2.release-claims.json",
+        "kfd/kfd-3.collaboration-interface.json",
+        "kfd/kfd-3.witness.json",
+        "scripts/check-tap.mjs",
+        "scripts/update-kfd-witnesses.mjs",
+        "tap-manifest.json"
+      ],
+      "projectionSurfaces": [
+        "Homebrew formulae",
+        "Buildchain lifecycle artifacts",
+        "tap-local KFD witnesses"
+      ]
+    }
+  ],
+  "participants": [
+    {
+      "id": "installer",
+      "kind": "human",
+      "description": "A person installing Kungfu Systems tools with Homebrew."
+    },
+    {
+      "id": "agent-reader",
+      "kind": "agent",
+      "description": "An agent inspecting tap metadata, release evidence, and KFD witnesses."
+    },
+    {
+      "id": "maintainer",
+      "kind": "maintainer",
+      "description": "A maintainer adding or updating tap entries and verification evidence."
+    },
+    {
+      "id": "release-system",
+      "kind": "service-integrator",
+      "description": "A CI or release system verifying tap metadata and Buildchain contract drift."
+    }
+  ],
+  "minimalEntrypoints": [
+    {
+      "id": "readme",
+      "surface": "README.md",
+      "participants": [
+        "installer",
+        "agent-reader"
+      ],
+      "purpose": "Install packages and understand the tap role."
+    },
+    {
+      "id": "agents",
+      "surface": "AGENTS.md",
+      "participants": [
+        "agent-reader",
+        "maintainer"
+      ],
+      "purpose": "Route agents to usage, repository map, contribution, and verification surfaces."
+    },
+    {
+      "id": "docs-map",
+      "surface": "docs/MAP.md",
+      "participants": [
+        "installer",
+        "agent-reader",
+        "maintainer"
+      ],
+      "purpose": "Find tap structure, checks, KFD claims, and governance documents."
+    },
+    {
+      "id": "tap-manifest",
+      "surface": "tap-manifest.json",
+      "participants": [
+        "agent-reader",
+        "release-system"
+      ],
+      "purpose": "Consume the machine-readable distribution index."
+    },
+    {
+      "id": "kfd-readme",
+      "surface": "kfd/README.md",
+      "participants": [
+        "agent-reader",
+        "maintainer",
+        "release-system"
+      ],
+      "purpose": "Inspect the tap-local KFD claim and witness map."
+    }
+  ],
+  "surfaces": [
+    {
+      "id": "readme",
+      "kind": "markdown-doc",
+      "participants": [
+        "installer",
+        "agent-reader"
+      ],
+      "value": "Installation and release-evidence overview.",
+      "discoverability": {
+        "fromMinimalEntrypoint": true,
+        "path": "README.md"
+      },
+      "maturity": "stable"
+    },
+    {
+      "id": "agents",
+      "kind": "markdown-doc",
+      "participants": [
+        "agent-reader",
+        "maintainer"
+      ],
+      "value": "Agent-facing repository route map.",
+      "discoverability": {
+        "fromMinimalEntrypoint": true,
+        "path": "AGENTS.md"
+      },
+      "maturity": "stable"
+    },
+    {
+      "id": "docs-map",
+      "kind": "markdown-doc",
+      "participants": [
+        "installer",
+        "agent-reader",
+        "maintainer"
+      ],
+      "value": "Question-to-source routing map.",
+      "discoverability": {
+        "fromMinimalEntrypoint": true,
+        "path": "docs/MAP.md"
+      },
+      "maturity": "stable"
+    },
+    {
+      "id": "governance-docs",
+      "kind": "markdown-doc",
+      "participants": [
+        "installer",
+        "agent-reader",
+        "maintainer"
+      ],
+      "value": "License, security, trademark, acceptable use, provider compliance, contribution, issue, and PR boundaries.",
+      "discoverability": {
+        "fromMinimalEntrypoint": true,
+        "path": "LICENSE, SECURITY.md, TRADEMARK.md, ACCEPTABLE_USE.md, PROVIDER_COMPLIANCE.md, CONTRIBUTING.md, .github/*"
+      },
+      "maturity": "stable"
+    },
+    {
+      "id": "tap-manifest",
+      "kind": "json-api",
+      "participants": [
+        "agent-reader",
+        "release-system"
+      ],
+      "value": "Machine-readable tap distribution index.",
+      "discoverability": {
+        "fromMinimalEntrypoint": true,
+        "path": "tap-manifest.json"
+      },
+      "maturity": "stable"
+    },
+    {
+      "id": "formula-buildchain",
+      "kind": "config",
+      "participants": [
+        "installer",
+        "agent-reader"
+      ],
+      "value": "Homebrew formula for Buildchain release artifacts.",
+      "discoverability": {
+        "fromMinimalEntrypoint": true,
+        "path": "Formula/buildchain.rb"
+      },
+      "maturity": "stable"
+    },
+    {
+      "id": "buildchain-runtime-lock",
+      "kind": "json-api",
+      "participants": [
+        "agent-reader",
+        "release-system"
+      ],
+      "value": "Accepted Buildchain @v2 runtime contract lock.",
+      "discoverability": {
+        "fromMinimalEntrypoint": true,
+        "path": "buildchain.contract-lock.json"
+      },
+      "maturity": "stable"
+    },
+    {
+      "id": "buildchain-lifecycle",
+      "kind": "config",
+      "participants": [
+        "maintainer",
+        "release-system"
+      ],
+      "value": "Buildchain lifecycle declaration and GitHub workflow callers.",
+      "discoverability": {
+        "fromMinimalEntrypoint": true,
+        "path": "buildchain.toml, .github/workflows/*.yml"
+      },
+      "maturity": "stable"
+    },
+    {
+      "id": "tap-verification",
+      "kind": "cli-command",
+      "participants": [
+        "maintainer",
+        "release-system",
+        "agent-reader"
+      ],
+      "value": "Repository self-check for tap metadata, upstream release passports, KFD witnesses, and declared control surfaces.",
+      "discoverability": {
+        "fromMinimalEntrypoint": true,
+        "path": "node scripts/check-tap.mjs"
+      },
+      "maturity": "stable"
+    },
+    {
+      "id": "kfd-claims",
+      "kind": "json-api",
+      "participants": [
+        "agent-reader",
+        "release-system",
+        "maintainer"
+      ],
+      "value": "Tap-local KFD-1/2/3 claims and witnesses.",
+      "discoverability": {
+        "fromMinimalEntrypoint": true,
+        "path": "kfd/*.json"
+      },
+      "maturity": "stable"
+    }
+  ],
+  "transparentConstraints": [
+    {
+      "id": "upstream-passport-authority",
+      "appliesTo": [
+        "tap-manifest",
+        "formula-buildchain"
+      ],
+      "restriction": "The tap may project upstream release facts but cannot become the upstream artifact authority.",
+      "rationale": "Release artifacts and KFD status are owned by upstream release passports.",
+      "reviewPath": "scripts/check-tap.mjs"
+    },
+    {
+      "id": "floating-runtime-lock",
+      "appliesTo": [
+        "buildchain-runtime-lock",
+        "buildchain-lifecycle"
+      ],
+      "restriction": "Buildchain @v2 movement must pass the consumer contract lock before lifecycle verification.",
+      "rationale": "Floating refs are useful only when incompatible runtime contract drift fails closed.",
+      "reviewPath": ".github/workflows/tap-check.yml"
+    },
+    {
+      "id": "closed-control-surface",
+      "appliesTo": [
+        "kfd-claims",
+        "tap-verification"
+      ],
+      "restriction": "Participant-facing control surfaces must be listed in closure.declaredFiles.",
+      "rationale": "A new script, workflow, formula, or manual must not become an undeclared backdoor surface.",
+      "reviewPath": "scripts/check-tap.mjs"
+    }
+  ],
+  "choicePaths": [
+    {
+      "id": "install-or-inspect",
+      "participants": [
+        "installer",
+        "agent-reader"
+      ],
+      "choices": [
+        {
+          "id": "install",
+          "label": "Install from README/Homebrew formula"
+        },
+        {
+          "id": "inspect",
+          "label": "Inspect tap-manifest.json and upstream release passport first"
+        }
+      ]
+    },
+    {
+      "id": "maintain-or-verify",
+      "participants": [
+        "maintainer",
+        "release-system",
+        "agent-reader"
+      ],
+      "choices": [
+        {
+          "id": "update-entry",
+          "label": "Update tap entry and regenerate KFD witnesses"
+        },
+        {
+          "id": "verify",
+          "label": "Run node scripts/check-tap.mjs or Buildchain lifecycle verify"
+        }
+      ]
+    }
+  ],
+  "extensionRequests": [
+    {
+      "id": "new-tap-surface",
+      "participants": [
+        "maintainer",
+        "agent-reader"
+      ],
+      "trigger": "A new formula, cask, script, workflow, or public manual is needed.",
+      "requestPath": {
+        "kind": "repository-pr",
+        "target": "https://github.com/kungfu-systems/homebrew-tap"
+      },
+      "expectedOutcome": "Update the relevant source file, declaredFiles closure, KFD witnesses, and verification script together."
+    }
+  ],
+  "closure": {
+    "classificationMode": "closed-world",
+    "unclassifiedEntrypointsPolicy": "fail",
+    "reachableSurfaceSource": "scripts/check-tap.mjs",
+    "declaredFiles": [
+      ".github/ISSUE_TEMPLATE/config.yml",
+      ".github/pull_request_template.md",
+      ".github/workflows/buildchain-validate.yml",
+      ".github/workflows/tap-check.yml",
+      "ACCEPTABLE_USE.md",
+      "AGENTS.md",
+      "CONTRIBUTING.md",
+      "Formula/buildchain.rb",
+      "LICENSE",
+      "PROVIDER_COMPLIANCE.md",
+      "README.md",
+      "SECURITY.md",
+      "TRADEMARK.md",
+      "buildchain.contract-lock.json",
+      "buildchain.toml",
+      "docs/MAP.md",
+      "kfd/README.md",
+      "kfd/kfd-1.contract-world.json",
+      "kfd/kfd-1.witness.json",
+      "kfd/kfd-2.release-claims.json",
+      "kfd/kfd-3.collaboration-interface.json",
+      "kfd/kfd-3.witness.json",
+      "scripts/check-tap.mjs",
+      "scripts/update-kfd-witnesses.mjs",
+      "tap-manifest.json"
+    ]
+  }
+}

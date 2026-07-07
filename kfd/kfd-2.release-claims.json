@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "contract": "kfd-2-release-claims",
+  "standard": "kfd-2",
+  "product": {
+    "name": "Kungfu Systems Homebrew Tap",
+    "repository": "kungfu-systems/homebrew-tap"
+  },
+  "release": {
+    "version": "repository-current",
+    "channel": "main",
+    "sourceSha": "commit-addressed repository contents"
+  },
+  "claims": [
+    {
+      "id": "upstream-release-evidence",
+      "statement": "Every tap entry is bound to upstream release passport evidence before it is presented as installable Homebrew metadata.",
+      "category": "release",
+      "source": {
+        "kind": "file",
+        "path": "tap-manifest.json",
+        "sha256": "bfde0b2b9b9d47bbb3bacd8e52a48c2b44f74dddaba4512bddd79ed1428ab064"
+      },
+      "evidence": [
+        {
+          "type": "file",
+          "pointer": {
+            "kind": "file",
+            "path": "tap-manifest.json",
+            "sha256": "bfde0b2b9b9d47bbb3bacd8e52a48c2b44f74dddaba4512bddd79ed1428ab064"
+          },
+          "description": "Tap entry declares upstream release passport and KFD status."
+        },
+        {
+          "type": "file",
+          "pointer": {
+            "kind": "file",
+            "path": "Formula/buildchain.rb",
+            "sha256": "91d4107a8ac5e540720a07a29fc12551cdaca3322e77d41394b61ffbb0e51297"
+          },
+          "description": "Formula version, URLs, and SHA-256 values must match tap-manifest.json."
+        },
+        {
+          "type": "command-result",
+          "pointer": {
+            "kind": "command",
+            "path": "scripts/check-tap.mjs",
+            "sha256": "8880a089b4c76b0166bd30ccccc9d17278afad21ba45afe98717790eec82c305"
+          },
+          "description": "Verification fetches upstream release passport and compares tag, version, KFD status, and artifact digests."
+        }
+      ],
+      "verification": {
+        "command": "node scripts/check-tap.mjs",
+        "expectedResult": "pass"
+      },
+      "auditBoundary": {
+        "scope": "Homebrew tap metadata for formulae and casks declared in tap-manifest.json",
+        "enumerability": "closed-world"
+      },
+      "responsibility": {
+        "owner": "Kungfu Systems maintainers",
+        "sourceOwner": "Upstream release repositories own release passports and artifacts",
+        "verificationOwner": "homebrew-tap verification",
+        "releaseDecisionOwner": "Kungfu Systems maintainers"
+      },
+      "residualRisk": [],
+      "status": "enforced"
+    },
+    {
+      "id": "buildchain-runtime-contract",
+      "statement": "The tap uses Buildchain @v2 only with a reviewed consumer contract lock and CI trust gate.",
+      "category": "kfd-1",
+      "source": {
+        "kind": "file",
+        "path": "buildchain.contract-lock.json",
+        "sha256": "7bf4591865693a64af683aedb18189aba8a2641c18723a057664c6c3e3e14d91"
+      },
+      "evidence": [
+        {
+          "type": "file",
+          "pointer": {
+            "kind": "file",
+            "path": "buildchain.contract-lock.json",
+            "sha256": "7bf4591865693a64af683aedb18189aba8a2641c18723a057664c6c3e3e14d91"
+          },
+          "description": "Accepted Buildchain @v2 contract digest and breaking-surface set."
+        },
+        {
+          "type": "file",
+          "pointer": {
+            "kind": "file",
+            "path": ".github/workflows/tap-check.yml",
+            "sha256": "dae6c30d341f3495196daea8551fecf2bef870a9a55772ecf3c74458df34874f"
+          },
+          "description": "Tap Check calls the Buildchain reusable workflow with buildchain-contract-lock-path."
+        },
+        {
+          "type": "file",
+          "pointer": {
+            "kind": "file",
+            "path": ".github/workflows/buildchain-validate.yml",
+            "sha256": "8cea7e04b1f5a0f0f6e25e55a79dd3595299c814bb1fd71e18afc101e1867845"
+          },
+          "description": "Buildchain Validate rejects a missing contract lock."
+        }
+      ],
+      "verification": {
+        "command": "Buildchain reusable workflow trust gate, then node scripts/check-tap.mjs",
+        "expectedResult": "pass"
+      },
+      "auditBoundary": {
+        "scope": "Buildchain runtime contract used by this tap's CI lifecycle verification",
+        "enumerability": "closed-world"
+      },
+      "responsibility": {
+        "owner": "Kungfu Systems maintainers",
+        "sourceOwner": "Buildchain release process",
+        "verificationOwner": "Buildchain reusable workflow trust gate",
+        "releaseDecisionOwner": "Kungfu Systems maintainers"
+      },
+      "residualRisk": [],
+      "status": "enforced"
+    },
+    {
+      "id": "tap-kfd-support",
+      "statement": "The tap declares and verifies its own KFD-1 distribution surface, KFD-2 public trust claims, and KFD-3 collaboration interface.",
+      "category": "kfd-3",
+      "source": {
+        "kind": "file",
+        "path": "kfd/README.md",
+        "sha256": "634632bff716b60eb3e39c8d4398b931cea97321f76fb0607ad1dfb99eb7eecc"
+      },
+      "evidence": [
+        {
+          "type": "file",
+          "pointer": {
+            "kind": "file",
+            "path": "kfd/kfd-1.contract-world.json",
+            "sha256": "76fa84d156ff248227ba1f0a55402d6a308947151302179e99fb85a1b21c56a1"
+          },
+          "description": "KFD-1 contract world for tap distribution facts."
+        },
+        {
+          "type": "file",
+          "pointer": {
+            "kind": "file",
+            "path": "kfd/kfd-1.witness.json",
+            "sha256": "83d1247e17b4898cc71ea1e5dbe753c22681bc47fcc03a72955a1b328aca6dec"
+          },
+          "description": "KFD-1 witness for declared fact surfaces."
+        },
+        {
+          "type": "file",
+          "pointer": {
+            "kind": "file",
+            "path": "kfd/README.md",
+            "sha256": "634632bff716b60eb3e39c8d4398b931cea97321f76fb0607ad1dfb99eb7eecc"
+          },
+          "description": "Tap-local KFD file map for KFD-1/2/3 support."
+        },
+        {
+          "type": "command-result",
+          "pointer": {
+            "kind": "command",
+            "path": "scripts/check-tap.mjs",
+            "sha256": "8880a089b4c76b0166bd30ccccc9d17278afad21ba45afe98717790eec82c305"
+          },
+          "description": "Verification rejects stale hashes and undeclared control surfaces."
+        }
+      ],
+      "verification": {
+        "command": "node scripts/check-tap.mjs",
+        "expectedResult": "pass"
+      },
+      "auditBoundary": {
+        "scope": "Tap-local public distribution, trust, and collaboration surfaces",
+        "enumerability": "closed-world"
+      },
+      "responsibility": {
+        "owner": "Kungfu Systems maintainers",
+        "sourceOwner": "homebrew-tap repository",
+        "verificationOwner": "homebrew-tap verification",
+        "releaseDecisionOwner": "Kungfu Systems maintainers"
+      },
+      "residualRisk": [],
+      "status": "enforced"
+    }
+  ],
+  "schemaEvolution": {
+    "rule": "KFD-owned schemas are cited by URL; tap-local compatible additions keep schemaVersion 1."
+  }
+}

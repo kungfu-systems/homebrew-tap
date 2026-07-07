@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 1,
+  "contract": "kfd-1-contract-world",
+  "standard": "kfd-1",
+  "factSource": "tap-manifest.json",
+  "product": {
+    "name": "Kungfu Systems Homebrew Tap",
+    "version": "repository-current",
+    "repository": "kungfu-systems/homebrew-tap"
+  },
+  "surfaces": [
+    {
+      "id": "tap-manifest",
+      "class": "cross-time",
+      "description": "Machine-readable tap distribution index and upstream release evidence binding.",
+      "path": "tap-manifest.json"
+    },
+    {
+      "id": "formula-buildchain",
+      "class": "cross-time",
+      "description": "Homebrew formula projected from the tap manifest and upstream release passport.",
+      "path": "Formula/buildchain.rb"
+    },
+    {
+      "id": "buildchain-runtime-lock",
+      "class": "integration-time",
+      "description": "Accepted Buildchain @v2 runtime contract for CI lifecycle checks.",
+      "path": "buildchain.contract-lock.json"
+    },
+    {
+      "id": "tap-verification",
+      "class": "integration-time",
+      "description": "Local and CI verification commands that reject formula, evidence, KFD, and workflow drift.",
+      "path": "scripts/check-tap.mjs"
+    },
+    {
+      "id": "kfd-claims",
+      "class": "cross-time",
+      "description": "Tap-local KFD-1/2/3 claim and witness files consumed by tap verification.",
+      "path": "kfd/"
+    }
+  ]
+}

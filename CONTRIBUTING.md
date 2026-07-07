@@ -22,6 +22,14 @@ node scripts/check-tap.mjs
 git diff --check
 ```
 
+After changing a formula, workflow, script, public manual, or tap KFD file,
+regenerate KFD witnesses before checking:
+
+```sh
+node scripts/update-kfd-witnesses.mjs
+node scripts/check-tap.mjs
+```
+
 If Buildchain is installed:
 
 ```sh
@@ -41,6 +49,8 @@ the lock only after the new runtime contract is acceptable for this tap.
   digests.
 - A tap entry may not claim KFD status that the upstream release passport does
   not verify.
+- Participant-facing control surfaces must be declared in the tap-local KFD-3
+  collaboration interface.
 
 ## Pull Requests
 
