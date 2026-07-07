@@ -29,6 +29,10 @@ buildchain validate --require-lifecycle-stages verify
 buildchain lifecycle run verify --required
 ```
 
+CI also verifies `buildchain.contract-lock.json` before the lifecycle check.
+When Buildchain `@v2` advances, review the Buildchain release notes and update
+the lock only after the new runtime contract is acceptable for this tap.
+
 ## Formula Rules
 
 - `Formula/*.rb` must match `tap-manifest.json`.

@@ -18,3 +18,6 @@ jobs:
         uses: kungfu-systems/buildchain/actions/validate-config@v2
         with:
           require-lifecycle-stages: "verify"
+      - name: Require Buildchain contract lock
+        shell: bash
+        run: test -f buildchain.contract-lock.json

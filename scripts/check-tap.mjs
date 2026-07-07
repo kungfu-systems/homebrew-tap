@@ -7,6 +7,7 @@ import process from "node:process";
 
 const cwd = process.cwd();
 const manifestPath = path.join(cwd, "tap-manifest.json");
+const contractLockPath = path.join(cwd, "buildchain.contract-lock.json");
 const formulaPath = path.join(cwd, "Formula", "buildchain.rb");
 
 function readJson(file) {
@@ -53,10 +54,27 @@ async function fetchJson(url) {
 }
 
 const manifest = readJson(manifestPath);
+const contractLock = readJson(contractLockPath);
 const formula = fs.readFileSync(formulaPath, "utf8");
 const buildchain = manifest.entries.find(
   (entry) => entry.type === "formula" && entry.name === "buildchain"
 );
+
+if (contractLock.contract !== "kungfu-buildchain-contract-lock") {
+  fail("buildchain.contract-lock.json must be a Buildchain contract lock");
+}
+if (contractLock.buildchain?.ref !== "v2") {
+  fail("buildchain.contract-lock.json must accept the Buildchain v2 floating runtime");
+}
+if (contractLock.buildchain?.compatibilityPolicy !== "major-compatible") {
+  fail("buildchain.contract-lock.json must use the major-compatible policy");
+}
+if (!/^[0-9a-f]{40}$/i.test(contractLock.buildchain?.resolvedSha || "")) {
+  fail("buildchain.contract-lock.json must record the resolved Buildchain SHA");
+}
+if (!Array.isArray(contractLock.buildchain?.surfaces) || contractLock.buildchain.surfaces.length === 0) {
+  fail("buildchain.contract-lock.json must record accepted Buildchain contract surfaces");
+}
 
 if (!buildchain) {
   fail("tap-manifest.json must contain the buildchain formula entry");

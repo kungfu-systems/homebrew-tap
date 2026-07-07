@@ -30,6 +30,16 @@ buildchain validate --require-lifecycle-stages verify
 buildchain lifecycle run verify --required
 ```
 
+The tap uses the floating Buildchain `@v2` runtime only with a checked consumer
+contract lock:
+
+```sh
+buildchain.contract-lock.json
+```
+
+The `Tap Check` workflow calls Buildchain's reusable workflow, which checks this
+lock before running the tap lifecycle verification.
+
 When this file and a source-of-truth document disagree, follow
 [`docs/MAP.md`](docs/MAP.md) for routing and the checked manifest files for
 machine-readable facts.

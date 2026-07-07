@@ -8,21 +8,28 @@ on:
 
 permissions:
   contents: read
+  issues: write
+  id-token: write
 
 jobs:
   check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Run Buildchain lifecycle verify
-        uses: kungfu-systems/buildchain/actions/run-lifecycle@v2
-        with:
-          stage: verify
-          required: "true"
-          artifact-name: homebrew-tap-check-${{ github.sha }}
-          artifact-paths: |
-            tap-manifest.json
-            Formula
-            docs
-          expected-artifacts-json: >-
-            {"requiredPaths":["tap-manifest.json","Formula/buildchain.rb","docs/MAP.md"]}
+    uses: kungfu-systems/buildchain/.github/workflows/.build.yml@v2
+    with:
+      buildchain-contract-lock-path: buildchain.contract-lock.json
+      buildchain-contract-compatibility-policy: major-compatible
+      buildchain-contract-drift-issue-mode: compatible-and-breaking
+      runner-preset: custom
+      platforms-json: >-
+        [{"id":"linux-x64","name":"Linux x64","runner":"[\"ubuntu-24.04\"]"}]
+      require-build: false
+      require-verify: true
+      verify-command: node scripts/check-tap.mjs
+      sample-process-tree: false
+      artifact-name: homebrew-tap-check
+      artifact-paths: |
+        tap-manifest.json
+        buildchain.contract-lock.json
+        Formula
+        docs
+      expected-artifacts-json: >-
+        {"requiredPaths":["tap-manifest.json","buildchain.contract-lock.json","Formula/buildchain.rb","docs/MAP.md"]}

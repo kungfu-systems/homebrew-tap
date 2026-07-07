@@ -41,6 +41,13 @@ Buildchain, the tap records:
 The tap does not replace upstream release passports. It projects them into
 Homebrew installation metadata.
 
+## Buildchain Management
+
+This tap uses Buildchain's floating `@v2` runtime with
+`buildchain.contract-lock.json`. CI checks the accepted Buildchain runtime
+contract before running tap verification, so compatible runtime movement is
+visible and breaking contract drift fails before lifecycle work proceeds.
+
 ## Read Next
 
 - [Documentation map](docs/MAP.md)
