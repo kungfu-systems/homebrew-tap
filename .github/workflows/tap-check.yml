@@ -1,0 +1,28 @@
+name: Tap Check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run Buildchain lifecycle verify
+        uses: kungfu-systems/buildchain/actions/run-lifecycle@v2
+        with:
+          stage: verify
+          required: "true"
+          artifact-name: homebrew-tap-check-${{ github.sha }}
+          artifact-paths: |
+            tap-manifest.json
+            Formula
+            docs
+          expected-artifacts-json: >-
+            {"requiredPaths":["tap-manifest.json","Formula/buildchain.rb","docs/MAP.md"]}

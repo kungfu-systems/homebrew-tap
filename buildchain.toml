@@ -1,0 +1,8 @@
+schema = 1
+
+[project]
+type = "package"
+name = "homebrew-tap"
+
+[lifecycle.verify]
+command = "node scripts/check-tap.mjs"
