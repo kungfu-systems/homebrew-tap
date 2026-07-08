@@ -20,7 +20,7 @@ scripts/update-managed-products.mjs
                       Managed updater from upstream release passports
 scripts/check-tap.mjs Drift check for formulae and upstream release evidence
 .github/workflows/managed-product-updates.yml
-                      Scheduled/manual update PR workflow
+                      Scheduled/manual update PR and auto-merge workflow
 buildchain.toml       Buildchain lifecycle declaration
 buildchain.contract-lock.json
                       Accepted Buildchain @v2 runtime contract lock
@@ -37,7 +37,9 @@ The Buildchain floating runtime is also not accepted blindly. The tap records
 the reviewed `@v2` runtime contract in `buildchain.contract-lock.json`; CI
 checks that contract before running repository lifecycle verification.
 The managed updater can refresh the lock only when the compatibility digest
-matches the accepted major-compatible policy.
+matches the accepted major-compatible policy. Routine automation PRs are
+auto-merged only through GitHub repository requirements; incompatible drift
+does not produce an update PR.
 
 The tap-local KFD files are generated from repository facts. `scripts/check-tap.mjs`
 checks their hashes and closed-world file list so a new script, workflow,

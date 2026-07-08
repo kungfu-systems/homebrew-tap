@@ -273,7 +273,7 @@
         "release-system",
         "agent-reader"
       ],
-      "value": "Dry-run, check, or write managed tap updates from upstream release passports, including compatible Buildchain @v2 lock refresh.",
+      "value": "Dry-run, check, or write managed tap updates from upstream release passports, including compatible Buildchain @v2 lock refresh and automation PR auto-merge.",
       "discoverability": {
         "fromMinimalEntrypoint": true,
         "path": "node scripts/update-managed-products.mjs --help, .github/workflows/managed-product-updates.yml"
@@ -317,6 +317,15 @@
       "restriction": "Buildchain @v2 movement must pass the consumer contract lock before lifecycle verification.",
       "rationale": "Floating refs are useful only when incompatible runtime contract drift fails closed.",
       "reviewPath": ".github/workflows/tap-check.yml"
+    },
+    {
+      "id": "automation-auto-merge-boundary",
+      "appliesTo": [
+        "managed-product-updater"
+      ],
+      "restriction": "Only the managed updater workflow may auto-merge its own automation branch after release-passport validation and repository requirements pass.",
+      "rationale": "Routine upstream release propagation should not require daily human attention, but arbitrary contributor PRs must not inherit that privilege.",
+      "reviewPath": ".github/workflows/managed-product-updates.yml"
     },
     {
       "id": "closed-control-surface",

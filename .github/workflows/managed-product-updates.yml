@@ -51,7 +51,7 @@ jobs:
           else
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
-      - name: Create pull request
+      - name: Create and auto-merge pull request
         if: steps.update.outputs.changed == 'true'
         shell: bash
         env:
@@ -68,6 +68,20 @@ jobs:
           existing="$(gh pr list --head "$branch" --json number --jq '.[0].number // empty')"
           if [ -n "$existing" ]; then
             gh pr edit "$existing" --title "chore(tap): update managed products" --body-file .managed-product-update.json
+            pr_number="$existing"
           else
             gh pr create --head "$branch" --base main --title "chore(tap): update managed products" --body-file .managed-product-update.json
+            pr_number="$(gh pr list --head "$branch" --json number --jq '.[0].number // empty')"
           fi
+          if [ -z "$pr_number" ]; then
+            echo "managed product update PR was not found after create/update" >&2
+            exit 1
+          fi
+          head_sha="$(git rev-parse HEAD)"
+          gh pr merge "$pr_number" \
+            --auto \
+            --merge \
+            --delete-branch \
+            --match-head-commit "$head_sha" \
+            --subject "chore(tap): update managed products" \
+            --body "Automated managed-product update after release-passport validation."

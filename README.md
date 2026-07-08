@@ -59,8 +59,10 @@ node scripts/update-managed-products.mjs --check --update-lock
 node scripts/update-managed-products.mjs --write --update-lock
 ```
 
-The scheduled workflow uses the same script and opens a pull request when
-formulae, `tap-manifest.json`, or the compatible Buildchain runtime lock move.
+The scheduled workflow uses the same script and opens an automation pull
+request when formulae, `tap-manifest.json`, or the compatible Buildchain
+runtime lock move. It then enables GitHub auto-merge for that PR, so routine
+managed updates land after repository requirements pass.
 
 ## KFD Support
 
