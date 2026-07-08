@@ -1,0 +1,73 @@
+name: Managed Product Updates
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: Formula package to update, or all.
+        required: false
+        default: all
+      release-passport:
+        description: Optional release passport URL for one package.
+        required: false
+        default: ""
+  schedule:
+    - cron: "17 3 * * *"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+      - name: Update managed products
+        id: update
+        shell: bash
+        env:
+          PACKAGE: ${{ github.event_name == 'workflow_dispatch' && inputs.package || 'all' }}
+          RELEASE_PASSPORT: ${{ github.event_name == 'workflow_dispatch' && inputs['release-passport'] || '' }}
+        run: |
+          set -euo pipefail
+          args=(--write --update-lock --json)
+          if [ "$PACKAGE" != "all" ] && [ -n "$PACKAGE" ]; then
+            args+=(--package "$PACKAGE")
+          fi
+          if [ -n "$RELEASE_PASSPORT" ]; then
+            args+=(--release-passport "$RELEASE_PASSPORT")
+          fi
+          node scripts/update-managed-products.mjs "${args[@]}" > .managed-product-update.json
+          node scripts/update-kfd-witnesses.mjs
+          node scripts/check-tap.mjs
+          git diff --check
+          changed_paths="$(git status --porcelain -- Formula tap-manifest.json buildchain.contract-lock.json kfd scripts .github docs README.md AGENTS.md CONTRIBUTING.md)"
+          if [ -z "$changed_paths" ]; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Create pull request
+        if: steps.update.outputs.changed == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          branch="automation/managed-product-updates"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$branch"
+          git add Formula tap-manifest.json buildchain.contract-lock.json kfd scripts .github docs README.md AGENTS.md CONTRIBUTING.md
+          git commit -s -m "chore(tap): update managed products"
+          git push --force-with-lease origin "$branch"
+          existing="$(gh pr list --head "$branch" --json number --jq '.[0].number // empty')"
+          if [ -n "$existing" ]; then
+            gh pr edit "$existing" --title "chore(tap): update managed products" --body-file .managed-product-update.json
+          else
+            gh pr create --head "$branch" --base main --title "chore(tap): update managed products" --body-file .managed-product-update.json
+          fi

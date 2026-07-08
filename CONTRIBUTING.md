@@ -18,8 +18,17 @@ Thank you for improving the Kungfu Systems Homebrew tap.
 ## Local Checks
 
 ```sh
+node scripts/update-managed-products.mjs --check --update-lock
 node scripts/check-tap.mjs
 git diff --check
+```
+
+To update managed entries from upstream release passports:
+
+```sh
+node scripts/update-managed-products.mjs --write --update-lock
+node scripts/update-kfd-witnesses.mjs
+node scripts/check-tap.mjs
 ```
 
 After changing a formula, workflow, script, public manual, or tap KFD file,
@@ -38,8 +47,9 @@ buildchain lifecycle run verify --required
 ```
 
 CI also verifies `buildchain.contract-lock.json` before the lifecycle check.
-When Buildchain `@v2` advances, review the Buildchain release notes and update
-the lock only after the new runtime contract is acceptable for this tap.
+When Buildchain `@v2` advances, the managed updater may refresh the lock only
+when the compatibility digest still matches the accepted major-compatible
+policy; incompatible drift fails closed.
 
 ## Formula Rules
 

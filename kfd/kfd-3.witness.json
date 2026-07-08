@@ -9,60 +9,75 @@
   },
   "collaborationInterface": {
     "schemaId": "https://kfd.libkungfu.dev/schemas/kfd-3/collaboration-interface.schema.json",
-    "digest": "sha256:6f6cce98f544fef4f3c100a4dc8c1d39e54ac2ac8ef0da01c0d87a890df9e842"
+    "digest": "sha256:1eccbb24634468cff5951985b9af1b4d76c7e6ff07a5101c78c0ba227c0b0abe"
   },
   "sourceRegistry": {
     "path": "kfd/kfd-3.collaboration-interface.json",
-    "sha256": "6f6cce98f544fef4f3c100a4dc8c1d39e54ac2ac8ef0da01c0d87a890df9e842"
+    "sha256": "1eccbb24634468cff5951985b9af1b4d76c7e6ff07a5101c78c0ba227c0b0abe"
   },
   "evidence": {
     "minimalEntrypoints": [
       {
         "path": "README.md",
-        "sha256": "31987014b11969bde24681e27a5395d2704c4c6135537671ba79fab1d3fc6d31",
+        "sha256": "b7f71ece259caf11871849cc3f8c7a7c755531e2f5c872c840d353cfc431aca7",
         "description": "Install packages and understand the tap role."
       },
       {
         "path": "AGENTS.md",
-        "sha256": "73c66343d52d0b3f40fab119a938fd123f4ff1586582b851558b535a66363665",
+        "sha256": "e85daf1f1d41c4b1d98d088dfa0791bcef6dac299a5118d6c289f33fb92ead74",
         "description": "Route agents to usage, repository map, contribution, and verification surfaces."
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "ef6d098764d725225308a9b950a117d9ea5df8c137dcb50e868f364c93e3029d",
+        "sha256": "a3366f28675866a2a77ad4eb8137e87b451dabdeb6f3622a4f4243b232edfe3b",
         "description": "Find tap structure, checks, KFD claims, and governance documents."
       },
       {
         "path": "tap-manifest.json",
-        "sha256": "bfde0b2b9b9d47bbb3bacd8e52a48c2b44f74dddaba4512bddd79ed1428ab064",
+        "sha256": "186a82605d64508bd97ec3cb9bee89267eb1a77338510fb605d48e9caef4b94d",
         "description": "Consume the machine-readable distribution index."
       },
       {
         "path": "kfd/README.md",
         "sha256": "634632bff716b60eb3e39c8d4398b931cea97321f76fb0607ad1dfb99eb7eecc",
         "description": "Inspect the tap-local KFD claim and witness map."
+      },
+      {
+        "path": "scripts/update-managed-products.mjs",
+        "sha256": "47bf7f770ef1af87df266350f0fe3d2b8fc43070c0b3e0f0d227055732369a76",
+        "description": "Update managed formulae from upstream release passports and refresh compatible Buildchain runtime locks."
       }
     ],
     "discoverability": [
       {
         "path": "README.md",
-        "sha256": "31987014b11969bde24681e27a5395d2704c4c6135537671ba79fab1d3fc6d31",
+        "sha256": "b7f71ece259caf11871849cc3f8c7a7c755531e2f5c872c840d353cfc431aca7",
         "description": "Install and release-evidence entrypoint."
       },
       {
         "path": "AGENTS.md",
-        "sha256": "73c66343d52d0b3f40fab119a938fd123f4ff1586582b851558b535a66363665",
+        "sha256": "e85daf1f1d41c4b1d98d088dfa0791bcef6dac299a5118d6c289f33fb92ead74",
         "description": "Agent routing entrypoint."
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "ef6d098764d725225308a9b950a117d9ea5df8c137dcb50e868f364c93e3029d",
+        "sha256": "a3366f28675866a2a77ad4eb8137e87b451dabdeb6f3622a4f4243b232edfe3b",
         "description": "Documentation map."
       },
       {
         "path": "tap-manifest.json",
-        "sha256": "bfde0b2b9b9d47bbb3bacd8e52a48c2b44f74dddaba4512bddd79ed1428ab064",
+        "sha256": "186a82605d64508bd97ec3cb9bee89267eb1a77338510fb605d48e9caef4b94d",
         "description": "Machine-readable tap entry facts."
+      },
+      {
+        "path": "scripts/update-managed-products.mjs",
+        "sha256": "47bf7f770ef1af87df266350f0fe3d2b8fc43070c0b3e0f0d227055732369a76",
+        "description": "Managed update command."
+      },
+      {
+        "path": ".github/workflows/managed-product-updates.yml",
+        "sha256": "1a3bbdaec018d16c2f1e95987443d8c43ffcde430466eb6d165efb0cd3bc95f4",
+        "description": "Managed update workflow."
       },
       {
         "path": "kfd/README.md",
@@ -73,7 +88,7 @@
     "transparentConstraints": [
       {
         "path": "scripts/check-tap.mjs",
-        "sha256": "8880a089b4c76b0166bd30ccccc9d17278afad21ba45afe98717790eec82c305",
+        "sha256": "b8d8d86c3ca784a29d2743cebfa8f9ca8cfa80f60d20e04320e21aa87f579b2a",
         "description": "Closed-world verification command."
       },
       {
@@ -85,46 +100,61 @@
         "path": ".github/workflows/buildchain-validate.yml",
         "sha256": "8cea7e04b1f5a0f0f6e25e55a79dd3595299c814bb1fd71e18afc101e1867845",
         "description": "Config and lock presence validation."
+      },
+      {
+        "path": "scripts/update-managed-products.mjs",
+        "sha256": "47bf7f770ef1af87df266350f0fe3d2b8fc43070c0b3e0f0d227055732369a76",
+        "description": "Managed update lock refresh gate."
+      },
+      {
+        "path": ".github/workflows/managed-product-updates.yml",
+        "sha256": "1a3bbdaec018d16c2f1e95987443d8c43ffcde430466eb6d165efb0cd3bc95f4",
+        "description": "Automated update PR boundary."
       }
     ],
     "choicePaths": [
       {
         "path": "README.md",
-        "sha256": "31987014b11969bde24681e27a5395d2704c4c6135537671ba79fab1d3fc6d31",
+        "sha256": "b7f71ece259caf11871849cc3f8c7a7c755531e2f5c872c840d353cfc431aca7",
         "description": "Install path."
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "ef6d098764d725225308a9b950a117d9ea5df8c137dcb50e868f364c93e3029d",
+        "sha256": "a3366f28675866a2a77ad4eb8137e87b451dabdeb6f3622a4f4243b232edfe3b",
         "description": "Inspection path."
       },
       {
         "path": "CONTRIBUTING.md",
-        "sha256": "a81a399e57bab69f070960e92ccfc36a9584247bf3aa6aed0456b95db2a41294",
+        "sha256": "cbff76e32307e84bc1ae7de4fce4e707986f877ddd8a8d19dd51fa4168cfdaeb",
         "description": "Maintenance path."
       },
       {
+        "path": "scripts/update-managed-products.mjs",
+        "sha256": "47bf7f770ef1af87df266350f0fe3d2b8fc43070c0b3e0f0d227055732369a76",
+        "description": "Managed update path."
+      },
+      {
         "path": "kfd/kfd-2.release-claims.json",
-        "sha256": "1748e2d8702303495b0f8548e7b1a2a1b357196d46281892c4b63d4b801faef5",
+        "sha256": "57aae602709cc206ca318c38c4ad2fa311aa5200540f3b55109dbf30be0df311",
         "description": "Public trust claim path."
       }
     ],
     "manuals": [
       {
         "path": "README.md",
-        "sha256": "31987014b11969bde24681e27a5395d2704c4c6135537671ba79fab1d3fc6d31"
+        "sha256": "b7f71ece259caf11871849cc3f8c7a7c755531e2f5c872c840d353cfc431aca7"
       },
       {
         "path": "AGENTS.md",
-        "sha256": "73c66343d52d0b3f40fab119a938fd123f4ff1586582b851558b535a66363665"
+        "sha256": "e85daf1f1d41c4b1d98d088dfa0791bcef6dac299a5118d6c289f33fb92ead74"
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "ef6d098764d725225308a9b950a117d9ea5df8c137dcb50e868f364c93e3029d"
+        "sha256": "a3366f28675866a2a77ad4eb8137e87b451dabdeb6f3622a4f4243b232edfe3b"
       },
       {
         "path": "CONTRIBUTING.md",
-        "sha256": "a81a399e57bab69f070960e92ccfc36a9584247bf3aa6aed0456b95db2a41294"
+        "sha256": "cbff76e32307e84bc1ae7de4fce4e707986f877ddd8a8d19dd51fa4168cfdaeb"
       },
       {
         "path": "kfd/README.md",
@@ -139,20 +169,23 @@
       "agents",
       "docs-map",
       "tap-manifest",
-      "kfd-readme"
+      "kfd-readme",
+      "managed-product-updater"
     ],
     "classifiedEntrypoints": [
       "readme",
       "agents",
       "docs-map",
       "tap-manifest",
-      "kfd-readme"
+      "kfd-readme",
+      "managed-product-updater"
     ],
     "unclassifiedEntrypoints": [],
     "declaredFiles": [
       ".github/ISSUE_TEMPLATE/config.yml",
       ".github/pull_request_template.md",
       ".github/workflows/buildchain-validate.yml",
+      ".github/workflows/managed-product-updates.yml",
       ".github/workflows/tap-check.yml",
       "ACCEPTABLE_USE.md",
       "AGENTS.md",
@@ -174,6 +207,7 @@
       "kfd/kfd-3.witness.json",
       "scripts/check-tap.mjs",
       "scripts/update-kfd-witnesses.mjs",
+      "scripts/update-managed-products.mjs",
       "tap-manifest.json"
     ]
   },

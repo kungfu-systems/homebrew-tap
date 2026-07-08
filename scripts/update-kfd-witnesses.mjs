@@ -34,8 +34,10 @@ const files = {
   buildchainConfig: "buildchain.toml",
   buildchainContractLock: "buildchain.contract-lock.json",
   buildchainValidateWorkflow: ".github/workflows/buildchain-validate.yml",
+  managedProductUpdatesWorkflow: ".github/workflows/managed-product-updates.yml",
   tapCheckWorkflow: ".github/workflows/tap-check.yml",
   tapCheckScript: "scripts/check-tap.mjs",
+  managedProductUpdateScript: "scripts/update-managed-products.mjs",
   kfdUpdateScript: "scripts/update-kfd-witnesses.mjs",
   kfdReadme: "kfd/README.md",
   kfd1ContractWorld: "kfd/kfd-1.contract-world.json",
@@ -138,6 +140,12 @@ const kfd1ContractWorld = {
       path: files.tapCheckScript,
     },
     {
+      id: "managed-product-updates",
+      class: "integration-time",
+      description: "Managed product updater that projects upstream release passports into Homebrew formula, manifest, and Buildchain runtime lock updates.",
+      path: files.managedProductUpdateScript,
+    },
+    {
       id: "kfd-claims",
       class: "cross-time",
       description: "Tap-local KFD-1/2/3 claim and witness files consumed by tap verification.",
@@ -161,6 +169,8 @@ const kfd1Witness = {
     { kind: "file", path: files.tapManifest, sha256: sha256File(files.tapManifest) },
     { kind: "file", path: files.formulaBuildchain, sha256: sha256File(files.formulaBuildchain) },
     { kind: "file", path: files.buildchainContractLock, sha256: sha256File(files.buildchainContractLock) },
+    { kind: "file", path: files.managedProductUpdatesWorkflow, sha256: sha256File(files.managedProductUpdatesWorkflow) },
+    { kind: "file", path: files.managedProductUpdateScript, sha256: sha256File(files.managedProductUpdateScript) },
     { kind: "file", path: files.tapCheckWorkflow, sha256: sha256File(files.tapCheckWorkflow) },
     { kind: "file", path: files.tapCheckScript, sha256: sha256File(files.tapCheckScript) },
     { kind: "file", path: files.kfd1ContractWorld, sha256: sha256File(files.kfd1ContractWorld) },
@@ -196,6 +206,8 @@ const kfd2Claims = {
       evidence: [
         evidencePointer(files.tapManifest, "Tap entry declares upstream release passport and KFD status."),
         evidencePointer(files.formulaBuildchain, "Formula version, URLs, and SHA-256 values must match tap-manifest.json."),
+        evidencePointer(files.managedProductUpdateScript, "Managed updater projects the latest upstream release passport into formula and manifest state.", "command"),
+        evidencePointer(files.managedProductUpdatesWorkflow, "Scheduled and manual workflow opens update PRs for managed entries."),
         evidencePointer(files.tapCheckScript, "Verification fetches upstream release passport and compares tag, version, KFD status, and artifact digests.", "command"),
       ],
       verification: {
@@ -291,6 +303,7 @@ const minimalEntrypoints = [
   { id: "docs-map", surface: files.docsMap, participants: ["installer", "agent-reader", "maintainer"], purpose: "Find tap structure, checks, KFD claims, and governance documents." },
   { id: "tap-manifest", surface: files.tapManifest, participants: ["agent-reader", "release-system"], purpose: "Consume the machine-readable distribution index." },
   { id: "kfd-readme", surface: files.kfdReadme, participants: ["agent-reader", "maintainer", "release-system"], purpose: "Inspect the tap-local KFD claim and witness map." },
+  { id: "managed-product-updater", surface: files.managedProductUpdateScript, participants: ["agent-reader", "maintainer", "release-system"], purpose: "Update managed formulae from upstream release passports and refresh compatible Buildchain runtime locks." },
 ];
 
 const surfaces = [
@@ -303,6 +316,7 @@ const surfaces = [
   { id: "buildchain-runtime-lock", kind: "json-api", participants: ["agent-reader", "release-system"], value: "Accepted Buildchain @v2 runtime contract lock.", discoverability: { fromMinimalEntrypoint: true, path: files.buildchainContractLock }, maturity: "stable" },
   { id: "buildchain-lifecycle", kind: "config", participants: ["maintainer", "release-system"], value: "Buildchain lifecycle declaration and GitHub workflow callers.", discoverability: { fromMinimalEntrypoint: true, path: "buildchain.toml, .github/workflows/*.yml" }, maturity: "stable" },
   { id: "tap-verification", kind: "cli-command", participants: ["maintainer", "release-system", "agent-reader"], value: "Repository self-check for tap metadata, upstream release passports, KFD witnesses, and declared control surfaces.", discoverability: { fromMinimalEntrypoint: true, path: "node scripts/check-tap.mjs" }, maturity: "stable" },
+  { id: "managed-product-updater", kind: "cli-command", participants: ["maintainer", "release-system", "agent-reader"], value: "Dry-run, check, or write managed tap updates from upstream release passports, including compatible Buildchain @v2 lock refresh.", discoverability: { fromMinimalEntrypoint: true, path: "node scripts/update-managed-products.mjs --help, .github/workflows/managed-product-updates.yml" }, maturity: "stable" },
   { id: "kfd-claims", kind: "json-api", participants: ["agent-reader", "release-system", "maintainer"], value: "Tap-local KFD-1/2/3 claims and witnesses.", discoverability: { fromMinimalEntrypoint: true, path: "kfd/*.json" }, maturity: "stable" },
 ];
 
@@ -343,7 +357,7 @@ const kfd3Interface = {
     },
     {
       id: "floating-runtime-lock",
-      appliesTo: ["buildchain-runtime-lock", "buildchain-lifecycle"],
+      appliesTo: ["buildchain-runtime-lock", "buildchain-lifecycle", "managed-product-updater"],
       restriction: "Buildchain @v2 movement must pass the consumer contract lock before lifecycle verification.",
       rationale: "Floating refs are useful only when incompatible runtime contract drift fails closed.",
       reviewPath: files.tapCheckWorkflow,
@@ -369,7 +383,7 @@ const kfd3Interface = {
       id: "maintain-or-verify",
       participants: ["maintainer", "release-system", "agent-reader"],
       choices: [
-        { id: "update-entry", label: "Update tap entry and regenerate KFD witnesses" },
+        { id: "update-entry", label: "Run the managed updater, then regenerate KFD witnesses" },
         { id: "verify", label: "Run node scripts/check-tap.mjs or Buildchain lifecycle verify" },
       ],
     },
@@ -413,17 +427,22 @@ const kfd3Witness = {
       pointer(files.agents, "Agent routing entrypoint."),
       pointer(files.docsMap, "Documentation map."),
       pointer(files.tapManifest, "Machine-readable tap entry facts."),
+      pointer(files.managedProductUpdateScript, "Managed update command."),
+      pointer(files.managedProductUpdatesWorkflow, "Managed update workflow."),
       pointer(files.kfdReadme, "Tap-local KFD map."),
     ],
     transparentConstraints: [
       pointer(files.tapCheckScript, "Closed-world verification command."),
       pointer(files.tapCheckWorkflow, "Buildchain reusable workflow trust gate."),
       pointer(files.buildchainValidateWorkflow, "Config and lock presence validation."),
+      pointer(files.managedProductUpdateScript, "Managed update lock refresh gate."),
+      pointer(files.managedProductUpdatesWorkflow, "Automated update PR boundary."),
     ],
     choicePaths: [
       pointer(files.readme, "Install path."),
       pointer(files.docsMap, "Inspection path."),
       pointer(files.contributing, "Maintenance path."),
+      pointer(files.managedProductUpdateScript, "Managed update path."),
       pointer(files.kfd2ReleaseClaims, "Public trust claim path."),
     ],
     manuals: [

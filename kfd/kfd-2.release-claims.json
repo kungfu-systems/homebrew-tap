@@ -19,7 +19,7 @@
       "source": {
         "kind": "file",
         "path": "tap-manifest.json",
-        "sha256": "bfde0b2b9b9d47bbb3bacd8e52a48c2b44f74dddaba4512bddd79ed1428ab064"
+        "sha256": "186a82605d64508bd97ec3cb9bee89267eb1a77338510fb605d48e9caef4b94d"
       },
       "evidence": [
         {
@@ -27,7 +27,7 @@
           "pointer": {
             "kind": "file",
             "path": "tap-manifest.json",
-            "sha256": "bfde0b2b9b9d47bbb3bacd8e52a48c2b44f74dddaba4512bddd79ed1428ab064"
+            "sha256": "186a82605d64508bd97ec3cb9bee89267eb1a77338510fb605d48e9caef4b94d"
           },
           "description": "Tap entry declares upstream release passport and KFD status."
         },
@@ -36,7 +36,7 @@
           "pointer": {
             "kind": "file",
             "path": "Formula/buildchain.rb",
-            "sha256": "91d4107a8ac5e540720a07a29fc12551cdaca3322e77d41394b61ffbb0e51297"
+            "sha256": "e3268ee91e5a67cefadafdc9b9e377d1c2f6af24c3f10529c036bb105ecb231e"
           },
           "description": "Formula version, URLs, and SHA-256 values must match tap-manifest.json."
         },
@@ -44,8 +44,26 @@
           "type": "command-result",
           "pointer": {
             "kind": "command",
+            "path": "scripts/update-managed-products.mjs",
+            "sha256": "47bf7f770ef1af87df266350f0fe3d2b8fc43070c0b3e0f0d227055732369a76"
+          },
+          "description": "Managed updater projects the latest upstream release passport into formula and manifest state."
+        },
+        {
+          "type": "file",
+          "pointer": {
+            "kind": "file",
+            "path": ".github/workflows/managed-product-updates.yml",
+            "sha256": "1a3bbdaec018d16c2f1e95987443d8c43ffcde430466eb6d165efb0cd3bc95f4"
+          },
+          "description": "Scheduled and manual workflow opens update PRs for managed entries."
+        },
+        {
+          "type": "command-result",
+          "pointer": {
+            "kind": "command",
             "path": "scripts/check-tap.mjs",
-            "sha256": "8880a089b4c76b0166bd30ccccc9d17278afad21ba45afe98717790eec82c305"
+            "sha256": "b8d8d86c3ca784a29d2743cebfa8f9ca8cfa80f60d20e04320e21aa87f579b2a"
           },
           "description": "Verification fetches upstream release passport and compares tag, version, KFD status, and artifact digests."
         }
@@ -74,7 +92,7 @@
       "source": {
         "kind": "file",
         "path": "buildchain.contract-lock.json",
-        "sha256": "7bf4591865693a64af683aedb18189aba8a2641c18723a057664c6c3e3e14d91"
+        "sha256": "5bfd34e6161a0690e837cade1337c6c65fba37a685362a0e28c5cfa23e747dbc"
       },
       "evidence": [
         {
@@ -82,7 +100,7 @@
           "pointer": {
             "kind": "file",
             "path": "buildchain.contract-lock.json",
-            "sha256": "7bf4591865693a64af683aedb18189aba8a2641c18723a057664c6c3e3e14d91"
+            "sha256": "5bfd34e6161a0690e837cade1337c6c65fba37a685362a0e28c5cfa23e747dbc"
           },
           "description": "Accepted Buildchain @v2 contract digest and breaking-surface set."
         },
@@ -137,7 +155,7 @@
           "pointer": {
             "kind": "file",
             "path": "kfd/kfd-1.contract-world.json",
-            "sha256": "76fa84d156ff248227ba1f0a55402d6a308947151302179e99fb85a1b21c56a1"
+            "sha256": "de81c3c72d746ade0ed309a6b127e64ee73d979c9643a6b296186c4f23d52168"
           },
           "description": "KFD-1 contract world for tap distribution facts."
         },
@@ -146,7 +164,7 @@
           "pointer": {
             "kind": "file",
             "path": "kfd/kfd-1.witness.json",
-            "sha256": "83d1247e17b4898cc71ea1e5dbe753c22681bc47fcc03a72955a1b328aca6dec"
+            "sha256": "5f1808e75287d0e0b08c2fc13da6416ff877b44de10bcbc04ca597f9b1fc91b3"
           },
           "description": "KFD-1 witness for declared fact surfaces."
         },
@@ -164,7 +182,7 @@
           "pointer": {
             "kind": "command",
             "path": "scripts/check-tap.mjs",
-            "sha256": "8880a089b4c76b0166bd30ccccc9d17278afad21ba45afe98717790eec82c305"
+            "sha256": "b8d8d86c3ca784a29d2743cebfa8f9ca8cfa80f60d20e04320e21aa87f579b2a"
           },
           "description": "Verification rejects stale hashes and undeclared control surfaces."
         }
