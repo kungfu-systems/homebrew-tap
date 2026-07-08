@@ -9,23 +9,33 @@
   },
   "contractWorld": {
     "schemaId": "https://kfd.libkungfu.dev/schemas/kfd-1/contract-world.schema.json",
-    "digest": "sha256:76fa84d156ff248227ba1f0a55402d6a308947151302179e99fb85a1b21c56a1"
+    "digest": "sha256:de81c3c72d746ade0ed309a6b127e64ee73d979c9643a6b296186c4f23d52168"
   },
   "evidence": [
     {
       "kind": "file",
       "path": "tap-manifest.json",
-      "sha256": "bfde0b2b9b9d47bbb3bacd8e52a48c2b44f74dddaba4512bddd79ed1428ab064"
+      "sha256": "186a82605d64508bd97ec3cb9bee89267eb1a77338510fb605d48e9caef4b94d"
     },
     {
       "kind": "file",
       "path": "Formula/buildchain.rb",
-      "sha256": "91d4107a8ac5e540720a07a29fc12551cdaca3322e77d41394b61ffbb0e51297"
+      "sha256": "e3268ee91e5a67cefadafdc9b9e377d1c2f6af24c3f10529c036bb105ecb231e"
     },
     {
       "kind": "file",
       "path": "buildchain.contract-lock.json",
-      "sha256": "7bf4591865693a64af683aedb18189aba8a2641c18723a057664c6c3e3e14d91"
+      "sha256": "5bfd34e6161a0690e837cade1337c6c65fba37a685362a0e28c5cfa23e747dbc"
+    },
+    {
+      "kind": "file",
+      "path": ".github/workflows/managed-product-updates.yml",
+      "sha256": "1a3bbdaec018d16c2f1e95987443d8c43ffcde430466eb6d165efb0cd3bc95f4"
+    },
+    {
+      "kind": "file",
+      "path": "scripts/update-managed-products.mjs",
+      "sha256": "47bf7f770ef1af87df266350f0fe3d2b8fc43070c0b3e0f0d227055732369a76"
     },
     {
       "kind": "file",
@@ -35,12 +45,12 @@
     {
       "kind": "file",
       "path": "scripts/check-tap.mjs",
-      "sha256": "8880a089b4c76b0166bd30ccccc9d17278afad21ba45afe98717790eec82c305"
+      "sha256": "b8d8d86c3ca784a29d2743cebfa8f9ca8cfa80f60d20e04320e21aa87f579b2a"
     },
     {
       "kind": "file",
       "path": "kfd/kfd-1.contract-world.json",
-      "sha256": "76fa84d156ff248227ba1f0a55402d6a308947151302179e99fb85a1b21c56a1"
+      "sha256": "de81c3c72d746ade0ed309a6b127e64ee73d979c9643a6b296186c4f23d52168"
     }
   ],
   "closure": {
@@ -49,6 +59,7 @@
       ".github/ISSUE_TEMPLATE/config.yml",
       ".github/pull_request_template.md",
       ".github/workflows/buildchain-validate.yml",
+      ".github/workflows/managed-product-updates.yml",
       ".github/workflows/tap-check.yml",
       "ACCEPTABLE_USE.md",
       "AGENTS.md",
@@ -70,6 +81,7 @@
       "kfd/kfd-3.witness.json",
       "scripts/check-tap.mjs",
       "scripts/update-kfd-witnesses.mjs",
+      "scripts/update-managed-products.mjs",
       "tap-manifest.json"
     ]
   },

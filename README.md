@@ -2,6 +2,7 @@
 
 [![Buildchain Validate](https://github.com/kungfu-systems/homebrew-tap/actions/workflows/buildchain-validate.yml/badge.svg)](https://github.com/kungfu-systems/homebrew-tap/actions/workflows/buildchain-validate.yml)
 [![Tap Check](https://github.com/kungfu-systems/homebrew-tap/actions/workflows/tap-check.yml/badge.svg)](https://github.com/kungfu-systems/homebrew-tap/actions/workflows/tap-check.yml)
+[![Managed Product Updates](https://github.com/kungfu-systems/homebrew-tap/actions/workflows/managed-product-updates.yml/badge.svg)](https://github.com/kungfu-systems/homebrew-tap/actions/workflows/managed-product-updates.yml)
 [![KFD-1](https://img.shields.io/badge/KFD--1-supported-brightgreen.svg)](kfd/kfd-1.witness.json)
 [![KFD-2](https://img.shields.io/badge/KFD--2-supported-brightgreen.svg)](kfd/kfd-2.release-claims.json)
 [![KFD-3](https://img.shields.io/badge/KFD--3-supported-brightgreen.svg)](kfd/kfd-3.witness.json)
@@ -50,6 +51,16 @@ This tap uses Buildchain's floating `@v2` runtime with
 `buildchain.contract-lock.json`. CI checks the accepted Buildchain runtime
 contract before running tap verification, so compatible runtime movement is
 visible and breaking contract drift fails before lifecycle work proceeds.
+
+Managed product updates are projected from upstream release passports:
+
+```sh
+node scripts/update-managed-products.mjs --check --update-lock
+node scripts/update-managed-products.mjs --write --update-lock
+```
+
+The scheduled workflow uses the same script and opens a pull request when
+formulae, `tap-manifest.json`, or the compatible Buildchain runtime lock move.
 
 ## KFD Support
 

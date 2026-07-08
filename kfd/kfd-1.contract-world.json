@@ -34,6 +34,12 @@
       "path": "scripts/check-tap.mjs"
     },
     {
+      "id": "managed-product-updates",
+      "class": "integration-time",
+      "description": "Managed product updater that projects upstream release passports into Homebrew formula, manifest, and Buildchain runtime lock updates.",
+      "path": "scripts/update-managed-products.mjs"
+    },
+    {
       "id": "kfd-claims",
       "class": "cross-time",
       "description": "Tap-local KFD-1/2/3 claim and witness files consumed by tap verification.",

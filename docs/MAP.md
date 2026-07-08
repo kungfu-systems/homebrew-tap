@@ -4,6 +4,7 @@
 | --- | --- |
 | How do I install Buildchain with Homebrew? | [`README.md`](../README.md) |
 | How is tap metadata checked? | [`scripts/check-tap.mjs`](../scripts/check-tap.mjs) and [`tap-manifest.json`](../tap-manifest.json) |
+| How are managed product versions updated? | [`scripts/update-managed-products.mjs`](../scripts/update-managed-products.mjs) and [`managed-product-updates.yml`](../.github/workflows/managed-product-updates.yml) |
 | How does Buildchain manage this repository? | [`buildchain.toml`](../buildchain.toml) |
 | How is the floating Buildchain runtime pinned? | [`buildchain.contract-lock.json`](../buildchain.contract-lock.json) and [`tap-check.yml`](../.github/workflows/tap-check.yml) |
 | How does the tap support KFD-1/2/3? | [`kfd/README.md`](../kfd/README.md), [`kfd/kfd-1.witness.json`](../kfd/kfd-1.witness.json), [`kfd/kfd-2.release-claims.json`](../kfd/kfd-2.release-claims.json), and [`kfd/kfd-3.witness.json`](../kfd/kfd-3.witness.json) |
@@ -15,7 +16,11 @@
 ```text
 Formula/              Homebrew formulae
 tap-manifest.json     Machine-readable distribution index
+scripts/update-managed-products.mjs
+                      Managed updater from upstream release passports
 scripts/check-tap.mjs Drift check for formulae and upstream release evidence
+.github/workflows/managed-product-updates.yml
+                      Scheduled/manual update PR workflow
 buildchain.toml       Buildchain lifecycle declaration
 buildchain.contract-lock.json
                       Accepted Buildchain @v2 runtime contract lock
@@ -31,6 +36,8 @@ the upstream passport first, then the formula.
 The Buildchain floating runtime is also not accepted blindly. The tap records
 the reviewed `@v2` runtime contract in `buildchain.contract-lock.json`; CI
 checks that contract before running repository lifecycle verification.
+The managed updater can refresh the lock only when the compatibility digest
+matches the accepted major-compatible policy.
 
 The tap-local KFD files are generated from repository facts. `scripts/check-tap.mjs`
 checks their hashes and closed-world file list so a new script, workflow,

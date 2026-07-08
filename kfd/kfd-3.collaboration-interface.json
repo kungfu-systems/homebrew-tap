@@ -22,6 +22,7 @@
         ".github/ISSUE_TEMPLATE/config.yml",
         ".github/pull_request_template.md",
         ".github/workflows/buildchain-validate.yml",
+        ".github/workflows/managed-product-updates.yml",
         ".github/workflows/tap-check.yml",
         "ACCEPTABLE_USE.md",
         "AGENTS.md",
@@ -43,6 +44,7 @@
         "kfd/kfd-3.witness.json",
         "scripts/check-tap.mjs",
         "scripts/update-kfd-witnesses.mjs",
+        "scripts/update-managed-products.mjs",
         "tap-manifest.json"
       ],
       "projectionSurfaces": [
@@ -121,6 +123,16 @@
         "release-system"
       ],
       "purpose": "Inspect the tap-local KFD claim and witness map."
+    },
+    {
+      "id": "managed-product-updater",
+      "surface": "scripts/update-managed-products.mjs",
+      "participants": [
+        "agent-reader",
+        "maintainer",
+        "release-system"
+      ],
+      "purpose": "Update managed formulae from upstream release passports and refresh compatible Buildchain runtime locks."
     }
   ],
   "surfaces": [
@@ -254,6 +266,21 @@
       "maturity": "stable"
     },
     {
+      "id": "managed-product-updater",
+      "kind": "cli-command",
+      "participants": [
+        "maintainer",
+        "release-system",
+        "agent-reader"
+      ],
+      "value": "Dry-run, check, or write managed tap updates from upstream release passports, including compatible Buildchain @v2 lock refresh.",
+      "discoverability": {
+        "fromMinimalEntrypoint": true,
+        "path": "node scripts/update-managed-products.mjs --help, .github/workflows/managed-product-updates.yml"
+      },
+      "maturity": "stable"
+    },
+    {
       "id": "kfd-claims",
       "kind": "json-api",
       "participants": [
@@ -284,7 +311,8 @@
       "id": "floating-runtime-lock",
       "appliesTo": [
         "buildchain-runtime-lock",
-        "buildchain-lifecycle"
+        "buildchain-lifecycle",
+        "managed-product-updater"
       ],
       "restriction": "Buildchain @v2 movement must pass the consumer contract lock before lifecycle verification.",
       "rationale": "Floating refs are useful only when incompatible runtime contract drift fails closed.",
@@ -329,7 +357,7 @@
       "choices": [
         {
           "id": "update-entry",
-          "label": "Update tap entry and regenerate KFD witnesses"
+          "label": "Run the managed updater, then regenerate KFD witnesses"
         },
         {
           "id": "verify",
@@ -361,6 +389,7 @@
       ".github/ISSUE_TEMPLATE/config.yml",
       ".github/pull_request_template.md",
       ".github/workflows/buildchain-validate.yml",
+      ".github/workflows/managed-product-updates.yml",
       ".github/workflows/tap-check.yml",
       "ACCEPTABLE_USE.md",
       "AGENTS.md",
@@ -382,6 +411,7 @@
       "kfd/kfd-3.witness.json",
       "scripts/check-tap.mjs",
       "scripts/update-kfd-witnesses.mjs",
+      "scripts/update-managed-products.mjs",
       "tap-manifest.json"
     ]
   }

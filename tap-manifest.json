@@ -9,11 +9,11 @@
       "path": "Formula/buildchain.rb",
       "upstream": {
         "repository": "kungfu-systems/buildchain",
-        "tag": "v2.8.15",
-        "releasePassportUrl": "https://github.com/kungfu-systems/buildchain/releases/download/v2.8.15/buildchain.release.json",
+        "tag": "v2.10.0",
+        "releasePassportUrl": "https://github.com/kungfu-systems/buildchain/releases/download/v2.10.0/buildchain.release.json",
         "latestReleasePassportUrl": "https://github.com/kungfu-systems/buildchain/releases/latest/download/buildchain.release.json"
       },
-      "version": "2.8.15",
+      "version": "2.10.0",
       "kfd": {
         "kfd-1": "passed",
         "kfd-2": "passed",
@@ -22,13 +22,13 @@
       "artifacts": [
         {
           "platform": "darwin-arm64",
-          "url": "https://github.com/kungfu-systems/buildchain/releases/download/v2.8.15/buildchain-aarch64-apple-darwin.tar.gz",
-          "sha256": "b9452e041ac1cdbaaf06fdc207a971822222ab42aab742dec3860e2b2ba41d5c"
+          "url": "https://github.com/kungfu-systems/buildchain/releases/download/v2.10.0/buildchain-aarch64-apple-darwin.tar.gz",
+          "sha256": "fadce1fd00233945361162a96db37d01661ce299b98e7d9022a6451fa364b81c"
         },
         {
           "platform": "linux-x64",
-          "url": "https://github.com/kungfu-systems/buildchain/releases/download/v2.8.15/buildchain-x86_64-unknown-linux-gnu.tar.gz",
-          "sha256": "d7ed052e43e9eda57eac1c8367947d5a950a35b2934a10a833d94cdbb2ee3f41"
+          "url": "https://github.com/kungfu-systems/buildchain/releases/download/v2.10.0/buildchain-x86_64-unknown-linux-gnu.tar.gz",
+          "sha256": "c4323a8a68e6429801509af1adc8aaaec7a834f3baeba964a64ef04f67862e6a"
         }
       ]
     }

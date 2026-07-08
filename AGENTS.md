@@ -10,6 +10,8 @@ process.
 - Binds each entry to upstream release evidence.
 - Uses Buildchain checks to keep tap metadata from drifting away from upstream
   release passports.
+- Provides a managed updater that projects upstream release passports into
+  formula, manifest, and compatible Buildchain `@v2` lock changes.
 - Declares tap-local KFD-1 / KFD-2 / KFD-3 support under [`kfd/`](kfd/).
 
 ## Where to start
@@ -40,6 +42,17 @@ buildchain.contract-lock.json
 
 The `Tap Check` workflow calls Buildchain's reusable workflow, which checks this
 lock before running the tap lifecycle verification.
+
+Check or apply managed product updates:
+
+```sh
+node scripts/update-managed-products.mjs --check --update-lock
+node scripts/update-managed-products.mjs --write --update-lock
+```
+
+The `Managed Product Updates` workflow runs the write path and opens a pull
+request when managed formulae, `tap-manifest.json`, KFD witnesses, or the
+compatible Buildchain runtime lock change.
 
 Regenerate tap-local KFD witnesses after changing a formula, workflow, script,
 public manual, or KFD file:
