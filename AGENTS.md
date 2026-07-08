@@ -50,9 +50,10 @@ node scripts/update-managed-products.mjs --check --update-lock
 node scripts/update-managed-products.mjs --write --update-lock
 ```
 
-The `Managed Product Updates` workflow runs the write path and opens a pull
-request when managed formulae, `tap-manifest.json`, KFD witnesses, or the
-compatible Buildchain runtime lock change.
+The `Managed Product Updates` workflow runs the write path, opens an automation
+pull request, and enables GitHub auto-merge when managed formulae,
+`tap-manifest.json`, KFD witnesses, or the compatible Buildchain runtime lock
+change.
 
 Regenerate tap-local KFD witnesses after changing a formula, workflow, script,
 public manual, or KFD file:

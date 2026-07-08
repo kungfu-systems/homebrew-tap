@@ -51,6 +51,10 @@ When Buildchain `@v2` advances, the managed updater may refresh the lock only
 when the compatibility digest still matches the accepted major-compatible
 policy; incompatible drift fails closed.
 
+Managed update pull requests are automation-owned. The workflow enables
+auto-merge after it regenerates the formula, manifest, lock, and KFD witnesses
+and runs the local tap checks. Non-automation PRs still follow normal review.
+
 ## Formula Rules
 
 - `Formula/*.rb` must match `tap-manifest.json`.

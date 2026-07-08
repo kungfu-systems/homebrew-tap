@@ -207,7 +207,7 @@ const kfd2Claims = {
         evidencePointer(files.tapManifest, "Tap entry declares upstream release passport and KFD status."),
         evidencePointer(files.formulaBuildchain, "Formula version, URLs, and SHA-256 values must match tap-manifest.json."),
         evidencePointer(files.managedProductUpdateScript, "Managed updater projects the latest upstream release passport into formula and manifest state.", "command"),
-        evidencePointer(files.managedProductUpdatesWorkflow, "Scheduled and manual workflow opens update PRs for managed entries."),
+        evidencePointer(files.managedProductUpdatesWorkflow, "Scheduled and manual workflow opens and auto-merges update PRs for managed entries."),
         evidencePointer(files.tapCheckScript, "Verification fetches upstream release passport and compares tag, version, KFD status, and artifact digests.", "command"),
       ],
       verification: {
@@ -316,7 +316,7 @@ const surfaces = [
   { id: "buildchain-runtime-lock", kind: "json-api", participants: ["agent-reader", "release-system"], value: "Accepted Buildchain @v2 runtime contract lock.", discoverability: { fromMinimalEntrypoint: true, path: files.buildchainContractLock }, maturity: "stable" },
   { id: "buildchain-lifecycle", kind: "config", participants: ["maintainer", "release-system"], value: "Buildchain lifecycle declaration and GitHub workflow callers.", discoverability: { fromMinimalEntrypoint: true, path: "buildchain.toml, .github/workflows/*.yml" }, maturity: "stable" },
   { id: "tap-verification", kind: "cli-command", participants: ["maintainer", "release-system", "agent-reader"], value: "Repository self-check for tap metadata, upstream release passports, KFD witnesses, and declared control surfaces.", discoverability: { fromMinimalEntrypoint: true, path: "node scripts/check-tap.mjs" }, maturity: "stable" },
-  { id: "managed-product-updater", kind: "cli-command", participants: ["maintainer", "release-system", "agent-reader"], value: "Dry-run, check, or write managed tap updates from upstream release passports, including compatible Buildchain @v2 lock refresh.", discoverability: { fromMinimalEntrypoint: true, path: "node scripts/update-managed-products.mjs --help, .github/workflows/managed-product-updates.yml" }, maturity: "stable" },
+  { id: "managed-product-updater", kind: "cli-command", participants: ["maintainer", "release-system", "agent-reader"], value: "Dry-run, check, or write managed tap updates from upstream release passports, including compatible Buildchain @v2 lock refresh and automation PR auto-merge.", discoverability: { fromMinimalEntrypoint: true, path: "node scripts/update-managed-products.mjs --help, .github/workflows/managed-product-updates.yml" }, maturity: "stable" },
   { id: "kfd-claims", kind: "json-api", participants: ["agent-reader", "release-system", "maintainer"], value: "Tap-local KFD-1/2/3 claims and witnesses.", discoverability: { fromMinimalEntrypoint: true, path: "kfd/*.json" }, maturity: "stable" },
 ];
 
@@ -361,6 +361,13 @@ const kfd3Interface = {
       restriction: "Buildchain @v2 movement must pass the consumer contract lock before lifecycle verification.",
       rationale: "Floating refs are useful only when incompatible runtime contract drift fails closed.",
       reviewPath: files.tapCheckWorkflow,
+    },
+    {
+      id: "automation-auto-merge-boundary",
+      appliesTo: ["managed-product-updater"],
+      restriction: "Only the managed updater workflow may auto-merge its own automation branch after release-passport validation and repository requirements pass.",
+      rationale: "Routine upstream release propagation should not require daily human attention, but arbitrary contributor PRs must not inherit that privilege.",
+      reviewPath: files.managedProductUpdatesWorkflow,
     },
     {
       id: "closed-control-surface",

@@ -9,32 +9,32 @@
   },
   "collaborationInterface": {
     "schemaId": "https://kfd.libkungfu.dev/schemas/kfd-3/collaboration-interface.schema.json",
-    "digest": "sha256:1eccbb24634468cff5951985b9af1b4d76c7e6ff07a5101c78c0ba227c0b0abe"
+    "digest": "sha256:6178b6b549f5267203198594d5667add7aafaa1c3add8c7d2fa8169dbb3c3a04"
   },
   "sourceRegistry": {
     "path": "kfd/kfd-3.collaboration-interface.json",
-    "sha256": "1eccbb24634468cff5951985b9af1b4d76c7e6ff07a5101c78c0ba227c0b0abe"
+    "sha256": "6178b6b549f5267203198594d5667add7aafaa1c3add8c7d2fa8169dbb3c3a04"
   },
   "evidence": {
     "minimalEntrypoints": [
       {
         "path": "README.md",
-        "sha256": "b7f71ece259caf11871849cc3f8c7a7c755531e2f5c872c840d353cfc431aca7",
+        "sha256": "c2ed2ea7c4dd66911e1e6fb3f449f4a17ded405d74071ebf1f3c3e8cfd80cd56",
         "description": "Install packages and understand the tap role."
       },
       {
         "path": "AGENTS.md",
-        "sha256": "e85daf1f1d41c4b1d98d088dfa0791bcef6dac299a5118d6c289f33fb92ead74",
+        "sha256": "7eac3f24392e85f3ce668521ce8e046827a70d96a8730ebe0285c2d08fba6286",
         "description": "Route agents to usage, repository map, contribution, and verification surfaces."
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "a3366f28675866a2a77ad4eb8137e87b451dabdeb6f3622a4f4243b232edfe3b",
+        "sha256": "699f2d7e6f207e610d00446c3c29eb983bad4740fc76eb8cbfeed9b81ed45249",
         "description": "Find tap structure, checks, KFD claims, and governance documents."
       },
       {
         "path": "tap-manifest.json",
-        "sha256": "186a82605d64508bd97ec3cb9bee89267eb1a77338510fb605d48e9caef4b94d",
+        "sha256": "a15fceccf0761ed02e245ea9f8baee6629e8b86804f2677965a0dc67727ef745",
         "description": "Consume the machine-readable distribution index."
       },
       {
@@ -51,22 +51,22 @@
     "discoverability": [
       {
         "path": "README.md",
-        "sha256": "b7f71ece259caf11871849cc3f8c7a7c755531e2f5c872c840d353cfc431aca7",
+        "sha256": "c2ed2ea7c4dd66911e1e6fb3f449f4a17ded405d74071ebf1f3c3e8cfd80cd56",
         "description": "Install and release-evidence entrypoint."
       },
       {
         "path": "AGENTS.md",
-        "sha256": "e85daf1f1d41c4b1d98d088dfa0791bcef6dac299a5118d6c289f33fb92ead74",
+        "sha256": "7eac3f24392e85f3ce668521ce8e046827a70d96a8730ebe0285c2d08fba6286",
         "description": "Agent routing entrypoint."
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "a3366f28675866a2a77ad4eb8137e87b451dabdeb6f3622a4f4243b232edfe3b",
+        "sha256": "699f2d7e6f207e610d00446c3c29eb983bad4740fc76eb8cbfeed9b81ed45249",
         "description": "Documentation map."
       },
       {
         "path": "tap-manifest.json",
-        "sha256": "186a82605d64508bd97ec3cb9bee89267eb1a77338510fb605d48e9caef4b94d",
+        "sha256": "a15fceccf0761ed02e245ea9f8baee6629e8b86804f2677965a0dc67727ef745",
         "description": "Machine-readable tap entry facts."
       },
       {
@@ -76,7 +76,7 @@
       },
       {
         "path": ".github/workflows/managed-product-updates.yml",
-        "sha256": "1a3bbdaec018d16c2f1e95987443d8c43ffcde430466eb6d165efb0cd3bc95f4",
+        "sha256": "fde0af4ec0a12879d647da533fbd2e0ad0e698a5e61382deccb2730afe0de962",
         "description": "Managed update workflow."
       },
       {
@@ -108,24 +108,24 @@
       },
       {
         "path": ".github/workflows/managed-product-updates.yml",
-        "sha256": "1a3bbdaec018d16c2f1e95987443d8c43ffcde430466eb6d165efb0cd3bc95f4",
+        "sha256": "fde0af4ec0a12879d647da533fbd2e0ad0e698a5e61382deccb2730afe0de962",
         "description": "Automated update PR boundary."
       }
     ],
     "choicePaths": [
       {
         "path": "README.md",
-        "sha256": "b7f71ece259caf11871849cc3f8c7a7c755531e2f5c872c840d353cfc431aca7",
+        "sha256": "c2ed2ea7c4dd66911e1e6fb3f449f4a17ded405d74071ebf1f3c3e8cfd80cd56",
         "description": "Install path."
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "a3366f28675866a2a77ad4eb8137e87b451dabdeb6f3622a4f4243b232edfe3b",
+        "sha256": "699f2d7e6f207e610d00446c3c29eb983bad4740fc76eb8cbfeed9b81ed45249",
         "description": "Inspection path."
       },
       {
         "path": "CONTRIBUTING.md",
-        "sha256": "cbff76e32307e84bc1ae7de4fce4e707986f877ddd8a8d19dd51fa4168cfdaeb",
+        "sha256": "6924fa1e1a200be7f8ce0c8329df88db307d5fd56f569685f87dd55bd39e9a64",
         "description": "Maintenance path."
       },
       {
@@ -135,26 +135,26 @@
       },
       {
         "path": "kfd/kfd-2.release-claims.json",
-        "sha256": "57aae602709cc206ca318c38c4ad2fa311aa5200540f3b55109dbf30be0df311",
+        "sha256": "5f4633aab7542140cac6c1f38a76c0afa7be7cae82895dad700254b9cfe8d298",
         "description": "Public trust claim path."
       }
     ],
     "manuals": [
       {
         "path": "README.md",
-        "sha256": "b7f71ece259caf11871849cc3f8c7a7c755531e2f5c872c840d353cfc431aca7"
+        "sha256": "c2ed2ea7c4dd66911e1e6fb3f449f4a17ded405d74071ebf1f3c3e8cfd80cd56"
       },
       {
         "path": "AGENTS.md",
-        "sha256": "e85daf1f1d41c4b1d98d088dfa0791bcef6dac299a5118d6c289f33fb92ead74"
+        "sha256": "7eac3f24392e85f3ce668521ce8e046827a70d96a8730ebe0285c2d08fba6286"
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "a3366f28675866a2a77ad4eb8137e87b451dabdeb6f3622a4f4243b232edfe3b"
+        "sha256": "699f2d7e6f207e610d00446c3c29eb983bad4740fc76eb8cbfeed9b81ed45249"
       },
       {
         "path": "CONTRIBUTING.md",
-        "sha256": "cbff76e32307e84bc1ae7de4fce4e707986f877ddd8a8d19dd51fa4168cfdaeb"
+        "sha256": "6924fa1e1a200be7f8ce0c8329df88db307d5fd56f569685f87dd55bd39e9a64"
       },
       {
         "path": "kfd/README.md",

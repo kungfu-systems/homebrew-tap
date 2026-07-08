@@ -19,7 +19,7 @@
       "source": {
         "kind": "file",
         "path": "tap-manifest.json",
-        "sha256": "186a82605d64508bd97ec3cb9bee89267eb1a77338510fb605d48e9caef4b94d"
+        "sha256": "a15fceccf0761ed02e245ea9f8baee6629e8b86804f2677965a0dc67727ef745"
       },
       "evidence": [
         {
@@ -27,7 +27,7 @@
           "pointer": {
             "kind": "file",
             "path": "tap-manifest.json",
-            "sha256": "186a82605d64508bd97ec3cb9bee89267eb1a77338510fb605d48e9caef4b94d"
+            "sha256": "a15fceccf0761ed02e245ea9f8baee6629e8b86804f2677965a0dc67727ef745"
           },
           "description": "Tap entry declares upstream release passport and KFD status."
         },
@@ -36,7 +36,7 @@
           "pointer": {
             "kind": "file",
             "path": "Formula/buildchain.rb",
-            "sha256": "e3268ee91e5a67cefadafdc9b9e377d1c2f6af24c3f10529c036bb105ecb231e"
+            "sha256": "5035457d4e0ff80bf254e0a7992d836e32536f53a051e7f712fbbda4972b206b"
           },
           "description": "Formula version, URLs, and SHA-256 values must match tap-manifest.json."
         },
@@ -54,9 +54,9 @@
           "pointer": {
             "kind": "file",
             "path": ".github/workflows/managed-product-updates.yml",
-            "sha256": "1a3bbdaec018d16c2f1e95987443d8c43ffcde430466eb6d165efb0cd3bc95f4"
+            "sha256": "fde0af4ec0a12879d647da533fbd2e0ad0e698a5e61382deccb2730afe0de962"
           },
-          "description": "Scheduled and manual workflow opens update PRs for managed entries."
+          "description": "Scheduled and manual workflow opens and auto-merges update PRs for managed entries."
         },
         {
           "type": "command-result",
@@ -92,7 +92,7 @@
       "source": {
         "kind": "file",
         "path": "buildchain.contract-lock.json",
-        "sha256": "5bfd34e6161a0690e837cade1337c6c65fba37a685362a0e28c5cfa23e747dbc"
+        "sha256": "386d627e8583c0aa567ec4e54189c6b6e1fafbfe0beeb2a1ff96cb748a105714"
       },
       "evidence": [
         {
@@ -100,7 +100,7 @@
           "pointer": {
             "kind": "file",
             "path": "buildchain.contract-lock.json",
-            "sha256": "5bfd34e6161a0690e837cade1337c6c65fba37a685362a0e28c5cfa23e747dbc"
+            "sha256": "386d627e8583c0aa567ec4e54189c6b6e1fafbfe0beeb2a1ff96cb748a105714"
           },
           "description": "Accepted Buildchain @v2 contract digest and breaking-surface set."
         },
@@ -164,7 +164,7 @@
           "pointer": {
             "kind": "file",
             "path": "kfd/kfd-1.witness.json",
-            "sha256": "5f1808e75287d0e0b08c2fc13da6416ff877b44de10bcbc04ca597f9b1fc91b3"
+            "sha256": "de0d394373ca58380626e8a09504e82520f53279440fc1759f3762819272b6dd"
           },
           "description": "KFD-1 witness for declared fact surfaces."
         },
