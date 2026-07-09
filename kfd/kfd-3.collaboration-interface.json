@@ -35,6 +35,7 @@
         "TRADEMARK.md",
         "buildchain.contract-lock.json",
         "buildchain.toml",
+        "docs/KUNGFU-GUI-CASK.md",
         "docs/MAP.md",
         "kfd/README.md",
         "kfd/kfd-1.contract-world.json",
@@ -48,7 +49,7 @@
         "tap-manifest.json"
       ],
       "projectionSurfaces": [
-        "Homebrew formulae",
+        "Homebrew formulae and casks",
         "Buildchain lifecycle artifacts",
         "tap-local KFD witnesses"
       ]
@@ -133,6 +134,16 @@
         "release-system"
       ],
       "purpose": "Update managed formulae from upstream release passports and refresh compatible Buildchain runtime locks."
+    },
+    {
+      "id": "kungfu-gui-cask-guide",
+      "surface": "docs/KUNGFU-GUI-CASK.md",
+      "participants": [
+        "agent-reader",
+        "maintainer",
+        "release-system"
+      ],
+      "purpose": "Prepare or audit the Kungfu GUI App cask publication path."
     }
   ],
   "surfaces": [
@@ -223,6 +234,22 @@
       "maturity": "stable"
     },
     {
+      "id": "managed-cask-support",
+      "kind": "config",
+      "participants": [
+        "installer",
+        "agent-reader",
+        "maintainer",
+        "release-system"
+      ],
+      "value": "Prepared Homebrew cask projection path for the Kungfu GUI App; planned entries are not installable until materialized from an upstream release passport.",
+      "discoverability": {
+        "fromMinimalEntrypoint": true,
+        "path": "tap-manifest.json, docs/KUNGFU-GUI-CASK.md, Casks/*.rb"
+      },
+      "maturity": "prepared"
+    },
+    {
       "id": "buildchain-runtime-lock",
       "kind": "json-api",
       "participants": [
@@ -273,7 +300,7 @@
         "release-system",
         "agent-reader"
       ],
-      "value": "Dry-run, check, or write managed tap updates from upstream release passports, including compatible Buildchain @v2 lock refresh and automation PR auto-merge.",
+      "value": "Dry-run, check, or write managed formula and cask updates from upstream release passports, including compatible Buildchain @v2 lock refresh and automation PR auto-merge.",
       "discoverability": {
         "fromMinimalEntrypoint": true,
         "path": "node scripts/update-managed-products.mjs --help, .github/workflows/managed-product-updates.yml"
@@ -301,11 +328,22 @@
       "id": "upstream-passport-authority",
       "appliesTo": [
         "tap-manifest",
-        "formula-buildchain"
+        "formula-buildchain",
+        "managed-cask-support"
       ],
       "restriction": "The tap may project upstream release facts but cannot become the upstream artifact authority.",
       "rationale": "Release artifacts and KFD status are owned by upstream release passports.",
       "reviewPath": "scripts/check-tap.mjs"
+    },
+    {
+      "id": "planned-cask-is-not-installable",
+      "appliesTo": [
+        "managed-cask-support",
+        "tap-verification"
+      ],
+      "restriction": "A planned cask entry must not create Casks/*.rb until a release passport materializes it into installable tap-manifest entries.",
+      "rationale": "Kungfu GUI App distribution should be prepared without advertising a non-existent Homebrew cask.",
+      "reviewPath": "docs/KUNGFU-GUI-CASK.md"
     },
     {
       "id": "floating-runtime-lock",
@@ -369,6 +407,10 @@
           "label": "Run the managed updater, then regenerate KFD witnesses"
         },
         {
+          "id": "materialize-kungfu-cask",
+          "label": "Materialize the Kungfu GUI cask from a release passport"
+        },
+        {
           "id": "verify",
           "label": "Run node scripts/check-tap.mjs or Buildchain lifecycle verify"
         }
@@ -411,6 +453,7 @@
       "TRADEMARK.md",
       "buildchain.contract-lock.json",
       "buildchain.toml",
+      "docs/KUNGFU-GUI-CASK.md",
       "docs/MAP.md",
       "kfd/README.md",
       "kfd/kfd-1.contract-world.json",

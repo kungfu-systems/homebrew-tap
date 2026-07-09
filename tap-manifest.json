@@ -32,5 +32,30 @@
         }
       ]
     }
+  ],
+  "plannedEntries": [
+    {
+      "type": "cask",
+      "name": "kungfu",
+      "path": "Casks/kungfu.rb",
+      "status": "planned",
+      "upstream": {
+        "repository": "kungfu-systems/kungfu",
+        "releasePassportAsset": "kungfu.release.json",
+        "latestReleasePassportUrl": "https://github.com/kungfu-systems/kungfu/releases/latest/download/kungfu.release.json"
+      },
+      "cask": {
+        "name": "Kungfu",
+        "desc": "Runtime fact ledger for agent work",
+        "homepage": "https://kungfu.tech",
+        "app": "Kungfu.app",
+        "artifactExtensions": [
+          ".dmg"
+        ],
+        "platforms": [
+          "darwin-arm64"
+        ]
+      }
+    }
   ]
 }

@@ -11,20 +11,22 @@ const cwd = process.cwd();
 const manifestPath = path.join(cwd, "tap-manifest.json");
 const contractLockPath = path.join(cwd, "buildchain.contract-lock.json");
 const supportedPlatforms = new Set(["darwin-arm64", "linux-x64"]);
+const supportedCaskPlatforms = new Set(["darwin-arm64"]);
 const kfdKeys = ["kfd-1", "kfd-2", "kfd-3"];
 
 function usage() {
   return `Usage:
-  node scripts/update-managed-products.mjs [--package <name>|--all] [--release-passport <url>] [--write] [--check] [--update-lock] [--json]
+  node scripts/update-managed-products.mjs [--package <name>|--all] [--release-passport <url>] [--write] [--check] [--update-lock] [--include-planned] [--json]
 
 Defaults to a dry-run drift report for all managed tap entries.
 
 Options:
-  --package <name>          Update/check one managed formula entry.
-  --all                     Update/check all managed formula entries. This is the default.
+  --package <name>          Update/check one managed formula or cask entry.
+  --all                     Update/check all installable managed entries. This is the default.
   --release-passport <url>  Override the upstream release passport for --package.
-  --write                   Write formula and tap-manifest projections.
+  --write                   Write formula/cask and tap-manifest projections.
   --check                   Exit non-zero when an update would be written.
+  --include-planned         Include planned entries when checking all packages.
   --update-lock             Also refresh buildchain.contract-lock.json from Buildchain @v2 when compatible.
   --json                    Print machine-readable JSON.
 `;
@@ -102,8 +104,23 @@ function githubAssetUrl(repository, tag, name) {
   return `https://github.com/${repo}/releases/download/${encodeURIComponent(tag)}/${encodeURIComponent(name)}`;
 }
 
-function canonicalPassportUrl(repository, tag) {
-  return githubAssetUrl(repository, tag, "buildchain.release.json");
+function releasePassportAssetName(entry) {
+  const configured = optionalString(entry.upstream?.releasePassportAsset).trim();
+  if (configured) return configured;
+  const url = optionalString(entry.upstream?.releasePassportUrl || entry.upstream?.latestReleasePassportUrl);
+  const pathname = (() => {
+    try {
+      return new URL(url).pathname;
+    } catch {
+      return url;
+    }
+  })();
+  const basename = pathname.split("/").pop();
+  return basename || "buildchain.release.json";
+}
+
+function canonicalPassportUrl(repository, tag, assetName = "buildchain.release.json") {
+  return githubAssetUrl(repository, tag, assetName);
 }
 
 function formulaClassName(name) {
@@ -113,6 +130,10 @@ function formulaClassName(name) {
     .filter(Boolean)
     .map((part) => `${part.slice(0, 1).toUpperCase()}${part.slice(1)}`)
     .join("");
+}
+
+function caskToken(name) {
+  return nonEmptyString(name, "cask token").toLowerCase();
 }
 
 function rubyString(value) {
@@ -185,6 +206,21 @@ function formulaArchiveArtifacts(passport, context) {
     .sort((left, right) => left.platform.localeCompare(right.platform));
 }
 
+function artifactMatchesExtensions(artifact, extensions) {
+  const lowerName = artifact.name.toLowerCase();
+  return extensions.some((extension) => lowerName.endsWith(extension.toLowerCase()));
+}
+
+function caskArtifacts(passport, entry, context) {
+  const extensions = entry.cask?.artifactExtensions || [".dmg"];
+  const platforms = new Set(entry.cask?.platforms || [...supportedCaskPlatforms]);
+  return (passport.artifacts || [])
+    .map((artifact) => normalizeArtifact(artifact, context))
+    .filter((artifact) => platforms.has(artifact.platform))
+    .filter((artifact) => artifactMatchesExtensions(artifact, extensions))
+    .sort((left, right) => left.platform.localeCompare(right.platform) || left.name.localeCompare(right.name));
+}
+
 function renderFormula({ entry, passport, artifacts, repository }) {
   const packageName = entry.name;
   const formulaClass = formulaClassName(packageName);
@@ -224,6 +260,35 @@ end
 `;
 }
 
+function renderCask({ entry, passport, artifacts }) {
+  const artifact = artifacts[0];
+  if (!artifact) {
+    throw new Error(`${entry.name} cask requires a darwin-arm64 DMG artifact`);
+  }
+  if (artifacts.length > 1) {
+    throw new Error(`${entry.name} cask matched multiple artifacts; narrow cask.artifactExtensions or cask.platforms`);
+  }
+  const token = caskToken(entry.name);
+  const caskConfig = entry.cask || {};
+  const version = nonEmptyString(passport.release?.publishedVersion || passport.release?.versionLabel, "release.publishedVersion");
+  const name = optionalString(caskConfig.name || passport.product?.name || entry.name);
+  const desc = optionalString(caskConfig.desc || passport.product?.desc || "Kungfu application");
+  const homepage = optionalString(caskConfig.homepage || passport.product?.homepage || "https://kungfu.tech");
+  const app = optionalString(caskConfig.app || `${name}.app`);
+  const autoUpdates = caskConfig.autoUpdates === true ? "\n  auto_updates true\n" : "";
+  return `cask "${rubyString(token)}" do
+  version "${rubyString(version)}"
+  sha256 "${rubyString(artifact.sha256)}"
+
+  url "${rubyString(artifact.url)}"
+  name "${rubyString(name)}"
+  desc "${rubyString(desc)}"
+  homepage "${rubyString(homepage)}"${autoUpdates}
+  app "${rubyString(app)}"
+end
+`;
+}
+
 function kfdProjection(passport) {
   return Object.fromEntries(kfdKeys.map((key) => {
     const status = passport[key]?.status;
@@ -234,7 +299,7 @@ function kfdProjection(passport) {
   }));
 }
 
-async function projectEntry({ manifest, entry, releasePassportOverride = "" }) {
+async function projectEntry({ entry, releasePassportOverride = "", planned = false }) {
   const currentLocation = releasePassportOverride
     || entry.upstream?.latestReleasePassportUrl
     || entry.upstream?.releasePassportUrl;
@@ -243,46 +308,60 @@ async function projectEntry({ manifest, entry, releasePassportOverride = "" }) {
   const repository = normalizeRepository(entry.upstream?.repository || passport.product?.repository);
   const tag = nonEmptyString(passport.release?.tag, "release.tag");
   const version = nonEmptyString(passport.release?.publishedVersion || passport.release?.versionLabel, "release.publishedVersion");
-  const releasePassportUrl = canonicalPassportUrl(repository, tag);
-  const artifacts = formulaArchiveArtifacts(passport, { repository, tag });
+  const passportAsset = releasePassportAssetName(entry);
+  const releasePassportUrl = canonicalPassportUrl(repository, tag, passportAsset);
+  const artifacts = entry.type === "cask"
+    ? caskArtifacts(passport, entry, { repository, tag })
+    : formulaArchiveArtifacts(passport, { repository, tag });
   const kfd = kfdProjection(passport);
   const updatedEntry = {
     ...entry,
+    ...(planned ? {} : { status: entry.status }),
     upstream: {
       ...entry.upstream,
       repository,
       tag,
+      releasePassportAsset: passportAsset,
       releasePassportUrl,
       latestReleasePassportUrl: entry.upstream?.latestReleasePassportUrl
-        || `https://github.com/${repository}/releases/latest/download/buildchain.release.json`,
+        || `https://github.com/${repository}/releases/latest/download/${passportAsset}`,
     },
     version,
     kfd,
     artifacts: artifacts.map((artifact) => ({
+      name: artifact.name,
       platform: artifact.platform,
       url: artifact.url,
       sha256: artifact.sha256,
     })),
   };
-  const formula = renderFormula({ entry: updatedEntry, passport, artifacts, repository });
-  const currentFormulaPath = path.join(cwd, updatedEntry.path);
-  const currentFormula = fs.existsSync(currentFormulaPath) ? fs.readFileSync(currentFormulaPath, "utf8") : "";
-  const formulaChanged = currentFormula !== formula;
-  const existingEntry = (manifest.entries || []).find((candidate) => candidate.name === entry.name && candidate.type === entry.type);
+  if (planned) {
+    delete updatedEntry.status;
+  }
+  const projection = entry.type === "cask"
+    ? renderCask({ entry: updatedEntry, passport, artifacts, repository })
+    : renderFormula({ entry: updatedEntry, passport, artifacts, repository });
+  const currentEntryPath = path.join(cwd, updatedEntry.path);
+  const currentProjection = fs.existsSync(currentEntryPath) ? fs.readFileSync(currentEntryPath, "utf8") : "";
+  const projectionChanged = currentProjection !== projection;
+  const existingEntry = entry;
   const manifestEntryChanged = JSON.stringify(existingEntry, null, 2) !== JSON.stringify(updatedEntry, null, 2);
   return {
     package: entry.name,
+    type: entry.type,
+    planned,
     repository,
     tag,
     version,
     releasePassportUrl,
-    formulaPath: updatedEntry.path,
-    formula,
+    entryPath: updatedEntry.path,
+    projection,
     updatedEntry,
-    changed: formulaChanged || manifestEntryChanged,
+    changed: projectionChanged || manifestEntryChanged || planned,
     changes: {
-      formula: formulaChanged,
+      entryFile: projectionChanged,
       manifestEntry: manifestEntryChanged,
+      materializePlanned: planned,
     },
     artifacts: updatedEntry.artifacts,
   };
@@ -357,41 +436,53 @@ async function main(argv = process.argv.slice(2)) {
   const packageName = argValue(argv, "--package", "");
   const releasePassport = argValue(argv, "--release-passport", "");
   const updateLock = hasFlag(argv, "--update-lock");
+  const includePlanned = hasFlag(argv, "--include-planned");
   if (releasePassport && !packageName) {
     throw new Error("--release-passport requires --package <name>");
   }
 
   const manifest = readJson(manifestPath);
-  const entries = (manifest.entries || []).filter((entry) => entry.type === "formula");
+  const installableEntries = (manifest.entries || []).filter((entry) => entry.type === "formula" || entry.type === "cask")
+    .map((entry) => ({ entry, planned: false }));
+  const plannedEntries = (manifest.plannedEntries || []).filter((entry) => entry.type === "formula" || entry.type === "cask")
+    .map((entry) => ({ entry, planned: true }));
+  const candidates = packageName ? [...installableEntries, ...plannedEntries] : installableEntries;
   const selectedEntries = packageName
-    ? entries.filter((entry) => entry.name === packageName)
-    : entries;
+    ? candidates.filter((candidate) => candidate.entry.name === packageName)
+    : (includePlanned ? [...installableEntries, ...plannedEntries] : installableEntries);
   if (selectedEntries.length === 0) {
-    throw new Error(packageName ? `no managed formula entry named ${packageName}` : "tap-manifest.json has no managed formula entries");
+    throw new Error(packageName ? `no managed tap entry named ${packageName}` : "tap-manifest.json has no managed entries");
   }
 
   const projections = [];
-  for (const entry of selectedEntries) {
+  for (const { entry, planned } of selectedEntries) {
     projections.push(await projectEntry({
-      manifest,
       entry,
+      planned,
       releasePassportOverride: entry.name === packageName ? releasePassport : "",
     }));
   }
 
+  const materialized = projections.filter((projection) => projection.planned);
   const nextManifest = {
     ...manifest,
     entries: (manifest.entries || []).map((entry) => {
-      const projected = projections.find((candidate) => candidate.package === entry.name && entry.type === "formula");
+      const projected = projections.find((candidate) => candidate.package === entry.name && candidate.type === entry.type && !candidate.planned);
       return projected ? projected.updatedEntry : entry;
-    }),
+    }).concat(materialized.map((projection) => projection.updatedEntry)),
+    plannedEntries: (manifest.plannedEntries || []).filter((entry) => (
+      !materialized.some((projection) => projection.package === entry.name && projection.type === entry.type)
+    )),
   };
+  if (nextManifest.plannedEntries.length === 0) {
+    delete nextManifest.plannedEntries;
+  }
 
   const manifestChanged = `${JSON.stringify(manifest, null, 2)}\n` !== `${JSON.stringify(nextManifest, null, 2)}\n`;
   if (write) {
     for (const projection of projections) {
-      if (projection.changes.formula) {
-        writeText(path.join(cwd, projection.formulaPath), projection.formula);
+      if (projection.changes.entryFile) {
+        writeText(path.join(cwd, projection.entryPath), projection.projection);
       }
     }
     if (manifestChanged) {
@@ -410,6 +501,8 @@ async function main(argv = process.argv.slice(2)) {
     written: write,
     packages: projections.map((projection) => ({
       package: projection.package,
+      type: projection.type,
+      planned: projection.planned,
       repository: projection.repository,
       tag: projection.tag,
       version: projection.version,
@@ -430,8 +523,8 @@ async function main(argv = process.argv.slice(2)) {
     process.stdout.write(`${JSON.stringify(report, null, 2)}\n`);
   } else {
     for (const projection of report.packages) {
-      const marker = projection.changed ? "update" : "current";
-      process.stdout.write(`[managed-products] ${projection.package}: ${marker} ${projection.version} (${projection.tag})\n`);
+      const marker = projection.planned ? "materialize" : projection.changed ? "update" : "current";
+      process.stdout.write(`[managed-products] ${projection.type}/${projection.package}: ${marker} ${projection.version} (${projection.tag})\n`);
     }
     if (updateLock) {
       process.stdout.write(`[managed-products] buildchain.contract-lock.json: ${lock.changed ? "update" : "current"} ${lock.resolvedSha || ""}\n`);

@@ -31,6 +31,12 @@ brew install buildchain
 | --- | --- | --- |
 | `buildchain` | `kungfu-systems/buildchain` | [`buildchain.release.json`](https://github.com/kungfu-systems/buildchain/releases/latest/download/buildchain.release.json) |
 
+## Planned Casks
+
+| Cask | Upstream | Status |
+| --- | --- | --- |
+| `kungfu` | `kungfu-systems/kungfu` | Prepared, not yet installable. See [Kungfu GUI App cask preparation](docs/KUNGFU-GUI-CASK.md). |
+
 ## Release Evidence
 
 Tap entries are checked against machine-readable upstream evidence. For
@@ -64,6 +70,10 @@ request when formulae, `tap-manifest.json`, or the compatible Buildchain
 runtime lock move. It then enables GitHub auto-merge for that PR, so routine
 managed updates land after repository requirements pass.
 
+Planned casks stay out of the installable Homebrew surface until an upstream
+release passport is provided explicitly. The Kungfu GUI App path is documented
+in [docs/KUNGFU-GUI-CASK.md](docs/KUNGFU-GUI-CASK.md).
+
 ## KFD Support
 
 The tap has its own KFD support in [`kfd/`](kfd/):
@@ -72,7 +82,8 @@ The tap has its own KFD support in [`kfd/`](kfd/):
 - KFD-2 declares public trust claims for upstream release evidence, the
   Buildchain runtime lock, and tap-local KFD support.
 - KFD-3 declares the participant-facing collaboration interface and verifies
-  that public control surfaces are closed-world classified.
+  that public control surfaces, including future cask surfaces, are
+  closed-world classified.
 
 `node scripts/check-tap.mjs` rejects stale KFD hashes and undeclared scripts,
 workflows, formulae, manuals, or KFD surfaces.
@@ -80,5 +91,6 @@ workflows, formulae, manuals, or KFD surfaces.
 ## Read Next
 
 - [Documentation map](docs/MAP.md)
+- [Kungfu GUI App cask preparation](docs/KUNGFU-GUI-CASK.md)
 - [Contributing](CONTRIBUTING.md)
 - [Security](SECURITY.md)

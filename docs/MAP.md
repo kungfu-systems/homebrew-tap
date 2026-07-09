@@ -3,6 +3,7 @@
 | Question | Start here |
 | --- | --- |
 | How do I install Buildchain with Homebrew? | [`README.md`](../README.md) |
+| How will the Kungfu GUI App be published as a cask? | [`docs/KUNGFU-GUI-CASK.md`](KUNGFU-GUI-CASK.md) |
 | How is tap metadata checked? | [`scripts/check-tap.mjs`](../scripts/check-tap.mjs) and [`tap-manifest.json`](../tap-manifest.json) |
 | How are managed product versions updated? | [`scripts/update-managed-products.mjs`](../scripts/update-managed-products.mjs) and [`managed-product-updates.yml`](../.github/workflows/managed-product-updates.yml) |
 | How does Buildchain manage this repository? | [`buildchain.toml`](../buildchain.toml) |
@@ -15,10 +16,11 @@
 
 ```text
 Formula/              Homebrew formulae
+Casks/                Homebrew casks materialized from release passports
 tap-manifest.json     Machine-readable distribution index
 scripts/update-managed-products.mjs
                       Managed updater from upstream release passports
-scripts/check-tap.mjs Drift check for formulae and upstream release evidence
+scripts/check-tap.mjs Drift check for formulae, casks, and upstream release evidence
 .github/workflows/managed-product-updates.yml
                       Scheduled/manual update PR and auto-merge workflow
 buildchain.toml       Buildchain lifecycle declaration
@@ -29,9 +31,14 @@ kfd/                  Tap-local KFD-1/2/3 claims and witnesses
 
 ## Fact Boundary
 
-The tap is not the upstream release authority. Each tap entry points to an
-upstream release passport or equivalent release evidence. Agents should inspect
-the upstream passport first, then the formula.
+The tap is not the upstream release authority. Each installable tap entry
+points to an upstream release passport or equivalent release evidence. Agents
+should inspect the upstream passport first, then the formula or cask.
+
+Planned casks are not installable. `tap-manifest.json` may describe a future
+entry under `plannedEntries`, but `scripts/check-tap.mjs` rejects a planned
+entry that creates `Casks/*.rb`. A cask file becomes valid only after the
+managed updater materializes it into installable `entries`.
 
 The Buildchain floating runtime is also not accepted blindly. The tap records
 the reviewed `@v2` runtime contract in `buildchain.contract-lock.json`; CI

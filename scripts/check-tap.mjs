@@ -9,7 +9,6 @@ import crypto from "node:crypto";
 const cwd = process.cwd();
 const manifestPath = path.join(cwd, "tap-manifest.json");
 const contractLockPath = path.join(cwd, "buildchain.contract-lock.json");
-const formulaPath = path.join(cwd, "Formula", "buildchain.rb");
 const kfdPaths = {
   readme: "kfd/README.md",
   kfd1ContractWorld: "kfd/kfd-1.contract-world.json",
@@ -46,6 +45,10 @@ function digestWithoutPrefix(digest) {
   return String(digest || "").replace(/^sha256:/, "");
 }
 
+function optionalString(value) {
+  return value === undefined || value === null ? "" : String(value);
+}
+
 function requirePath(repoPath, label = repoPath) {
   if (!fs.existsSync(path.join(cwd, repoPath))) {
     fail(`${label} is missing: ${repoPath}`);
@@ -55,6 +58,14 @@ function requirePath(repoPath, label = repoPath) {
 function requireObject(value, label) {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
     fail(`${label} must be a JSON object`);
+    return false;
+  }
+  return true;
+}
+
+function requireArray(value, label) {
+  if (!Array.isArray(value)) {
+    fail(`${label} must be an array`);
     return false;
   }
   return true;
@@ -114,11 +125,123 @@ function actualControlFiles() {
     "buildchain.contract-lock.json",
     "buildchain.toml",
     "tap-manifest.json",
+    ...listFiles("Casks").filter((file) => file.endsWith(".rb")),
     ...listFiles(".github").filter((file) => file.endsWith(".yml") || file.endsWith(".md")),
     ...listFiles("docs").filter((file) => file.endsWith(".md")),
     ...listFiles("kfd").filter((file) => file.endsWith(".json") || file.endsWith(".md")),
     ...listFiles("scripts").filter((file) => file.endsWith(".mjs"))
   ].sort();
+}
+
+function assetNameFromUrl(url) {
+  const pathname = (() => {
+    try {
+      return new URL(url).pathname;
+    } catch {
+      return optionalString(url);
+    }
+  })();
+  return decodeURIComponent(pathname.split("/").pop() || "");
+}
+
+function verifyKfdProjection(entry, passport) {
+  for (const [key, expectedStatus] of Object.entries(entry.kfd || {})) {
+    const actualStatus = passport[key]?.status;
+    if (actualStatus !== expectedStatus) {
+      fail(`${entry.type}/${entry.name} ${key} status ${actualStatus} does not match manifest ${expectedStatus}`);
+    }
+  }
+}
+
+function passportArtifactDigestMap(passport) {
+  return new Map(
+    (passport.artifacts || []).map((artifact) => [artifact.name, digestWithoutPrefix(artifact.digest || artifact.sha256 || artifact.checksum)])
+  );
+}
+
+async function verifyPassportBoundEntry(entry) {
+  if (!entry.type || !entry.name || !entry.path) {
+    fail("tap-manifest entries must include type, name, and path");
+    return;
+  }
+  if (!["formula", "cask"].includes(entry.type)) {
+    fail(`tap-manifest entry ${entry.name} has unsupported type ${entry.type}`);
+    return;
+  }
+  requirePath(entry.path, `${entry.type}/${entry.name}`);
+  const text = fs.existsSync(path.join(cwd, entry.path)) ? fs.readFileSync(path.join(cwd, entry.path), "utf8") : "";
+  requireIncludes(text, `version "${entry.version}"`, `${entry.type}/${entry.name} version`);
+
+  if (entry.type === "formula") {
+    requireIncludes(text, `license "Apache-2.0"`, `${entry.type}/${entry.name} license`);
+  } else {
+    requireIncludes(text, `cask "${entry.name}"`, `${entry.type}/${entry.name} token`);
+    requireIncludes(text, `app "${entry.cask?.app || "Kungfu.app"}"`, `${entry.type}/${entry.name} app`);
+  }
+
+  if (!entry.upstream?.releasePassportUrl) {
+    fail(`${entry.type}/${entry.name} must declare upstream.releasePassportUrl`);
+    return;
+  }
+
+  try {
+    const passport = await fetchJson(entry.upstream.releasePassportUrl);
+    if (passport.release?.tag !== entry.upstream.tag) {
+      fail(`${entry.type}/${entry.name} passport tag ${passport.release?.tag} does not match manifest ${entry.upstream.tag}`);
+    }
+    if (passport.release?.publishedVersion !== entry.version) {
+      fail(`${entry.type}/${entry.name} passport version ${passport.release?.publishedVersion} does not match manifest ${entry.version}`);
+    }
+
+    verifyKfdProjection(entry, passport);
+
+    const passportArtifacts = passportArtifactDigestMap(passport);
+    for (const artifact of entry.artifacts || []) {
+      requireIncludes(text, artifact.url, `${entry.type}/${entry.name} ${artifact.platform} url`);
+      requireIncludes(text, artifact.sha256, `${entry.type}/${entry.name} ${artifact.platform} sha256`);
+      const assetName = artifact.name || assetNameFromUrl(artifact.url);
+      const actualDigest = passportArtifacts.get(assetName);
+      if (actualDigest !== artifact.sha256) {
+        fail(`${entry.type}/${entry.name} ${assetName} digest ${actualDigest} does not match manifest ${artifact.sha256}`);
+      }
+    }
+  } catch (error) {
+    fail(`${entry.type}/${entry.name}: ${error.message}`);
+  }
+}
+
+function verifyManifest(manifest) {
+  requireArray(manifest.entries, "tap-manifest.entries");
+  const installableKeys = new Set();
+  const installablePaths = new Set();
+  for (const entry of manifest.entries || []) {
+    const key = `${entry.type}/${entry.name}`;
+    if (installableKeys.has(key)) {
+      fail(`duplicate tap entry ${key}`);
+    }
+    installableKeys.add(key);
+    if (entry.path) installablePaths.add(entry.path);
+  }
+
+  for (const entry of manifest.plannedEntries || []) {
+    if (!entry.type || !entry.name || !entry.path || !entry.upstream?.repository) {
+      fail("plannedEntries must include type, name, path, and upstream.repository");
+      continue;
+    }
+    const key = `${entry.type}/${entry.name}`;
+    if (installableKeys.has(key)) {
+      fail(`planned entry ${key} is also installable`);
+    }
+    if (fs.existsSync(path.join(cwd, entry.path))) {
+      fail(`planned entry ${key} has an installable file at ${entry.path}; materialize it into entries or remove the file`);
+    }
+  }
+
+  for (const caskFile of listFiles("Casks").filter((file) => file.endsWith(".rb"))) {
+    if (!installablePaths.has(caskFile)) {
+      fail(`cask file ${caskFile} is not declared as an installable tap-manifest entry`);
+    }
+  }
 }
 
 function verifyKfd() {
@@ -195,7 +318,7 @@ function verifyKfd() {
     }
     requirePath(entrypoint.surface, `KFD-3 entrypoint ${entrypoint.id}`);
   }
-  for (const requiredSurface of ["tap-manifest", "formula-buildchain", "buildchain-runtime-lock", "tap-verification", "managed-product-updater", "kfd-claims"]) {
+  for (const requiredSurface of ["tap-manifest", "formula-buildchain", "buildchain-runtime-lock", "tap-verification", "managed-product-updater", "managed-cask-support", "kfd-claims"]) {
     if (!surfaceIds.has(requiredSurface)) {
       fail(`KFD-3 collaboration interface missing surface ${requiredSurface}`);
     }
@@ -251,7 +374,6 @@ async function fetchJson(url) {
 
 const manifest = readJson(manifestPath);
 const contractLock = readJson(contractLockPath);
-const formula = fs.readFileSync(formulaPath, "utf8");
 const buildchain = manifest.entries.find(
   (entry) => entry.type === "formula" && entry.name === "buildchain"
 );
@@ -272,46 +394,14 @@ if (!Array.isArray(contractLock.buildchain?.surfaces) || contractLock.buildchain
   fail("buildchain.contract-lock.json must record accepted Buildchain contract surfaces");
 }
 
+verifyManifest(manifest);
+
 if (!buildchain) {
   fail("tap-manifest.json must contain the buildchain formula entry");
-} else {
-  requireIncludes(formula, `version "${buildchain.version}"`, "formula version");
-  requireIncludes(formula, `license "Apache-2.0"`, "formula license");
+}
 
-  for (const artifact of buildchain.artifacts) {
-    requireIncludes(formula, artifact.url, `${artifact.platform} url`);
-    requireIncludes(formula, artifact.sha256, `${artifact.platform} sha256`);
-  }
-
-  try {
-    const passport = await fetchJson(buildchain.upstream.releasePassportUrl);
-    if (passport.release?.tag !== buildchain.upstream.tag) {
-      fail(`passport tag ${passport.release?.tag} does not match manifest ${buildchain.upstream.tag}`);
-    }
-    if (passport.release?.publishedVersion !== buildchain.version) {
-      fail(`passport version ${passport.release?.publishedVersion} does not match manifest ${buildchain.version}`);
-    }
-
-    for (const [key, expectedStatus] of Object.entries(buildchain.kfd || {})) {
-      const actualStatus = passport[key]?.status;
-      if (actualStatus !== expectedStatus) {
-        fail(`${key} status ${actualStatus} does not match manifest ${expectedStatus}`);
-      }
-    }
-
-    const passportArtifacts = new Map(
-      (passport.artifacts || []).map((artifact) => [artifact.name, digestWithoutPrefix(artifact.digest)])
-    );
-    for (const artifact of buildchain.artifacts) {
-      const assetName = artifact.url.split("/").pop();
-      const actualDigest = passportArtifacts.get(assetName);
-      if (actualDigest !== artifact.sha256) {
-        fail(`${assetName} digest ${actualDigest} does not match manifest ${artifact.sha256}`);
-      }
-    }
-  } catch (error) {
-    fail(error.message);
-  }
+for (const entry of manifest.entries || []) {
+  await verifyPassportBoundEntry(entry);
 }
 
 verifyKfd();

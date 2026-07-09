@@ -31,6 +31,11 @@ node scripts/update-kfd-witnesses.mjs
 node scripts/check-tap.mjs
 ```
 
+To materialize the planned Kungfu GUI App cask, follow
+[`docs/KUNGFU-GUI-CASK.md`](docs/KUNGFU-GUI-CASK.md). Do not add
+`Casks/kungfu.rb` by hand without moving the manifest entry from
+`plannedEntries` into installable `entries` through the managed updater.
+
 After changing a formula, workflow, script, public manual, or tap KFD file,
 regenerate KFD witnesses before checking:
 
@@ -55,14 +60,17 @@ Managed update pull requests are automation-owned. The workflow enables
 auto-merge after it regenerates the formula, manifest, lock, and KFD witnesses
 and runs the local tap checks. Non-automation PRs still follow normal review.
 
-## Formula Rules
+## Formula and Cask Rules
 
 - `Formula/*.rb` must match `tap-manifest.json`.
+- `Casks/*.rb` must match `tap-manifest.json`.
 - URLs must point to upstream release assets.
 - SHA-256 values must match upstream release passport or GitHub Release asset
   digests.
 - A tap entry may not claim KFD status that the upstream release passport does
   not verify.
+- Planned cask entries are not installable. `scripts/check-tap.mjs` rejects a
+  planned entry that has already created a `Casks/*.rb` file.
 - Participant-facing control surfaces must be declared in the tap-local KFD-3
   collaboration interface.
 

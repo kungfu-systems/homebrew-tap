@@ -14,12 +14,12 @@
   "claims": [
     {
       "id": "upstream-release-evidence",
-      "statement": "Every tap entry is bound to upstream release passport evidence before it is presented as installable Homebrew metadata.",
+      "statement": "Every installable formula or cask entry is bound to upstream release passport evidence before it is presented as Homebrew metadata.",
       "category": "release",
       "source": {
         "kind": "file",
         "path": "tap-manifest.json",
-        "sha256": "a15fceccf0761ed02e245ea9f8baee6629e8b86804f2677965a0dc67727ef745"
+        "sha256": "668aa6a7ac1947abd5c8b71a63fc9142488048ed3ccdcc5bb020f7d71c70ba42"
       },
       "evidence": [
         {
@@ -27,7 +27,7 @@
           "pointer": {
             "kind": "file",
             "path": "tap-manifest.json",
-            "sha256": "a15fceccf0761ed02e245ea9f8baee6629e8b86804f2677965a0dc67727ef745"
+            "sha256": "668aa6a7ac1947abd5c8b71a63fc9142488048ed3ccdcc5bb020f7d71c70ba42"
           },
           "description": "Tap entry declares upstream release passport and KFD status."
         },
@@ -41,20 +41,29 @@
           "description": "Formula version, URLs, and SHA-256 values must match tap-manifest.json."
         },
         {
+          "type": "file",
+          "pointer": {
+            "kind": "file",
+            "path": "docs/KUNGFU-GUI-CASK.md",
+            "sha256": "fe2fbfc5b14a306793cf2f555917977ae1eda887bea3ac0c8ee1bd5f4319fe0a"
+          },
+          "description": "Kungfu GUI App cask publication path and release-passport requirements."
+        },
+        {
           "type": "command-result",
           "pointer": {
             "kind": "command",
             "path": "scripts/update-managed-products.mjs",
-            "sha256": "47bf7f770ef1af87df266350f0fe3d2b8fc43070c0b3e0f0d227055732369a76"
+            "sha256": "71e439d2ea83b57dc1d2b51343eaabb151a85f74d5bf7e3a5d9024d6616f3bb6"
           },
-          "description": "Managed updater projects the latest upstream release passport into formula and manifest state."
+          "description": "Managed updater projects the latest upstream release passport into formula, cask, and manifest state."
         },
         {
           "type": "file",
           "pointer": {
             "kind": "file",
             "path": ".github/workflows/managed-product-updates.yml",
-            "sha256": "fde0af4ec0a12879d647da533fbd2e0ad0e698a5e61382deccb2730afe0de962"
+            "sha256": "552ca1b89436eb03f42315c0c834932f947b2a39a7ca509b110e827ccc262324"
           },
           "description": "Scheduled and manual workflow opens and auto-merges update PRs for managed entries."
         },
@@ -63,7 +72,7 @@
           "pointer": {
             "kind": "command",
             "path": "scripts/check-tap.mjs",
-            "sha256": "b8d8d86c3ca784a29d2743cebfa8f9ca8cfa80f60d20e04320e21aa87f579b2a"
+            "sha256": "c8e3687b2a2853ba381abe16c0b932f838ef1f1f852b147a6dc93beab1aca245"
           },
           "description": "Verification fetches upstream release passport and compares tag, version, KFD status, and artifact digests."
         }
@@ -73,7 +82,7 @@
         "expectedResult": "pass"
       },
       "auditBoundary": {
-        "scope": "Homebrew tap metadata for formulae and casks declared in tap-manifest.json",
+        "scope": "Homebrew tap metadata for installable formulae and casks declared in tap-manifest.json",
         "enumerability": "closed-world"
       },
       "responsibility": {
@@ -92,7 +101,7 @@
       "source": {
         "kind": "file",
         "path": "buildchain.contract-lock.json",
-        "sha256": "386d627e8583c0aa567ec4e54189c6b6e1fafbfe0beeb2a1ff96cb748a105714"
+        "sha256": "3d548e9b5ac9c48a50b8007bdd38c0c003fe0ed50651dc44ce4be8cb215e1832"
       },
       "evidence": [
         {
@@ -100,7 +109,7 @@
           "pointer": {
             "kind": "file",
             "path": "buildchain.contract-lock.json",
-            "sha256": "386d627e8583c0aa567ec4e54189c6b6e1fafbfe0beeb2a1ff96cb748a105714"
+            "sha256": "3d548e9b5ac9c48a50b8007bdd38c0c003fe0ed50651dc44ce4be8cb215e1832"
           },
           "description": "Accepted Buildchain @v2 contract digest and breaking-surface set."
         },
@@ -109,7 +118,7 @@
           "pointer": {
             "kind": "file",
             "path": ".github/workflows/tap-check.yml",
-            "sha256": "dae6c30d341f3495196daea8551fecf2bef870a9a55772ecf3c74458df34874f"
+            "sha256": "841e0fae8d6eb8fed1c635af655da2c9fe25cb31e9e8f25839cd242256aa0be4"
           },
           "description": "Tap Check calls the Buildchain reusable workflow with buildchain-contract-lock-path."
         },
@@ -147,7 +156,7 @@
       "source": {
         "kind": "file",
         "path": "kfd/README.md",
-        "sha256": "634632bff716b60eb3e39c8d4398b931cea97321f76fb0607ad1dfb99eb7eecc"
+        "sha256": "af94ff8b6302463baf3c4307ac53a38b1ea8466a4496f3e73d7495bed01e0b4d"
       },
       "evidence": [
         {
@@ -155,7 +164,7 @@
           "pointer": {
             "kind": "file",
             "path": "kfd/kfd-1.contract-world.json",
-            "sha256": "de81c3c72d746ade0ed309a6b127e64ee73d979c9643a6b296186c4f23d52168"
+            "sha256": "6c98e92cafd81f6947ed390c60b6f21acdadaefc41e028bf8fd0d92cdb9258a3"
           },
           "description": "KFD-1 contract world for tap distribution facts."
         },
@@ -164,7 +173,7 @@
           "pointer": {
             "kind": "file",
             "path": "kfd/kfd-1.witness.json",
-            "sha256": "de0d394373ca58380626e8a09504e82520f53279440fc1759f3762819272b6dd"
+            "sha256": "884bc91bf4c774201c79db4172db94982c2d63f6d6f38e471f9cfdde93180fda"
           },
           "description": "KFD-1 witness for declared fact surfaces."
         },
@@ -173,7 +182,7 @@
           "pointer": {
             "kind": "file",
             "path": "kfd/README.md",
-            "sha256": "634632bff716b60eb3e39c8d4398b931cea97321f76fb0607ad1dfb99eb7eecc"
+            "sha256": "af94ff8b6302463baf3c4307ac53a38b1ea8466a4496f3e73d7495bed01e0b4d"
           },
           "description": "Tap-local KFD file map for KFD-1/2/3 support."
         },
@@ -182,7 +191,7 @@
           "pointer": {
             "kind": "command",
             "path": "scripts/check-tap.mjs",
-            "sha256": "b8d8d86c3ca784a29d2743cebfa8f9ca8cfa80f60d20e04320e21aa87f579b2a"
+            "sha256": "c8e3687b2a2853ba381abe16c0b932f838ef1f1f852b147a6dc93beab1aca245"
           },
           "description": "Verification rejects stale hashes and undeclared control surfaces."
         }
