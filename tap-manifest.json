@@ -9,11 +9,12 @@
       "path": "Formula/buildchain.rb",
       "upstream": {
         "repository": "kungfu-systems/buildchain",
-        "tag": "v2.10.2",
-        "releasePassportUrl": "https://github.com/kungfu-systems/buildchain/releases/download/v2.10.2/buildchain.release.json",
-        "latestReleasePassportUrl": "https://github.com/kungfu-systems/buildchain/releases/latest/download/buildchain.release.json"
+        "tag": "v2.11.0",
+        "releasePassportUrl": "https://github.com/kungfu-systems/buildchain/releases/download/v2.11.0/buildchain.release.json",
+        "latestReleasePassportUrl": "https://github.com/kungfu-systems/buildchain/releases/latest/download/buildchain.release.json",
+        "releasePassportAsset": "buildchain.release.json"
       },
-      "version": "2.10.2",
+      "version": "2.11.0",
       "kfd": {
         "kfd-1": "passed",
         "kfd-2": "passed",
@@ -21,14 +22,16 @@
       },
       "artifacts": [
         {
+          "name": "buildchain-aarch64-apple-darwin.tar.gz",
           "platform": "darwin-arm64",
-          "url": "https://github.com/kungfu-systems/buildchain/releases/download/v2.10.2/buildchain-aarch64-apple-darwin.tar.gz",
-          "sha256": "347805c21c0acca1737dc52afad6fd9ae1d462fece87fc798ec1aa40ecb6aaf7"
+          "url": "https://github.com/kungfu-systems/buildchain/releases/download/v2.11.0/buildchain-aarch64-apple-darwin.tar.gz",
+          "sha256": "d578f7fdd169085a1b2bba4239aadd1f0c8b85d100a4a005595b56cfedf8102a"
         },
         {
+          "name": "buildchain-x86_64-unknown-linux-gnu.tar.gz",
           "platform": "linux-x64",
-          "url": "https://github.com/kungfu-systems/buildchain/releases/download/v2.10.2/buildchain-x86_64-unknown-linux-gnu.tar.gz",
-          "sha256": "708fc2c06f8ad744d8dcc57566d4cf16276c238c677d0ea89022a2a35610c375"
+          "url": "https://github.com/kungfu-systems/buildchain/releases/download/v2.11.0/buildchain-x86_64-unknown-linux-gnu.tar.gz",
+          "sha256": "f5ed0d1ad2fac7ecf6559c8bdf1713c8175b23826c18e32f03ba417215e819b5"
         }
       ]
     }

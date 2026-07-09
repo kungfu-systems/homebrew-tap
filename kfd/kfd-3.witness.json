@@ -34,7 +34,7 @@
       },
       {
         "path": "tap-manifest.json",
-        "sha256": "668aa6a7ac1947abd5c8b71a63fc9142488048ed3ccdcc5bb020f7d71c70ba42",
+        "sha256": "52667afaacbcbfcef3354ca6388411d80fb50d9bc742b44d92abb9078672dfb4",
         "description": "Consume the machine-readable distribution index."
       },
       {
@@ -76,7 +76,7 @@
       },
       {
         "path": "tap-manifest.json",
-        "sha256": "668aa6a7ac1947abd5c8b71a63fc9142488048ed3ccdcc5bb020f7d71c70ba42",
+        "sha256": "52667afaacbcbfcef3354ca6388411d80fb50d9bc742b44d92abb9078672dfb4",
         "description": "Machine-readable tap entry facts."
       },
       {
@@ -155,7 +155,7 @@
       },
       {
         "path": "kfd/kfd-2.release-claims.json",
-        "sha256": "b856e808e4681cfcc9d7a057dcbddfdcd04f4b8d1c7881d02d492034ce69e37a",
+        "sha256": "a142e4d43744a1f0ba6c0a1f562a628db0326bc7ff5fe73183ec6347731922ce",
         "description": "Public trust claim path."
       }
     ],

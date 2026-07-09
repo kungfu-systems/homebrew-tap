@@ -19,7 +19,7 @@
       "source": {
         "kind": "file",
         "path": "tap-manifest.json",
-        "sha256": "668aa6a7ac1947abd5c8b71a63fc9142488048ed3ccdcc5bb020f7d71c70ba42"
+        "sha256": "52667afaacbcbfcef3354ca6388411d80fb50d9bc742b44d92abb9078672dfb4"
       },
       "evidence": [
         {
@@ -27,7 +27,7 @@
           "pointer": {
             "kind": "file",
             "path": "tap-manifest.json",
-            "sha256": "668aa6a7ac1947abd5c8b71a63fc9142488048ed3ccdcc5bb020f7d71c70ba42"
+            "sha256": "52667afaacbcbfcef3354ca6388411d80fb50d9bc742b44d92abb9078672dfb4"
           },
           "description": "Tap entry declares upstream release passport and KFD status."
         },
@@ -36,7 +36,7 @@
           "pointer": {
             "kind": "file",
             "path": "Formula/buildchain.rb",
-            "sha256": "5035457d4e0ff80bf254e0a7992d836e32536f53a051e7f712fbbda4972b206b"
+            "sha256": "bd5d7ddcf0e04cba3d19a59e93709d9ce81af6555b3555c829a97fed2a903bed"
           },
           "description": "Formula version, URLs, and SHA-256 values must match tap-manifest.json."
         },
@@ -101,7 +101,7 @@
       "source": {
         "kind": "file",
         "path": "buildchain.contract-lock.json",
-        "sha256": "3d548e9b5ac9c48a50b8007bdd38c0c003fe0ed50651dc44ce4be8cb215e1832"
+        "sha256": "e1ed51934bcb8f669619db6257a9945609240611de39bf7ad24efcd003addc8c"
       },
       "evidence": [
         {
@@ -109,7 +109,7 @@
           "pointer": {
             "kind": "file",
             "path": "buildchain.contract-lock.json",
-            "sha256": "3d548e9b5ac9c48a50b8007bdd38c0c003fe0ed50651dc44ce4be8cb215e1832"
+            "sha256": "e1ed51934bcb8f669619db6257a9945609240611de39bf7ad24efcd003addc8c"
           },
           "description": "Accepted Buildchain @v2 contract digest and breaking-surface set."
         },
@@ -173,7 +173,7 @@
           "pointer": {
             "kind": "file",
             "path": "kfd/kfd-1.witness.json",
-            "sha256": "884bc91bf4c774201c79db4172db94982c2d63f6d6f38e471f9cfdde93180fda"
+            "sha256": "5f7c1ee5b695bf1a2709b1f106a7193ed4f2765e2f56787dc01eea968b01282c"
           },
           "description": "KFD-1 witness for declared fact surfaces."
         },
