@@ -22,6 +22,12 @@
       "path": "Formula/buildchain.rb"
     },
     {
+      "id": "managed-cask-support",
+      "class": "integration-time",
+      "description": "Prepared cask publication surface for materializing Kungfu GUI App release passports into Homebrew casks.",
+      "path": "docs/KUNGFU-GUI-CASK.md"
+    },
+    {
       "id": "buildchain-runtime-lock",
       "class": "integration-time",
       "description": "Accepted Buildchain @v2 runtime contract for CI lifecycle checks.",
@@ -36,7 +42,7 @@
     {
       "id": "managed-product-updates",
       "class": "integration-time",
-      "description": "Managed product updater that projects upstream release passports into Homebrew formula, manifest, and Buildchain runtime lock updates.",
+      "description": "Managed product updater that projects upstream release passports into Homebrew formulae, casks, manifest, and Buildchain runtime lock updates.",
       "path": "scripts/update-managed-products.mjs"
     },
     {

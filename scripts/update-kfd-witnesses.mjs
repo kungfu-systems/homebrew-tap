@@ -22,6 +22,7 @@ const files = {
   agents: "AGENTS.md",
   contributing: "CONTRIBUTING.md",
   docsMap: "docs/MAP.md",
+  kungfuGuiCaskGuide: "docs/KUNGFU-GUI-CASK.md",
   license: "LICENSE",
   security: "SECURITY.md",
   trademark: "TRADEMARK.md",
@@ -47,7 +48,23 @@ const files = {
   kfd3Witness: "kfd/kfd-3.witness.json",
 };
 
-const declaredFiles = Object.values(files).sort();
+function listFiles(dir) {
+  const root = path.join(cwd, dir);
+  if (!fs.existsSync(root)) return [];
+  const found = [];
+  for (const name of fs.readdirSync(root, { withFileTypes: true })) {
+    const child = path.join(dir, name.name);
+    if (name.isDirectory()) {
+      found.push(...listFiles(child));
+    } else if (name.isFile()) {
+      found.push(child);
+    }
+  }
+  return found;
+}
+
+const caskFiles = listFiles("Casks").filter((file) => file.endsWith(".rb")).sort();
+const declaredFiles = [...Object.values(files), ...caskFiles].sort();
 
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(path.join(cwd, filePath), "utf8"));
@@ -128,6 +145,12 @@ const kfd1ContractWorld = {
       path: files.formulaBuildchain,
     },
     {
+      id: "managed-cask-support",
+      class: "integration-time",
+      description: "Prepared cask publication surface for materializing Kungfu GUI App release passports into Homebrew casks.",
+      path: files.kungfuGuiCaskGuide,
+    },
+    {
       id: "buildchain-runtime-lock",
       class: "integration-time",
       description: "Accepted Buildchain @v2 runtime contract for CI lifecycle checks.",
@@ -142,7 +165,7 @@ const kfd1ContractWorld = {
     {
       id: "managed-product-updates",
       class: "integration-time",
-      description: "Managed product updater that projects upstream release passports into Homebrew formula, manifest, and Buildchain runtime lock updates.",
+      description: "Managed product updater that projects upstream release passports into Homebrew formulae, casks, manifest, and Buildchain runtime lock updates.",
       path: files.managedProductUpdateScript,
     },
     {
@@ -168,6 +191,7 @@ const kfd1Witness = {
   evidence: [
     { kind: "file", path: files.tapManifest, sha256: sha256File(files.tapManifest) },
     { kind: "file", path: files.formulaBuildchain, sha256: sha256File(files.formulaBuildchain) },
+    { kind: "file", path: files.kungfuGuiCaskGuide, sha256: sha256File(files.kungfuGuiCaskGuide) },
     { kind: "file", path: files.buildchainContractLock, sha256: sha256File(files.buildchainContractLock) },
     { kind: "file", path: files.managedProductUpdatesWorkflow, sha256: sha256File(files.managedProductUpdatesWorkflow) },
     { kind: "file", path: files.managedProductUpdateScript, sha256: sha256File(files.managedProductUpdateScript) },
@@ -200,13 +224,14 @@ const kfd2Claims = {
   claims: [
     {
       id: "upstream-release-evidence",
-      statement: "Every tap entry is bound to upstream release passport evidence before it is presented as installable Homebrew metadata.",
+      statement: "Every installable formula or cask entry is bound to upstream release passport evidence before it is presented as Homebrew metadata.",
       category: "release",
       source: { kind: "file", path: files.tapManifest, sha256: sha256File(files.tapManifest) },
       evidence: [
         evidencePointer(files.tapManifest, "Tap entry declares upstream release passport and KFD status."),
         evidencePointer(files.formulaBuildchain, "Formula version, URLs, and SHA-256 values must match tap-manifest.json."),
-        evidencePointer(files.managedProductUpdateScript, "Managed updater projects the latest upstream release passport into formula and manifest state.", "command"),
+        evidencePointer(files.kungfuGuiCaskGuide, "Kungfu GUI App cask publication path and release-passport requirements."),
+        evidencePointer(files.managedProductUpdateScript, "Managed updater projects the latest upstream release passport into formula, cask, and manifest state.", "command"),
         evidencePointer(files.managedProductUpdatesWorkflow, "Scheduled and manual workflow opens and auto-merges update PRs for managed entries."),
         evidencePointer(files.tapCheckScript, "Verification fetches upstream release passport and compares tag, version, KFD status, and artifact digests.", "command"),
       ],
@@ -215,7 +240,7 @@ const kfd2Claims = {
         expectedResult: "pass",
       },
       auditBoundary: {
-        scope: "Homebrew tap metadata for formulae and casks declared in tap-manifest.json",
+        scope: "Homebrew tap metadata for installable formulae and casks declared in tap-manifest.json",
         enumerability: "closed-world",
       },
       responsibility: {
@@ -304,6 +329,7 @@ const minimalEntrypoints = [
   { id: "tap-manifest", surface: files.tapManifest, participants: ["agent-reader", "release-system"], purpose: "Consume the machine-readable distribution index." },
   { id: "kfd-readme", surface: files.kfdReadme, participants: ["agent-reader", "maintainer", "release-system"], purpose: "Inspect the tap-local KFD claim and witness map." },
   { id: "managed-product-updater", surface: files.managedProductUpdateScript, participants: ["agent-reader", "maintainer", "release-system"], purpose: "Update managed formulae from upstream release passports and refresh compatible Buildchain runtime locks." },
+  { id: "kungfu-gui-cask-guide", surface: files.kungfuGuiCaskGuide, participants: ["agent-reader", "maintainer", "release-system"], purpose: "Prepare or audit the Kungfu GUI App cask publication path." },
 ];
 
 const surfaces = [
@@ -313,10 +339,11 @@ const surfaces = [
   { id: "governance-docs", kind: "markdown-doc", participants: ["installer", "agent-reader", "maintainer"], value: "License, security, trademark, acceptable use, provider compliance, contribution, issue, and PR boundaries.", discoverability: { fromMinimalEntrypoint: true, path: "LICENSE, SECURITY.md, TRADEMARK.md, ACCEPTABLE_USE.md, PROVIDER_COMPLIANCE.md, CONTRIBUTING.md, .github/*" }, maturity: "stable" },
   { id: "tap-manifest", kind: "json-api", participants: ["agent-reader", "release-system"], value: "Machine-readable tap distribution index.", discoverability: { fromMinimalEntrypoint: true, path: files.tapManifest }, maturity: "stable" },
   { id: "formula-buildchain", kind: "config", participants: ["installer", "agent-reader"], value: "Homebrew formula for Buildchain release artifacts.", discoverability: { fromMinimalEntrypoint: true, path: files.formulaBuildchain }, maturity: "stable" },
+  { id: "managed-cask-support", kind: "config", participants: ["installer", "agent-reader", "maintainer", "release-system"], value: "Prepared Homebrew cask projection path for the Kungfu GUI App; planned entries are not installable until materialized from an upstream release passport.", discoverability: { fromMinimalEntrypoint: true, path: `${files.tapManifest}, ${files.kungfuGuiCaskGuide}, Casks/*.rb` }, maturity: "prepared" },
   { id: "buildchain-runtime-lock", kind: "json-api", participants: ["agent-reader", "release-system"], value: "Accepted Buildchain @v2 runtime contract lock.", discoverability: { fromMinimalEntrypoint: true, path: files.buildchainContractLock }, maturity: "stable" },
   { id: "buildchain-lifecycle", kind: "config", participants: ["maintainer", "release-system"], value: "Buildchain lifecycle declaration and GitHub workflow callers.", discoverability: { fromMinimalEntrypoint: true, path: "buildchain.toml, .github/workflows/*.yml" }, maturity: "stable" },
   { id: "tap-verification", kind: "cli-command", participants: ["maintainer", "release-system", "agent-reader"], value: "Repository self-check for tap metadata, upstream release passports, KFD witnesses, and declared control surfaces.", discoverability: { fromMinimalEntrypoint: true, path: "node scripts/check-tap.mjs" }, maturity: "stable" },
-  { id: "managed-product-updater", kind: "cli-command", participants: ["maintainer", "release-system", "agent-reader"], value: "Dry-run, check, or write managed tap updates from upstream release passports, including compatible Buildchain @v2 lock refresh and automation PR auto-merge.", discoverability: { fromMinimalEntrypoint: true, path: "node scripts/update-managed-products.mjs --help, .github/workflows/managed-product-updates.yml" }, maturity: "stable" },
+  { id: "managed-product-updater", kind: "cli-command", participants: ["maintainer", "release-system", "agent-reader"], value: "Dry-run, check, or write managed formula and cask updates from upstream release passports, including compatible Buildchain @v2 lock refresh and automation PR auto-merge.", discoverability: { fromMinimalEntrypoint: true, path: "node scripts/update-managed-products.mjs --help, .github/workflows/managed-product-updates.yml" }, maturity: "stable" },
   { id: "kfd-claims", kind: "json-api", participants: ["agent-reader", "release-system", "maintainer"], value: "Tap-local KFD-1/2/3 claims and witnesses.", discoverability: { fromMinimalEntrypoint: true, path: "kfd/*.json" }, maturity: "stable" },
 ];
 
@@ -338,7 +365,7 @@ const kfd3Interface = {
       loadBearingCoordinate: "commit-addressed repository contents",
       canonicalPaths: declaredFiles,
       projectionSurfaces: [
-        "Homebrew formulae",
+        "Homebrew formulae and casks",
         "Buildchain lifecycle artifacts",
         "tap-local KFD witnesses",
       ],
@@ -350,10 +377,17 @@ const kfd3Interface = {
   transparentConstraints: [
     {
       id: "upstream-passport-authority",
-      appliesTo: ["tap-manifest", "formula-buildchain"],
+      appliesTo: ["tap-manifest", "formula-buildchain", "managed-cask-support"],
       restriction: "The tap may project upstream release facts but cannot become the upstream artifact authority.",
       rationale: "Release artifacts and KFD status are owned by upstream release passports.",
       reviewPath: files.tapCheckScript,
+    },
+    {
+      id: "planned-cask-is-not-installable",
+      appliesTo: ["managed-cask-support", "tap-verification"],
+      restriction: "A planned cask entry must not create Casks/*.rb until a release passport materializes it into installable tap-manifest entries.",
+      rationale: "Kungfu GUI App distribution should be prepared without advertising a non-existent Homebrew cask.",
+      reviewPath: files.kungfuGuiCaskGuide,
     },
     {
       id: "floating-runtime-lock",
@@ -391,6 +425,7 @@ const kfd3Interface = {
       participants: ["maintainer", "release-system", "agent-reader"],
       choices: [
         { id: "update-entry", label: "Run the managed updater, then regenerate KFD witnesses" },
+        { id: "materialize-kungfu-cask", label: "Materialize the Kungfu GUI cask from a release passport" },
         { id: "verify", label: "Run node scripts/check-tap.mjs or Buildchain lifecycle verify" },
       ],
     },
@@ -433,6 +468,7 @@ const kfd3Witness = {
       pointer(files.readme, "Install and release-evidence entrypoint."),
       pointer(files.agents, "Agent routing entrypoint."),
       pointer(files.docsMap, "Documentation map."),
+      pointer(files.kungfuGuiCaskGuide, "Kungfu GUI cask publication guide."),
       pointer(files.tapManifest, "Machine-readable tap entry facts."),
       pointer(files.managedProductUpdateScript, "Managed update command."),
       pointer(files.managedProductUpdatesWorkflow, "Managed update workflow."),
@@ -440,6 +476,7 @@ const kfd3Witness = {
     ],
     transparentConstraints: [
       pointer(files.tapCheckScript, "Closed-world verification command."),
+      pointer(files.kungfuGuiCaskGuide, "Planned cask materialization boundary."),
       pointer(files.tapCheckWorkflow, "Buildchain reusable workflow trust gate."),
       pointer(files.buildchainValidateWorkflow, "Config and lock presence validation."),
       pointer(files.managedProductUpdateScript, "Managed update lock refresh gate."),
@@ -449,6 +486,7 @@ const kfd3Witness = {
       pointer(files.readme, "Install path."),
       pointer(files.docsMap, "Inspection path."),
       pointer(files.contributing, "Maintenance path."),
+      pointer(files.kungfuGuiCaskGuide, "Kungfu GUI cask publication path."),
       pointer(files.managedProductUpdateScript, "Managed update path."),
       pointer(files.kfd2ReleaseClaims, "Public trust claim path."),
     ],
@@ -456,6 +494,7 @@ const kfd3Witness = {
       pointer(files.readme),
       pointer(files.agents),
       pointer(files.docsMap),
+      pointer(files.kungfuGuiCaskGuide),
       pointer(files.contributing),
       pointer(files.kfdReadme),
     ],

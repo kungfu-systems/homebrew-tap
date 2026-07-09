@@ -30,6 +30,7 @@ jobs:
         tap-manifest.json
         buildchain.contract-lock.json
         Formula
+        Casks
         docs
         kfd
       expected-artifacts-json: >-

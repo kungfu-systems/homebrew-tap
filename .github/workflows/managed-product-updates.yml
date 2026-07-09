@@ -45,7 +45,7 @@ jobs:
           node scripts/update-kfd-witnesses.mjs
           node scripts/check-tap.mjs
           git diff --check
-          changed_paths="$(git status --porcelain -- Formula tap-manifest.json buildchain.contract-lock.json kfd scripts .github docs README.md AGENTS.md CONTRIBUTING.md)"
+          changed_paths="$(git status --porcelain -- Formula Casks tap-manifest.json buildchain.contract-lock.json kfd scripts .github docs README.md AGENTS.md CONTRIBUTING.md)"
           if [ -z "$changed_paths" ]; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
@@ -63,6 +63,9 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -B "$branch"
           git add Formula tap-manifest.json buildchain.contract-lock.json kfd scripts .github docs README.md AGENTS.md CONTRIBUTING.md
+          if [ -d Casks ]; then
+            git add Casks
+          fi
           git commit -s -m "chore(tap): update managed products"
           git push --force-with-lease origin "$branch"
           existing="$(gh pr list --head "$branch" --json number --jq '.[0].number // empty')"

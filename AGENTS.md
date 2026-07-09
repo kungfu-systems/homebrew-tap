@@ -11,7 +11,7 @@ process.
 - Uses Buildchain checks to keep tap metadata from drifting away from upstream
   release passports.
 - Provides a managed updater that projects upstream release passports into
-  formula, manifest, and compatible Buildchain `@v2` lock changes.
+  formula, cask, manifest, and compatible Buildchain `@v2` lock changes.
 - Declares tap-local KFD-1 / KFD-2 / KFD-3 support under [`kfd/`](kfd/).
 
 ## Where to start
@@ -50,8 +50,11 @@ node scripts/update-managed-products.mjs --check --update-lock
 node scripts/update-managed-products.mjs --write --update-lock
 ```
 
+Prepare or materialize the Kungfu GUI App cask only through the planned-entry
+path documented in [`docs/KUNGFU-GUI-CASK.md`](docs/KUNGFU-GUI-CASK.md).
+
 The `Managed Product Updates` workflow runs the write path, opens an automation
-pull request, and enables GitHub auto-merge when managed formulae,
+pull request, and enables GitHub auto-merge when managed formulae, casks,
 `tap-manifest.json`, KFD witnesses, or the compatible Buildchain runtime lock
 change.
 

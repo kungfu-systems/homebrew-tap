@@ -11,13 +11,14 @@ upstream release evidence; it does not become the upstream artifact authority.
 | KFD-3 | `kfd-3.collaboration-interface.json` | Declares the participant-facing collaboration interface for installers, agents, maintainers, and release systems. |
 | KFD-3 | `kfd-3.witness.json` | Proves the collaboration interface has closed-world entrypoint classification. |
 
-Regenerate the files after changing a formula, workflow, script, public manual,
-or tap KFD surface:
+Regenerate the files after changing a formula, cask, workflow, script, public
+manual, or tap KFD surface:
 
 ```sh
 node scripts/update-kfd-witnesses.mjs
 node scripts/check-tap.mjs
 ```
 
-`scripts/check-tap.mjs` rejects stale KFD hashes and rejects undeclared
-participant-facing control surfaces.
+`scripts/check-tap.mjs` rejects stale KFD hashes, undeclared
+participant-facing control surfaces, and planned cask entries that accidentally
+become installable.
