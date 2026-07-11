@@ -33,6 +33,7 @@
         "README.md",
         "SECURITY.md",
         "TRADEMARK.md",
+        "buildchain.alpha-contract-lock.json",
         "buildchain.contract-lock.json",
         "buildchain.toml",
         "docs/KUNGFU-GUI-CASK.md",
@@ -256,10 +257,10 @@
         "agent-reader",
         "release-system"
       ],
-      "value": "Accepted Buildchain @v2 runtime contract lock.",
+      "value": "Accepted Buildchain @v2 stable and @v2-alpha runtime contract locks.",
       "discoverability": {
         "fromMinimalEntrypoint": true,
-        "path": "buildchain.contract-lock.json"
+        "path": "buildchain.contract-lock.json, buildchain.alpha-contract-lock.json"
       },
       "maturity": "stable"
     },
@@ -352,7 +353,7 @@
         "buildchain-lifecycle",
         "managed-product-updater"
       ],
-      "restriction": "Buildchain @v2 movement must pass the consumer contract lock before lifecycle verification.",
+      "restriction": "Buildchain @v2 and @v2-alpha movement must pass their channel-specific consumer contract lock before lifecycle verification.",
       "rationale": "Floating refs are useful only when incompatible runtime contract drift fails closed.",
       "reviewPath": ".github/workflows/tap-check.yml"
     },
@@ -451,6 +452,7 @@
       "README.md",
       "SECURITY.md",
       "TRADEMARK.md",
+      "buildchain.alpha-contract-lock.json",
       "buildchain.contract-lock.json",
       "buildchain.toml",
       "docs/KUNGFU-GUI-CASK.md",
