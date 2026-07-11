@@ -30,7 +30,7 @@
     {
       "kind": "file",
       "path": "buildchain.contract-lock.json",
-      "sha256": "3d548e9b5ac9c48a50b8007bdd38c0c003fe0ed50651dc44ce4be8cb215e1832"
+      "sha256": "19dd7c50cb86936d2ce009a92eb33b18b35919a481831d323089523ad44e8c4a"
     },
     {
       "kind": "file",
@@ -45,12 +45,12 @@
     {
       "kind": "file",
       "path": ".github/workflows/tap-check.yml",
-      "sha256": "841e0fae8d6eb8fed1c635af655da2c9fe25cb31e9e8f25839cd242256aa0be4"
+      "sha256": "4428d71b77ced869bb13b80811d00406fcea9bed90387746291e5bdab26c396b"
     },
     {
       "kind": "file",
       "path": "scripts/check-tap.mjs",
-      "sha256": "c8e3687b2a2853ba381abe16c0b932f838ef1f1f852b147a6dc93beab1aca245"
+      "sha256": "70e692971ae3f83cef8dfcb8a0fee8cd9efce9d0990ce083eaa66f8cfa4ce349"
     },
     {
       "kind": "file",
@@ -75,6 +75,7 @@
       "README.md",
       "SECURITY.md",
       "TRADEMARK.md",
+      "buildchain.alpha-contract-lock.json",
       "buildchain.contract-lock.json",
       "buildchain.toml",
       "docs/KUNGFU-GUI-CASK.md",

@@ -122,6 +122,7 @@ function actualControlFiles() {
     "README.md",
     "SECURITY.md",
     "TRADEMARK.md",
+    "buildchain.alpha-contract-lock.json",
     "buildchain.contract-lock.json",
     "buildchain.toml",
     "tap-manifest.json",
