@@ -9,11 +9,12 @@
       "path": "Formula/buildchain.rb",
       "upstream": {
         "repository": "kungfu-systems/buildchain",
-        "tag": "v2.10.2",
-        "releasePassportUrl": "https://github.com/kungfu-systems/buildchain/releases/download/v2.10.2/buildchain.release.json",
-        "latestReleasePassportUrl": "https://github.com/kungfu-systems/buildchain/releases/latest/download/buildchain.release.json"
+        "tag": "v2.14.16",
+        "releasePassportUrl": "https://github.com/kungfu-systems/buildchain/releases/download/v2.14.16/buildchain.release.json",
+        "latestReleasePassportUrl": "https://github.com/kungfu-systems/buildchain/releases/latest/download/buildchain.release.json",
+        "releasePassportAsset": "buildchain.release.json"
       },
-      "version": "2.10.2",
+      "version": "2.14.16",
       "kfd": {
         "kfd-1": "passed",
         "kfd-2": "passed",
@@ -21,19 +22,48 @@
       },
       "artifacts": [
         {
+          "name": "buildchain-aarch64-apple-darwin.tar.gz",
           "platform": "darwin-arm64",
-          "url": "https://github.com/kungfu-systems/buildchain/releases/download/v2.10.2/buildchain-aarch64-apple-darwin.tar.gz",
-          "sha256": "347805c21c0acca1737dc52afad6fd9ae1d462fece87fc798ec1aa40ecb6aaf7"
+          "url": "https://github.com/kungfu-systems/buildchain/releases/download/v2.14.16/buildchain-aarch64-apple-darwin.tar.gz",
+          "sha256": "8be23744adc0aeb33327313da7d660f656f865f4d2630db10d711afbc5544c0f"
         },
         {
+          "name": "buildchain-x86_64-unknown-linux-gnu.tar.gz",
           "platform": "linux-x64",
-          "url": "https://github.com/kungfu-systems/buildchain/releases/download/v2.10.2/buildchain-x86_64-unknown-linux-gnu.tar.gz",
-          "sha256": "708fc2c06f8ad744d8dcc57566d4cf16276c238c677d0ea89022a2a35610c375"
+          "url": "https://github.com/kungfu-systems/buildchain/releases/download/v2.14.16/buildchain-x86_64-unknown-linux-gnu.tar.gz",
+          "sha256": "acbd6af082987e7768ad43e4edac5aa03c0f0cdfd84c742876758be9ea2d55ff"
         }
       ]
     }
   ],
   "plannedEntries": [
+    {
+      "type": "formula",
+      "name": "kungfu",
+      "path": "Formula/kungfu.rb",
+      "status": "planned",
+      "upstream": {
+        "repository": "kungfu-systems/kungfu",
+        "releasePassportAsset": "kungfu.release.json",
+        "channel": "alpha"
+      },
+      "formula": {
+        "kind": "kungfu-standalone-cli",
+        "desc": "Headless runtime fact ledger and agent-work CLI",
+        "homepage": "https://kungfu.tech",
+        "license": "Apache-2.0",
+        "managerCommand": [
+          "brew",
+          "upgrade",
+          "--formula",
+          "kungfu-systems/tap/kungfu"
+        ],
+        "verificationCommand": [
+          "kungfu",
+          "--version"
+        ]
+      }
+    },
     {
       "type": "cask",
       "name": "kungfu",

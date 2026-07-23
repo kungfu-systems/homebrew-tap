@@ -6,6 +6,7 @@ import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
+import { fileURLToPath } from "node:url";
 
 const cwd = process.cwd();
 const manifestPath = path.join(cwd, "tap-manifest.json");
@@ -16,12 +17,13 @@ const kfdKeys = ["kfd-1", "kfd-2", "kfd-3"];
 
 function usage() {
   return `Usage:
-  node scripts/update-managed-products.mjs [--package <name>|--all] [--release-passport <url>] [--write] [--check] [--update-lock] [--include-planned] [--json]
+  node scripts/update-managed-products.mjs [--package <name>|--all] [--type <formula|cask>] [--release-passport <url>] [--write] [--check] [--update-lock] [--include-planned] [--json]
 
 Defaults to a dry-run drift report for all managed tap entries.
 
 Options:
   --package <name>          Update/check one managed formula or cask entry.
+  --type <formula|cask>     Disambiguate entries that share a package token.
   --all                     Update/check all installable managed entries. This is the default.
   --release-passport <url>  Override the upstream release passport for --package.
   --write                   Write formula/cask and tap-manifest projections.
@@ -198,11 +200,15 @@ function normalizeArtifact(artifact, { repository, tag } = {}) {
   };
 }
 
-function formulaArchiveArtifacts(passport, context) {
+function formulaArchiveArtifacts(passport, context, entry = {}) {
   return (passport.artifacts || [])
     .map((artifact) => normalizeArtifact(artifact, context))
     .filter((artifact) => supportedPlatforms.has(artifact.platform))
     .filter((artifact) => /\.(?:tar\.gz|tgz)$/i.test(artifact.name))
+    .filter((artifact) => (
+      entry.formula?.kind !== "kungfu-standalone-cli"
+      || artifact.name.startsWith("kungfu-episodes-cli-")
+    ))
     .sort((left, right) => left.platform.localeCompare(right.platform));
 }
 
@@ -233,6 +239,68 @@ function renderFormula({ entry, passport, artifacts, repository }) {
   const homepage = optionalString(entry.formula?.homepage || passport.product?.homepage || "https://buildchain.libkungfu.dev");
   const license = optionalString(entry.formula?.license || "Apache-2.0");
   const version = nonEmptyString(passport.release?.publishedVersion || passport.release?.versionLabel, "release.publishedVersion");
+  if (entry.formula?.kind === "kungfu-standalone-cli") {
+    const managerCommand = entry.formula.managerCommand || [];
+    const verificationCommand = entry.formula.verificationCommand || [];
+    if (JSON.stringify(managerCommand) !== JSON.stringify([
+      "brew",
+      "upgrade",
+      "--formula",
+      "kungfu-systems/tap/kungfu",
+    ])) {
+      throw new Error("kungfu standalone CLI formula managerCommand must match the trusted exact Homebrew argv");
+    }
+    if (JSON.stringify(verificationCommand) !== JSON.stringify(["kungfu", "--version"])) {
+      throw new Error("kungfu standalone CLI formula verificationCommand must match the trusted exact argv");
+    }
+    return `require "json"
+
+class ${formulaClass} < Formula
+  desc "${rubyString(desc)}"
+  homepage "${rubyString(homepage)}"
+  version "${rubyString(version)}"
+  license "${rubyString(license)}"
+
+  if OS.mac? && Hardware::CPU.arm?
+    url "${rubyString(darwinArm64.url)}"
+    sha256 "${rubyString(darwinArm64.sha256)}"
+  elsif OS.linux? && Hardware::CPU.intel?
+    url "${rubyString(linuxX64.url)}"
+    sha256 "${rubyString(linuxX64.sha256)}"
+  else
+    odie "${formulaClass} Homebrew formula currently supports macOS arm64 and Linux x86_64 standalone CLI archives."
+  end
+
+  def install
+    payload_root = ([buildpath] + buildpath.children.select(&:directory?)).find do |candidate|
+      (candidate/"product.json").file? && (candidate/"kungfu").file?
+    end
+    odie "Kungfu standalone CLI archive layout is invalid." if payload_root.nil?
+
+    libexec.install Dir["#{payload_root}/*"]
+    manifest_path = libexec/"product.json"
+    manifest = JSON.parse(manifest_path.read)
+    manifest["install"] = {
+      "source" => "homebrew",
+      "frontendAuthority" => "package-manager",
+      "runtimeAuthority" => "kungfu-core-runtime-upgrade-controller",
+      "backgroundUpdater" => false,
+      "managerCommand" => ${JSON.stringify(managerCommand)},
+      "verificationCommand" => ${JSON.stringify(verificationCommand)},
+    }
+    manifest_path.write(JSON.pretty_generate(manifest) + "\\n")
+    bin.install_symlink libexec/"kungfu"
+  end
+
+  test do
+    assert_match version.to_s, shell_output("#{bin}/kungfu --version")
+    assert_match "Usage", shell_output("#{bin}/kungfu --help")
+    assert_match '"source": "homebrew"', shell_output("#{bin}/kungfu update status --json")
+    assert_match "Usage", shell_output("#{bin}/kungfu run agent --help")
+  end
+end
+`;
+  }
   return `class ${formulaClass} < Formula
   desc "${rubyString(desc)}"
   homepage "${rubyString(homepage)}"
@@ -312,7 +380,7 @@ async function projectEntry({ entry, releasePassportOverride = "", planned = fal
   const releasePassportUrl = canonicalPassportUrl(repository, tag, passportAsset);
   const artifacts = entry.type === "cask"
     ? caskArtifacts(passport, entry, { repository, tag })
-    : formulaArchiveArtifacts(passport, { repository, tag });
+    : formulaArchiveArtifacts(passport, { repository, tag }, entry);
   const kfd = kfdProjection(passport);
   const updatedEntry = {
     ...entry,
@@ -434,11 +502,18 @@ async function main(argv = process.argv.slice(2)) {
   const check = hasFlag(argv, "--check");
   const json = hasFlag(argv, "--json");
   const packageName = argValue(argv, "--package", "");
+  const packageType = argValue(argv, "--type", "");
   const releasePassport = argValue(argv, "--release-passport", "");
   const updateLock = hasFlag(argv, "--update-lock");
   const includePlanned = hasFlag(argv, "--include-planned");
   if (releasePassport && !packageName) {
     throw new Error("--release-passport requires --package <name>");
+  }
+  if (packageType && !["formula", "cask"].includes(packageType)) {
+    throw new Error("--type must be formula or cask");
+  }
+  if (packageType && !packageName) {
+    throw new Error("--type requires --package <name>");
   }
 
   const manifest = readJson(manifestPath);
@@ -448,10 +523,16 @@ async function main(argv = process.argv.slice(2)) {
     .map((entry) => ({ entry, planned: true }));
   const candidates = packageName ? [...installableEntries, ...plannedEntries] : installableEntries;
   const selectedEntries = packageName
-    ? candidates.filter((candidate) => candidate.entry.name === packageName)
+    ? candidates.filter((candidate) => (
+      candidate.entry.name === packageName
+      && (!packageType || candidate.entry.type === packageType)
+    ))
     : (includePlanned ? [...installableEntries, ...plannedEntries] : installableEntries);
   if (selectedEntries.length === 0) {
     throw new Error(packageName ? `no managed tap entry named ${packageName}` : "tap-manifest.json has no managed entries");
+  }
+  if (selectedEntries.length > 1 && !packageType) {
+    throw new Error(`managed tap entry ${packageName} is ambiguous; pass --type formula or --type cask`);
   }
 
   const projections = [];
@@ -536,7 +617,15 @@ async function main(argv = process.argv.slice(2)) {
   }
 }
 
-main().catch((error) => {
-  console.error(`[managed-products] ${error.message}`);
-  process.exitCode = 1;
-});
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  main().catch((error) => {
+    console.error(`[managed-products] ${error.message}`);
+    process.exitCode = 1;
+  });
+}
+
+export {
+  formulaArchiveArtifacts,
+  projectEntry,
+  renderFormula,
+};

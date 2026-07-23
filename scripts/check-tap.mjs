@@ -319,7 +319,7 @@ function verifyKfd() {
     }
     requirePath(entrypoint.surface, `KFD-3 entrypoint ${entrypoint.id}`);
   }
-  for (const requiredSurface of ["tap-manifest", "formula-buildchain", "buildchain-runtime-lock", "tap-verification", "managed-product-updater", "managed-cask-support", "kfd-claims"]) {
+  for (const requiredSurface of ["tap-manifest", "formula-buildchain", "managed-cli-formula", "buildchain-runtime-lock", "tap-verification", "managed-product-updater", "managed-cask-support", "kfd-claims"]) {
     if (!surfaceIds.has(requiredSurface)) {
       fail(`KFD-3 collaboration interface missing surface ${requiredSurface}`);
     }

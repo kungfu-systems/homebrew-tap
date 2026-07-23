@@ -52,6 +52,9 @@ node scripts/update-managed-products.mjs --write --update-lock
 
 Prepare or materialize the Kungfu GUI App cask only through the planned-entry
 path documented in [`docs/KUNGFU-GUI-CASK.md`](docs/KUNGFU-GUI-CASK.md).
+Prepare or materialize the standalone Kungfu CLI Formula only through
+[`docs/KUNGFU-CLI-FORMULA.md`](docs/KUNGFU-CLI-FORMULA.md); the shared
+`kungfu` token requires `--type formula` or `--type cask`.
 
 The `Managed Product Updates` workflow runs the write path, opens an automation
 pull request, and enables GitHub auto-merge when managed formulae, casks,

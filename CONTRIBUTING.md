@@ -31,6 +31,16 @@ node scripts/update-kfd-witnesses.mjs
 node scripts/check-tap.mjs
 ```
 
+The `kungfu` token is shared by a planned CLI Formula and GUI Cask. Always
+select the entry type explicitly:
+
+```sh
+node scripts/update-managed-products.mjs \
+  --package kungfu \
+  --type formula \
+  --release-passport <exact-kungfu-release-passport-url>
+```
+
 To materialize the planned Kungfu GUI App cask, follow
 [`docs/KUNGFU-GUI-CASK.md`](docs/KUNGFU-GUI-CASK.md). Do not add
 `Casks/kungfu.rb` by hand without moving the manifest entry from

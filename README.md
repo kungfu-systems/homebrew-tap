@@ -37,6 +37,12 @@ brew install buildchain
 | --- | --- | --- |
 | `kungfu` | `kungfu-systems/kungfu` | Prepared, not yet installable. See [Kungfu GUI App cask preparation](docs/KUNGFU-GUI-CASK.md). |
 
+## Planned Formulae
+
+| Formula | Upstream | Status |
+| --- | --- | --- |
+| `kungfu` | `kungfu-systems/kungfu` | Standalone CLI projection prepared; it remains non-installable until an exact official release passport and CLI archives materialize it. See [Kungfu CLI Formula preparation](docs/KUNGFU-CLI-FORMULA.md). |
+
 ## Release Evidence
 
 Tap entries are checked against machine-readable upstream evidence. For

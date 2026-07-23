@@ -22,6 +22,12 @@
       "path": "Formula/buildchain.rb"
     },
     {
+      "id": "managed-cli-formula",
+      "class": "integration-time",
+      "description": "Prepared standalone Kungfu CLI Formula projection with exact package-manager argv and release-passport gating.",
+      "path": "docs/KUNGFU-CLI-FORMULA.md"
+    },
+    {
       "id": "managed-cask-support",
       "class": "integration-time",
       "description": "Prepared cask publication surface for materializing Kungfu GUI App release passports into Homebrew casks.",
