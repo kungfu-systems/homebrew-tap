@@ -7,6 +7,10 @@ on:
         description: Formula package to update, or all.
         required: false
         default: all
+      type:
+        description: Optional formula or cask discriminator for a shared package token.
+        required: false
+        default: ""
       release-passport:
         description: Optional release passport URL for one package.
         required: false
@@ -31,12 +35,16 @@ jobs:
         shell: bash
         env:
           PACKAGE: ${{ github.event_name == 'workflow_dispatch' && inputs.package || 'all' }}
+          PACKAGE_TYPE: ${{ github.event_name == 'workflow_dispatch' && inputs.type || '' }}
           RELEASE_PASSPORT: ${{ github.event_name == 'workflow_dispatch' && inputs['release-passport'] || '' }}
         run: |
           set -euo pipefail
           args=(--write --update-lock --json)
           if [ "$PACKAGE" != "all" ] && [ -n "$PACKAGE" ]; then
             args+=(--package "$PACKAGE")
+          fi
+          if [ -n "$PACKAGE_TYPE" ]; then
+            args+=(--type "$PACKAGE_TYPE")
           fi
           if [ -n "$RELEASE_PASSPORT" ]; then
             args+=(--release-passport "$RELEASE_PASSPORT")

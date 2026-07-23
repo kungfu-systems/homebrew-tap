@@ -3,6 +3,7 @@
 | Question | Start here |
 | --- | --- |
 | How do I install Buildchain with Homebrew? | [`README.md`](../README.md) |
+| How will the standalone Kungfu CLI be published as a Formula? | [`docs/KUNGFU-CLI-FORMULA.md`](KUNGFU-CLI-FORMULA.md) |
 | How will the Kungfu GUI App be published as a cask? | [`docs/KUNGFU-GUI-CASK.md`](KUNGFU-GUI-CASK.md) |
 | How is tap metadata checked? | [`scripts/check-tap.mjs`](../scripts/check-tap.mjs) and [`tap-manifest.json`](../tap-manifest.json) |
 | How are managed product versions updated? | [`scripts/update-managed-products.mjs`](../scripts/update-managed-products.mjs) and [`managed-product-updates.yml`](../.github/workflows/managed-product-updates.yml) |
@@ -35,14 +36,19 @@ The tap is not the upstream release authority. Each installable tap entry
 points to an upstream release passport or equivalent release evidence. Agents
 should inspect the upstream passport first, then the formula or cask.
 
-Planned casks are not installable. `tap-manifest.json` may describe a future
-entry under `plannedEntries`, but `scripts/check-tap.mjs` rejects a planned
-entry that creates `Casks/*.rb`. A cask file becomes valid only after the
-managed updater materializes it into installable `entries`.
+Planned formulae and casks are not installable. `tap-manifest.json` may describe
+a future entry under `plannedEntries`, but `scripts/check-tap.mjs` rejects a
+planned entry that creates its Formula or Cask file. An entry becomes valid
+only after the managed updater materializes it into installable `entries` from
+an exact upstream release passport.
 
 The Buildchain floating runtime is also not accepted blindly. The tap records
 the reviewed `@v2` runtime contract in `buildchain.contract-lock.json`; CI
 checks that contract before running repository lifecycle verification.
+`package.json` is a private, zero-dependency consumer declaration that pins
+`pnpm@11.7.0` solely for Buildchain package-manager detection and its isolated
+runtime bootstrap; repository checks remain direct Node scripts and require no
+dependency installation.
 The managed updater can refresh the lock only when the compatibility digest
 matches the accepted major-compatible policy. Routine automation PRs are
 auto-merged only through GitHub repository requirements; incompatible drift

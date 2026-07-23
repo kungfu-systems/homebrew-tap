@@ -22,6 +22,12 @@
       "path": "Formula/buildchain.rb"
     },
     {
+      "id": "managed-cli-formula",
+      "class": "integration-time",
+      "description": "Prepared standalone Kungfu CLI Formula projection with exact package-manager argv and release-passport gating.",
+      "path": "docs/KUNGFU-CLI-FORMULA.md"
+    },
+    {
       "id": "managed-cask-support",
       "class": "integration-time",
       "description": "Prepared cask publication surface for materializing Kungfu GUI App release passports into Homebrew casks.",
@@ -32,6 +38,12 @@
       "class": "integration-time",
       "description": "Accepted Buildchain @v2 runtime contract for CI lifecycle checks.",
       "path": "buildchain.contract-lock.json"
+    },
+    {
+      "id": "buildchain-package-manager-contract",
+      "class": "integration-time",
+      "description": "Private zero-dependency pnpm consumer declaration required by the Buildchain trust gate and runtime bootstrap.",
+      "path": "package.json"
     },
     {
       "id": "tap-verification",

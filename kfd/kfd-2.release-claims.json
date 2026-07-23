@@ -19,7 +19,7 @@
       "source": {
         "kind": "file",
         "path": "tap-manifest.json",
-        "sha256": "668aa6a7ac1947abd5c8b71a63fc9142488048ed3ccdcc5bb020f7d71c70ba42"
+        "sha256": "32c4caffec2a7c0d3c41d72090c1c3d2bee695688467df50b6ca5b891746150b"
       },
       "evidence": [
         {
@@ -27,7 +27,7 @@
           "pointer": {
             "kind": "file",
             "path": "tap-manifest.json",
-            "sha256": "668aa6a7ac1947abd5c8b71a63fc9142488048ed3ccdcc5bb020f7d71c70ba42"
+            "sha256": "32c4caffec2a7c0d3c41d72090c1c3d2bee695688467df50b6ca5b891746150b"
           },
           "description": "Tap entry declares upstream release passport and KFD status."
         },
@@ -36,9 +36,18 @@
           "pointer": {
             "kind": "file",
             "path": "Formula/buildchain.rb",
-            "sha256": "5035457d4e0ff80bf254e0a7992d836e32536f53a051e7f712fbbda4972b206b"
+            "sha256": "26d54ed718d2a36647ab503a7a5d13af02f409e2879a5fa02db6df34c1b51451"
           },
           "description": "Formula version, URLs, and SHA-256 values must match tap-manifest.json."
+        },
+        {
+          "type": "file",
+          "pointer": {
+            "kind": "file",
+            "path": "docs/KUNGFU-CLI-FORMULA.md",
+            "sha256": "b088e595488fd289ee408a411da6b30f4d9f6cb254efe5985ac8cb051aa1f0ca"
+          },
+          "description": "Standalone Kungfu CLI Formula materialization and package-manager ownership boundary."
         },
         {
           "type": "file",
@@ -54,7 +63,7 @@
           "pointer": {
             "kind": "command",
             "path": "scripts/update-managed-products.mjs",
-            "sha256": "71e439d2ea83b57dc1d2b51343eaabb151a85f74d5bf7e3a5d9024d6616f3bb6"
+            "sha256": "0e523ed328cb74c437fc45df0cfd836f8f8981cd2a4299cab35d7a57f16d456d"
           },
           "description": "Managed updater projects the latest upstream release passport into formula, cask, and manifest state."
         },
@@ -63,7 +72,7 @@
           "pointer": {
             "kind": "file",
             "path": ".github/workflows/managed-product-updates.yml",
-            "sha256": "552ca1b89436eb03f42315c0c834932f947b2a39a7ca509b110e827ccc262324"
+            "sha256": "bf93a6c91ccb8656c4c45c6543ba7b18b8fc961481915fda301f63cbf5bcde03"
           },
           "description": "Scheduled and manual workflow opens and auto-merges update PRs for managed entries."
         },
@@ -72,7 +81,7 @@
           "pointer": {
             "kind": "command",
             "path": "scripts/check-tap.mjs",
-            "sha256": "70e692971ae3f83cef8dfcb8a0fee8cd9efce9d0990ce083eaa66f8cfa4ce349"
+            "sha256": "9e95a037b9849d109f18d462fc4694a138f74be3a9dea4b6a7be3c9a2c2fbf64"
           },
           "description": "Verification fetches upstream release passport and compares tag, version, KFD status, and artifact digests."
         }
@@ -101,7 +110,7 @@
       "source": {
         "kind": "file",
         "path": "buildchain.contract-lock.json",
-        "sha256": "19dd7c50cb86936d2ce009a92eb33b18b35919a481831d323089523ad44e8c4a"
+        "sha256": "cfd4438c289e9f4902cf4633bc7a6ddb88e13f27de248a8bc67803c5b06e7331"
       },
       "evidence": [
         {
@@ -109,7 +118,7 @@
           "pointer": {
             "kind": "file",
             "path": "buildchain.contract-lock.json",
-            "sha256": "19dd7c50cb86936d2ce009a92eb33b18b35919a481831d323089523ad44e8c4a"
+            "sha256": "cfd4438c289e9f4902cf4633bc7a6ddb88e13f27de248a8bc67803c5b06e7331"
           },
           "description": "Accepted Buildchain @v2 contract digest and breaking-surface set."
         },
@@ -117,8 +126,17 @@
           "type": "file",
           "pointer": {
             "kind": "file",
+            "path": "package.json",
+            "sha256": "7e9a5abfc694716ef4fdafbcf5618acd32d3c485cb119ba18ddb27daa8ad196c"
+          },
+          "description": "Exact zero-dependency package-manager declaration consumed by the Buildchain trust gate."
+        },
+        {
+          "type": "file",
+          "pointer": {
+            "kind": "file",
             "path": ".github/workflows/tap-check.yml",
-            "sha256": "4428d71b77ced869bb13b80811d00406fcea9bed90387746291e5bdab26c396b"
+            "sha256": "2086683edd1f98922f1cc993f50d4e8ba66e28dffe78f2d7cdf3b596059c71ea"
           },
           "description": "Tap Check calls the Buildchain reusable workflow with buildchain-contract-lock-path."
         },
@@ -164,7 +182,7 @@
           "pointer": {
             "kind": "file",
             "path": "kfd/kfd-1.contract-world.json",
-            "sha256": "6c98e92cafd81f6947ed390c60b6f21acdadaefc41e028bf8fd0d92cdb9258a3"
+            "sha256": "c0f8f4590ad99fee48fcd4f488dd54acce4af0e770dbbfb5f9bec2eb431c1c8e"
           },
           "description": "KFD-1 contract world for tap distribution facts."
         },
@@ -173,7 +191,7 @@
           "pointer": {
             "kind": "file",
             "path": "kfd/kfd-1.witness.json",
-            "sha256": "155fde9ea9649727a3270e923e79926a1f057e23500196467b9c10f079c5b423"
+            "sha256": "340fd7ab147d6535bd92aef473331360ecef52f6f096a19325d6eaa09b023b39"
           },
           "description": "KFD-1 witness for declared fact surfaces."
         },
@@ -191,7 +209,7 @@
           "pointer": {
             "kind": "command",
             "path": "scripts/check-tap.mjs",
-            "sha256": "70e692971ae3f83cef8dfcb8a0fee8cd9efce9d0990ce083eaa66f8cfa4ce349"
+            "sha256": "9e95a037b9849d109f18d462fc4694a138f74be3a9dea4b6a7be3c9a2c2fbf64"
           },
           "description": "Verification rejects stale hashes and undeclared control surfaces."
         }

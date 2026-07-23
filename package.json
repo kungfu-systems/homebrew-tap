@@ -1,0 +1,5 @@
+{
+  "name": "@kungfu-systems/homebrew-tap",
+  "private": true,
+  "packageManager": "pnpm@11.7.0"
+}

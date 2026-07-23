@@ -22,6 +22,7 @@ const files = {
   agents: "AGENTS.md",
   contributing: "CONTRIBUTING.md",
   docsMap: "docs/MAP.md",
+  kungfuCliFormulaGuide: "docs/KUNGFU-CLI-FORMULA.md",
   kungfuGuiCaskGuide: "docs/KUNGFU-GUI-CASK.md",
   license: "LICENSE",
   security: "SECURITY.md",
@@ -31,6 +32,7 @@ const files = {
   issueTemplateConfig: ".github/ISSUE_TEMPLATE/config.yml",
   prTemplate: ".github/pull_request_template.md",
   tapManifest: "tap-manifest.json",
+  packageManagerContract: "package.json",
   formulaBuildchain: "Formula/buildchain.rb",
   buildchainConfig: "buildchain.toml",
   buildchainAlphaContractLock: "buildchain.alpha-contract-lock.json",
@@ -40,6 +42,7 @@ const files = {
   tapCheckWorkflow: ".github/workflows/tap-check.yml",
   tapCheckScript: "scripts/check-tap.mjs",
   managedProductUpdateScript: "scripts/update-managed-products.mjs",
+  managedProductUpdateTest: "scripts/update-managed-products.test.mjs",
   kfdUpdateScript: "scripts/update-kfd-witnesses.mjs",
   kfdReadme: "kfd/README.md",
   kfd1ContractWorld: "kfd/kfd-1.contract-world.json",
@@ -146,6 +149,12 @@ const kfd1ContractWorld = {
       path: files.formulaBuildchain,
     },
     {
+      id: "managed-cli-formula",
+      class: "integration-time",
+      description: "Prepared standalone Kungfu CLI Formula projection with exact package-manager argv and release-passport gating.",
+      path: files.kungfuCliFormulaGuide,
+    },
+    {
       id: "managed-cask-support",
       class: "integration-time",
       description: "Prepared cask publication surface for materializing Kungfu GUI App release passports into Homebrew casks.",
@@ -156,6 +165,12 @@ const kfd1ContractWorld = {
       class: "integration-time",
       description: "Accepted Buildchain @v2 runtime contract for CI lifecycle checks.",
       path: files.buildchainContractLock,
+    },
+    {
+      id: "buildchain-package-manager-contract",
+      class: "integration-time",
+      description: "Private zero-dependency pnpm consumer declaration required by the Buildchain trust gate and runtime bootstrap.",
+      path: files.packageManagerContract,
     },
     {
       id: "tap-verification",
@@ -192,8 +207,10 @@ const kfd1Witness = {
   evidence: [
     { kind: "file", path: files.tapManifest, sha256: sha256File(files.tapManifest) },
     { kind: "file", path: files.formulaBuildchain, sha256: sha256File(files.formulaBuildchain) },
+    { kind: "file", path: files.kungfuCliFormulaGuide, sha256: sha256File(files.kungfuCliFormulaGuide) },
     { kind: "file", path: files.kungfuGuiCaskGuide, sha256: sha256File(files.kungfuGuiCaskGuide) },
     { kind: "file", path: files.buildchainContractLock, sha256: sha256File(files.buildchainContractLock) },
+    { kind: "file", path: files.packageManagerContract, sha256: sha256File(files.packageManagerContract) },
     { kind: "file", path: files.managedProductUpdatesWorkflow, sha256: sha256File(files.managedProductUpdatesWorkflow) },
     { kind: "file", path: files.managedProductUpdateScript, sha256: sha256File(files.managedProductUpdateScript) },
     { kind: "file", path: files.tapCheckWorkflow, sha256: sha256File(files.tapCheckWorkflow) },
@@ -231,6 +248,7 @@ const kfd2Claims = {
       evidence: [
         evidencePointer(files.tapManifest, "Tap entry declares upstream release passport and KFD status."),
         evidencePointer(files.formulaBuildchain, "Formula version, URLs, and SHA-256 values must match tap-manifest.json."),
+        evidencePointer(files.kungfuCliFormulaGuide, "Standalone Kungfu CLI Formula materialization and package-manager ownership boundary."),
         evidencePointer(files.kungfuGuiCaskGuide, "Kungfu GUI App cask publication path and release-passport requirements."),
         evidencePointer(files.managedProductUpdateScript, "Managed updater projects the latest upstream release passport into formula, cask, and manifest state.", "command"),
         evidencePointer(files.managedProductUpdatesWorkflow, "Scheduled and manual workflow opens and auto-merges update PRs for managed entries."),
@@ -260,6 +278,7 @@ const kfd2Claims = {
       source: { kind: "file", path: files.buildchainContractLock, sha256: sha256File(files.buildchainContractLock) },
       evidence: [
         evidencePointer(files.buildchainContractLock, "Accepted Buildchain @v2 contract digest and breaking-surface set."),
+        evidencePointer(files.packageManagerContract, "Exact zero-dependency package-manager declaration consumed by the Buildchain trust gate."),
         evidencePointer(files.tapCheckWorkflow, "Tap Check calls the Buildchain reusable workflow with buildchain-contract-lock-path."),
         evidencePointer(files.buildchainValidateWorkflow, "Buildchain Validate rejects a missing contract lock."),
       ],
@@ -330,6 +349,7 @@ const minimalEntrypoints = [
   { id: "tap-manifest", surface: files.tapManifest, participants: ["agent-reader", "release-system"], purpose: "Consume the machine-readable distribution index." },
   { id: "kfd-readme", surface: files.kfdReadme, participants: ["agent-reader", "maintainer", "release-system"], purpose: "Inspect the tap-local KFD claim and witness map." },
   { id: "managed-product-updater", surface: files.managedProductUpdateScript, participants: ["agent-reader", "maintainer", "release-system"], purpose: "Update managed formulae from upstream release passports and refresh compatible Buildchain runtime locks." },
+  { id: "kungfu-cli-formula-guide", surface: files.kungfuCliFormulaGuide, participants: ["installer", "agent-reader", "maintainer", "release-system"], purpose: "Prepare or audit the standalone Kungfu CLI Formula publication path." },
   { id: "kungfu-gui-cask-guide", surface: files.kungfuGuiCaskGuide, participants: ["agent-reader", "maintainer", "release-system"], purpose: "Prepare or audit the Kungfu GUI App cask publication path." },
 ];
 
@@ -340,8 +360,10 @@ const surfaces = [
   { id: "governance-docs", kind: "markdown-doc", participants: ["installer", "agent-reader", "maintainer"], value: "License, security, trademark, acceptable use, provider compliance, contribution, issue, and PR boundaries.", discoverability: { fromMinimalEntrypoint: true, path: "LICENSE, SECURITY.md, TRADEMARK.md, ACCEPTABLE_USE.md, PROVIDER_COMPLIANCE.md, CONTRIBUTING.md, .github/*" }, maturity: "stable" },
   { id: "tap-manifest", kind: "json-api", participants: ["agent-reader", "release-system"], value: "Machine-readable tap distribution index.", discoverability: { fromMinimalEntrypoint: true, path: files.tapManifest }, maturity: "stable" },
   { id: "formula-buildchain", kind: "config", participants: ["installer", "agent-reader"], value: "Homebrew formula for Buildchain release artifacts.", discoverability: { fromMinimalEntrypoint: true, path: files.formulaBuildchain }, maturity: "stable" },
+  { id: "managed-cli-formula", kind: "config", participants: ["installer", "agent-reader", "maintainer", "release-system"], value: "Release-passport-gated standalone Kungfu CLI Formula projection with exact Homebrew update and verification argv; planned until official CLI artifacts exist.", discoverability: { fromMinimalEntrypoint: true, path: `${files.tapManifest}, ${files.kungfuCliFormulaGuide}, Formula/kungfu.rb` }, maturity: "prepared" },
   { id: "managed-cask-support", kind: "config", participants: ["installer", "agent-reader", "maintainer", "release-system"], value: "Prepared Homebrew cask projection path for the Kungfu GUI App; planned entries are not installable until materialized from an upstream release passport.", discoverability: { fromMinimalEntrypoint: true, path: `${files.tapManifest}, ${files.kungfuGuiCaskGuide}, Casks/*.rb` }, maturity: "prepared" },
   { id: "buildchain-runtime-lock", kind: "json-api", participants: ["agent-reader", "release-system"], value: "Accepted Buildchain @v2 stable and @v2-alpha runtime contract locks.", discoverability: { fromMinimalEntrypoint: true, path: `${files.buildchainContractLock}, ${files.buildchainAlphaContractLock}` }, maturity: "stable" },
+  { id: "buildchain-package-manager-contract", kind: "config", participants: ["agent-reader", "release-system", "maintainer"], value: "Private zero-dependency pnpm consumer declaration used only for Buildchain package-manager detection and runtime bootstrap.", discoverability: { fromMinimalEntrypoint: true, path: files.packageManagerContract }, maturity: "stable" },
   { id: "buildchain-lifecycle", kind: "config", participants: ["maintainer", "release-system"], value: "Buildchain lifecycle declaration and GitHub workflow callers.", discoverability: { fromMinimalEntrypoint: true, path: "buildchain.toml, .github/workflows/*.yml" }, maturity: "stable" },
   { id: "tap-verification", kind: "cli-command", participants: ["maintainer", "release-system", "agent-reader"], value: "Repository self-check for tap metadata, upstream release passports, KFD witnesses, and declared control surfaces.", discoverability: { fromMinimalEntrypoint: true, path: "node scripts/check-tap.mjs" }, maturity: "stable" },
   { id: "managed-product-updater", kind: "cli-command", participants: ["maintainer", "release-system", "agent-reader"], value: "Dry-run, check, or write managed formula and cask updates from upstream release passports, including compatible Buildchain @v2 lock refresh and automation PR auto-merge.", discoverability: { fromMinimalEntrypoint: true, path: "node scripts/update-managed-products.mjs --help, .github/workflows/managed-product-updates.yml" }, maturity: "stable" },
@@ -378,10 +400,17 @@ const kfd3Interface = {
   transparentConstraints: [
     {
       id: "upstream-passport-authority",
-      appliesTo: ["tap-manifest", "formula-buildchain", "managed-cask-support"],
+      appliesTo: ["tap-manifest", "formula-buildchain", "managed-cli-formula", "managed-cask-support"],
       restriction: "The tap may project upstream release facts but cannot become the upstream artifact authority.",
       rationale: "Release artifacts and KFD status are owned by upstream release passports.",
       reviewPath: files.tapCheckScript,
+    },
+    {
+      id: "planned-cli-formula-is-not-installable",
+      appliesTo: ["managed-cli-formula", "tap-verification"],
+      restriction: "The planned Kungfu CLI Formula must not create Formula/kungfu.rb until an exact official release passport materializes it into installable entries.",
+      rationale: "Homebrew metadata must not advertise unpublished or unverifiable standalone CLI bytes.",
+      reviewPath: files.kungfuCliFormulaGuide,
     },
     {
       id: "planned-cask-is-not-installable",
@@ -392,7 +421,7 @@ const kfd3Interface = {
     },
     {
       id: "floating-runtime-lock",
-      appliesTo: ["buildchain-runtime-lock", "buildchain-lifecycle", "managed-product-updater"],
+      appliesTo: ["buildchain-runtime-lock", "buildchain-package-manager-contract", "buildchain-lifecycle", "managed-product-updater"],
       restriction: "Buildchain @v2 and @v2-alpha movement must pass their channel-specific consumer contract lock before lifecycle verification.",
       rationale: "Floating refs are useful only when incompatible runtime contract drift fails closed.",
       reviewPath: files.tapCheckWorkflow,
@@ -426,6 +455,7 @@ const kfd3Interface = {
       participants: ["maintainer", "release-system", "agent-reader"],
       choices: [
         { id: "update-entry", label: "Run the managed updater, then regenerate KFD witnesses" },
+        { id: "materialize-kungfu-formula", label: "Materialize the standalone Kungfu CLI Formula from an exact release passport" },
         { id: "materialize-kungfu-cask", label: "Materialize the Kungfu GUI cask from a release passport" },
         { id: "verify", label: "Run node scripts/check-tap.mjs or Buildchain lifecycle verify" },
       ],
@@ -470,6 +500,7 @@ const kfd3Witness = {
       pointer(files.agents, "Agent routing entrypoint."),
       pointer(files.docsMap, "Documentation map."),
       pointer(files.kungfuGuiCaskGuide, "Kungfu GUI cask publication guide."),
+      pointer(files.kungfuCliFormulaGuide, "Kungfu standalone CLI Formula publication guide."),
       pointer(files.tapManifest, "Machine-readable tap entry facts."),
       pointer(files.managedProductUpdateScript, "Managed update command."),
       pointer(files.managedProductUpdatesWorkflow, "Managed update workflow."),
@@ -478,6 +509,7 @@ const kfd3Witness = {
     transparentConstraints: [
       pointer(files.tapCheckScript, "Closed-world verification command."),
       pointer(files.kungfuGuiCaskGuide, "Planned cask materialization boundary."),
+      pointer(files.kungfuCliFormulaGuide, "Planned CLI Formula materialization and exact argv boundary."),
       pointer(files.tapCheckWorkflow, "Buildchain reusable workflow trust gate."),
       pointer(files.buildchainValidateWorkflow, "Config and lock presence validation."),
       pointer(files.managedProductUpdateScript, "Managed update lock refresh gate."),
@@ -488,6 +520,7 @@ const kfd3Witness = {
       pointer(files.docsMap, "Inspection path."),
       pointer(files.contributing, "Maintenance path."),
       pointer(files.kungfuGuiCaskGuide, "Kungfu GUI cask publication path."),
+      pointer(files.kungfuCliFormulaGuide, "Kungfu CLI Formula publication path."),
       pointer(files.managedProductUpdateScript, "Managed update path."),
       pointer(files.kfd2ReleaseClaims, "Public trust claim path."),
     ],
@@ -496,6 +529,7 @@ const kfd3Witness = {
       pointer(files.agents),
       pointer(files.docsMap),
       pointer(files.kungfuGuiCaskGuide),
+      pointer(files.kungfuCliFormulaGuide),
       pointer(files.contributing),
       pointer(files.kfdReadme),
     ],

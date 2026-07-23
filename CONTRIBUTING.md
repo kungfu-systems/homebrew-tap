@@ -31,6 +31,16 @@ node scripts/update-kfd-witnesses.mjs
 node scripts/check-tap.mjs
 ```
 
+The `kungfu` token is shared by a planned CLI Formula and GUI Cask. Always
+select the entry type explicitly:
+
+```sh
+node scripts/update-managed-products.mjs \
+  --package kungfu \
+  --type formula \
+  --release-passport <exact-kungfu-release-passport-url>
+```
+
 To materialize the planned Kungfu GUI App cask, follow
 [`docs/KUNGFU-GUI-CASK.md`](docs/KUNGFU-GUI-CASK.md). Do not add
 `Casks/kungfu.rb` by hand without moving the manifest entry from
@@ -52,6 +62,10 @@ buildchain lifecycle run verify --required
 ```
 
 CI also verifies `buildchain.contract-lock.json` before the lifecycle check.
+The private zero-dependency `package.json` exists only to declare
+`pnpm@11.7.0` to Buildchain's package-manager trust gate and isolated runtime
+bootstrap; local checks do not require `pnpm install` and no lockfile is
+expected.
 When Buildchain `@v2` advances, the managed updater may refresh the lock only
 when the compatibility digest still matches the accepted major-compatible
 policy; incompatible drift fails closed.

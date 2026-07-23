@@ -9,6 +9,7 @@ import crypto from "node:crypto";
 const cwd = process.cwd();
 const manifestPath = path.join(cwd, "tap-manifest.json");
 const contractLockPath = path.join(cwd, "buildchain.contract-lock.json");
+const packageConfigPath = path.join(cwd, "package.json");
 const kfdPaths = {
   readme: "kfd/README.md",
   kfd1ContractWorld: "kfd/kfd-1.contract-world.json",
@@ -125,6 +126,7 @@ function actualControlFiles() {
     "buildchain.alpha-contract-lock.json",
     "buildchain.contract-lock.json",
     "buildchain.toml",
+    "package.json",
     "tap-manifest.json",
     ...listFiles("Casks").filter((file) => file.endsWith(".rb")),
     ...listFiles(".github").filter((file) => file.endsWith(".yml") || file.endsWith(".md")),
@@ -319,7 +321,7 @@ function verifyKfd() {
     }
     requirePath(entrypoint.surface, `KFD-3 entrypoint ${entrypoint.id}`);
   }
-  for (const requiredSurface of ["tap-manifest", "formula-buildchain", "buildchain-runtime-lock", "tap-verification", "managed-product-updater", "managed-cask-support", "kfd-claims"]) {
+  for (const requiredSurface of ["tap-manifest", "formula-buildchain", "managed-cli-formula", "buildchain-runtime-lock", "tap-verification", "managed-product-updater", "managed-cask-support", "kfd-claims"]) {
     if (!surfaceIds.has(requiredSurface)) {
       fail(`KFD-3 collaboration interface missing surface ${requiredSurface}`);
     }
@@ -375,6 +377,7 @@ async function fetchJson(url) {
 
 const manifest = readJson(manifestPath);
 const contractLock = readJson(contractLockPath);
+const packageConfig = readJson(packageConfigPath);
 const buildchain = manifest.entries.find(
   (entry) => entry.type === "formula" && entry.name === "buildchain"
 );
@@ -393,6 +396,13 @@ if (!/^[0-9a-f]{40}$/i.test(contractLock.buildchain?.resolvedSha || "")) {
 }
 if (!Array.isArray(contractLock.buildchain?.surfaces) || contractLock.buildchain.surfaces.length === 0) {
   fail("buildchain.contract-lock.json must record accepted Buildchain contract surfaces");
+}
+if (
+  packageConfig.name !== "@kungfu-systems/homebrew-tap"
+  || packageConfig.private !== true
+  || packageConfig.packageManager !== "pnpm@11.7.0"
+) {
+  fail("package.json must retain the private zero-dependency Buildchain pnpm@11.7.0 consumer contract");
 }
 
 verifyManifest(manifest);

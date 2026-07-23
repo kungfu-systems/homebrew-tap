@@ -36,6 +36,7 @@
         "buildchain.alpha-contract-lock.json",
         "buildchain.contract-lock.json",
         "buildchain.toml",
+        "docs/KUNGFU-CLI-FORMULA.md",
         "docs/KUNGFU-GUI-CASK.md",
         "docs/MAP.md",
         "kfd/README.md",
@@ -44,9 +45,11 @@
         "kfd/kfd-2.release-claims.json",
         "kfd/kfd-3.collaboration-interface.json",
         "kfd/kfd-3.witness.json",
+        "package.json",
         "scripts/check-tap.mjs",
         "scripts/update-kfd-witnesses.mjs",
         "scripts/update-managed-products.mjs",
+        "scripts/update-managed-products.test.mjs",
         "tap-manifest.json"
       ],
       "projectionSurfaces": [
@@ -135,6 +138,17 @@
         "release-system"
       ],
       "purpose": "Update managed formulae from upstream release passports and refresh compatible Buildchain runtime locks."
+    },
+    {
+      "id": "kungfu-cli-formula-guide",
+      "surface": "docs/KUNGFU-CLI-FORMULA.md",
+      "participants": [
+        "installer",
+        "agent-reader",
+        "maintainer",
+        "release-system"
+      ],
+      "purpose": "Prepare or audit the standalone Kungfu CLI Formula publication path."
     },
     {
       "id": "kungfu-gui-cask-guide",
@@ -235,6 +249,22 @@
       "maturity": "stable"
     },
     {
+      "id": "managed-cli-formula",
+      "kind": "config",
+      "participants": [
+        "installer",
+        "agent-reader",
+        "maintainer",
+        "release-system"
+      ],
+      "value": "Release-passport-gated standalone Kungfu CLI Formula projection with exact Homebrew update and verification argv; planned until official CLI artifacts exist.",
+      "discoverability": {
+        "fromMinimalEntrypoint": true,
+        "path": "tap-manifest.json, docs/KUNGFU-CLI-FORMULA.md, Formula/kungfu.rb"
+      },
+      "maturity": "prepared"
+    },
+    {
       "id": "managed-cask-support",
       "kind": "config",
       "participants": [
@@ -261,6 +291,21 @@
       "discoverability": {
         "fromMinimalEntrypoint": true,
         "path": "buildchain.contract-lock.json, buildchain.alpha-contract-lock.json"
+      },
+      "maturity": "stable"
+    },
+    {
+      "id": "buildchain-package-manager-contract",
+      "kind": "config",
+      "participants": [
+        "agent-reader",
+        "release-system",
+        "maintainer"
+      ],
+      "value": "Private zero-dependency pnpm consumer declaration used only for Buildchain package-manager detection and runtime bootstrap.",
+      "discoverability": {
+        "fromMinimalEntrypoint": true,
+        "path": "package.json"
       },
       "maturity": "stable"
     },
@@ -330,11 +375,22 @@
       "appliesTo": [
         "tap-manifest",
         "formula-buildchain",
+        "managed-cli-formula",
         "managed-cask-support"
       ],
       "restriction": "The tap may project upstream release facts but cannot become the upstream artifact authority.",
       "rationale": "Release artifacts and KFD status are owned by upstream release passports.",
       "reviewPath": "scripts/check-tap.mjs"
+    },
+    {
+      "id": "planned-cli-formula-is-not-installable",
+      "appliesTo": [
+        "managed-cli-formula",
+        "tap-verification"
+      ],
+      "restriction": "The planned Kungfu CLI Formula must not create Formula/kungfu.rb until an exact official release passport materializes it into installable entries.",
+      "rationale": "Homebrew metadata must not advertise unpublished or unverifiable standalone CLI bytes.",
+      "reviewPath": "docs/KUNGFU-CLI-FORMULA.md"
     },
     {
       "id": "planned-cask-is-not-installable",
@@ -350,6 +406,7 @@
       "id": "floating-runtime-lock",
       "appliesTo": [
         "buildchain-runtime-lock",
+        "buildchain-package-manager-contract",
         "buildchain-lifecycle",
         "managed-product-updater"
       ],
@@ -408,6 +465,10 @@
           "label": "Run the managed updater, then regenerate KFD witnesses"
         },
         {
+          "id": "materialize-kungfu-formula",
+          "label": "Materialize the standalone Kungfu CLI Formula from an exact release passport"
+        },
+        {
           "id": "materialize-kungfu-cask",
           "label": "Materialize the Kungfu GUI cask from a release passport"
         },
@@ -455,6 +516,7 @@
       "buildchain.alpha-contract-lock.json",
       "buildchain.contract-lock.json",
       "buildchain.toml",
+      "docs/KUNGFU-CLI-FORMULA.md",
       "docs/KUNGFU-GUI-CASK.md",
       "docs/MAP.md",
       "kfd/README.md",
@@ -463,9 +525,11 @@
       "kfd/kfd-2.release-claims.json",
       "kfd/kfd-3.collaboration-interface.json",
       "kfd/kfd-3.witness.json",
+      "package.json",
       "scripts/check-tap.mjs",
       "scripts/update-kfd-witnesses.mjs",
       "scripts/update-managed-products.mjs",
+      "scripts/update-managed-products.test.mjs",
       "tap-manifest.json"
     ]
   }

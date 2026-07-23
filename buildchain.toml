@@ -5,4 +5,4 @@ type = "package"
 name = "homebrew-tap"
 
 [lifecycle.verify]
-command = "node scripts/check-tap.mjs"
+command = "node --test scripts/update-managed-products.test.mjs && node scripts/check-tap.mjs"
