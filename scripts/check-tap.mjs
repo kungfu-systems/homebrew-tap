@@ -400,9 +400,9 @@ if (!Array.isArray(contractLock.buildchain?.surfaces) || contractLock.buildchain
 if (
   packageConfig.name !== "@kungfu-systems/homebrew-tap"
   || packageConfig.private !== true
-  || packageConfig.packageManager !== "npm@11.7.0"
+  || packageConfig.packageManager !== "pnpm@11.7.0"
 ) {
-  fail("package.json must retain the private zero-dependency Buildchain npm@11.7.0 consumer contract");
+  fail("package.json must retain the private zero-dependency Buildchain pnpm@11.7.0 consumer contract");
 }
 
 verifyManifest(manifest);

@@ -40,9 +40,10 @@ contract lock:
 buildchain.contract-lock.json
 ```
 
-The private zero-dependency `package.json` pins `npm@11.7.0` for Buildchain
-consumer detection only. Do not add dependencies or require an install step
-for the repository's direct Node verification scripts.
+The private zero-dependency `package.json` pins `pnpm@11.7.0` for Buildchain
+consumer detection and its isolated runtime bootstrap only. Do not add
+dependencies, a lockfile, or require an install step for the repository's
+direct Node verification scripts.
 
 The `Tap Check` workflow calls Buildchain's reusable workflow, which checks this
 lock before running the tap lifecycle verification.

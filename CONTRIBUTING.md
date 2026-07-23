@@ -63,8 +63,9 @@ buildchain lifecycle run verify --required
 
 CI also verifies `buildchain.contract-lock.json` before the lifecycle check.
 The private zero-dependency `package.json` exists only to declare
-`npm@11.7.0` to Buildchain's package-manager trust gate; local checks do not
-require `npm install`.
+`pnpm@11.7.0` to Buildchain's package-manager trust gate and isolated runtime
+bootstrap; local checks do not require `pnpm install` and no lockfile is
+expected.
 When Buildchain `@v2` advances, the managed updater may refresh the lock only
 when the compatibility digest still matches the accepted major-compatible
 policy; incompatible drift fails closed.

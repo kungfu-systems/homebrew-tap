@@ -9,7 +9,7 @@
   },
   "contractWorld": {
     "schemaId": "https://kfd.libkungfu.dev/schemas/kfd-1/contract-world.schema.json",
-    "digest": "sha256:b757586aeb4865e463fe1c62f33dca84a7813176af13819904c4a124dc84805b"
+    "digest": "sha256:c0f8f4590ad99fee48fcd4f488dd54acce4af0e770dbbfb5f9bec2eb431c1c8e"
   },
   "evidence": [
     {
@@ -40,7 +40,7 @@
     {
       "kind": "file",
       "path": "package.json",
-      "sha256": "cf140b2c5a26bc9cef01ba743aaec74cb4a9d79e949d3c857367efac623e7dd0"
+      "sha256": "7e9a5abfc694716ef4fdafbcf5618acd32d3c485cb119ba18ddb27daa8ad196c"
     },
     {
       "kind": "file",
@@ -60,12 +60,12 @@
     {
       "kind": "file",
       "path": "scripts/check-tap.mjs",
-      "sha256": "8682a773e540bdae7fc2cd0bd0a9c656c9455695a791c990d9926454fcfcd13f"
+      "sha256": "9e95a037b9849d109f18d462fc4694a138f74be3a9dea4b6a7be3c9a2c2fbf64"
     },
     {
       "kind": "file",
       "path": "kfd/kfd-1.contract-world.json",
-      "sha256": "b757586aeb4865e463fe1c62f33dca84a7813176af13819904c4a124dc84805b"
+      "sha256": "c0f8f4590ad99fee48fcd4f488dd54acce4af0e770dbbfb5f9bec2eb431c1c8e"
     }
   ],
   "closure": {

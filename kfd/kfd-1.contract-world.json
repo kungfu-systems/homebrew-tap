@@ -42,7 +42,7 @@
     {
       "id": "buildchain-package-manager-contract",
       "class": "integration-time",
-      "description": "Private zero-dependency npm consumer declaration required by the Buildchain trust gate.",
+      "description": "Private zero-dependency pnpm consumer declaration required by the Buildchain trust gate and runtime bootstrap.",
       "path": "package.json"
     },
     {

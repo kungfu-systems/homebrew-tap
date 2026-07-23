@@ -46,8 +46,9 @@ The Buildchain floating runtime is also not accepted blindly. The tap records
 the reviewed `@v2` runtime contract in `buildchain.contract-lock.json`; CI
 checks that contract before running repository lifecycle verification.
 `package.json` is a private, zero-dependency consumer declaration that pins
-`npm@11.7.0` solely for Buildchain package-manager detection; repository checks
-remain direct Node scripts and require no dependency installation.
+`pnpm@11.7.0` solely for Buildchain package-manager detection and its isolated
+runtime bootstrap; repository checks remain direct Node scripts and require no
+dependency installation.
 The managed updater can refresh the lock only when the compatibility digest
 matches the accepted major-compatible policy. Routine automation PRs are
 auto-merged only through GitHub repository requirements; incompatible drift

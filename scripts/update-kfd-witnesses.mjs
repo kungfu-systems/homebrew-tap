@@ -169,7 +169,7 @@ const kfd1ContractWorld = {
     {
       id: "buildchain-package-manager-contract",
       class: "integration-time",
-      description: "Private zero-dependency npm consumer declaration required by the Buildchain trust gate.",
+      description: "Private zero-dependency pnpm consumer declaration required by the Buildchain trust gate and runtime bootstrap.",
       path: files.packageManagerContract,
     },
     {
@@ -363,7 +363,7 @@ const surfaces = [
   { id: "managed-cli-formula", kind: "config", participants: ["installer", "agent-reader", "maintainer", "release-system"], value: "Release-passport-gated standalone Kungfu CLI Formula projection with exact Homebrew update and verification argv; planned until official CLI artifacts exist.", discoverability: { fromMinimalEntrypoint: true, path: `${files.tapManifest}, ${files.kungfuCliFormulaGuide}, Formula/kungfu.rb` }, maturity: "prepared" },
   { id: "managed-cask-support", kind: "config", participants: ["installer", "agent-reader", "maintainer", "release-system"], value: "Prepared Homebrew cask projection path for the Kungfu GUI App; planned entries are not installable until materialized from an upstream release passport.", discoverability: { fromMinimalEntrypoint: true, path: `${files.tapManifest}, ${files.kungfuGuiCaskGuide}, Casks/*.rb` }, maturity: "prepared" },
   { id: "buildchain-runtime-lock", kind: "json-api", participants: ["agent-reader", "release-system"], value: "Accepted Buildchain @v2 stable and @v2-alpha runtime contract locks.", discoverability: { fromMinimalEntrypoint: true, path: `${files.buildchainContractLock}, ${files.buildchainAlphaContractLock}` }, maturity: "stable" },
-  { id: "buildchain-package-manager-contract", kind: "config", participants: ["agent-reader", "release-system", "maintainer"], value: "Private zero-dependency npm consumer declaration used only for Buildchain package-manager detection.", discoverability: { fromMinimalEntrypoint: true, path: files.packageManagerContract }, maturity: "stable" },
+  { id: "buildchain-package-manager-contract", kind: "config", participants: ["agent-reader", "release-system", "maintainer"], value: "Private zero-dependency pnpm consumer declaration used only for Buildchain package-manager detection and runtime bootstrap.", discoverability: { fromMinimalEntrypoint: true, path: files.packageManagerContract }, maturity: "stable" },
   { id: "buildchain-lifecycle", kind: "config", participants: ["maintainer", "release-system"], value: "Buildchain lifecycle declaration and GitHub workflow callers.", discoverability: { fromMinimalEntrypoint: true, path: "buildchain.toml, .github/workflows/*.yml" }, maturity: "stable" },
   { id: "tap-verification", kind: "cli-command", participants: ["maintainer", "release-system", "agent-reader"], value: "Repository self-check for tap metadata, upstream release passports, KFD witnesses, and declared control surfaces.", discoverability: { fromMinimalEntrypoint: true, path: "node scripts/check-tap.mjs" }, maturity: "stable" },
   { id: "managed-product-updater", kind: "cli-command", participants: ["maintainer", "release-system", "agent-reader"], value: "Dry-run, check, or write managed formula and cask updates from upstream release passports, including compatible Buildchain @v2 lock refresh and automation PR auto-merge.", discoverability: { fromMinimalEntrypoint: true, path: "node scripts/update-managed-products.mjs --help, .github/workflows/managed-product-updates.yml" }, maturity: "stable" },

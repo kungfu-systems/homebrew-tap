@@ -302,7 +302,7 @@
         "release-system",
         "maintainer"
       ],
-      "value": "Private zero-dependency npm consumer declaration used only for Buildchain package-manager detection.",
+      "value": "Private zero-dependency pnpm consumer declaration used only for Buildchain package-manager detection and runtime bootstrap.",
       "discoverability": {
         "fromMinimalEntrypoint": true,
         "path": "package.json"

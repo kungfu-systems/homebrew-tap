@@ -9,11 +9,11 @@
   },
   "collaborationInterface": {
     "schemaId": "https://kfd.libkungfu.dev/schemas/kfd-3/collaboration-interface.schema.json",
-    "digest": "sha256:2b73c24b6ae17463e85d0531836569356947dec7ab216774ea85fa66ff8ee78b"
+    "digest": "sha256:31bb107313b37cda3f917aff9d86225fde366075ad5829c9d04c53f7f3bb3a05"
   },
   "sourceRegistry": {
     "path": "kfd/kfd-3.collaboration-interface.json",
-    "sha256": "2b73c24b6ae17463e85d0531836569356947dec7ab216774ea85fa66ff8ee78b"
+    "sha256": "31bb107313b37cda3f917aff9d86225fde366075ad5829c9d04c53f7f3bb3a05"
   },
   "evidence": {
     "minimalEntrypoints": [
@@ -24,12 +24,12 @@
       },
       {
         "path": "AGENTS.md",
-        "sha256": "edd9512cd73a72c432ef1ac7c1f0b5c16abd28029371b3b0ef0ac98eda650ef8",
+        "sha256": "dbe590c2c58be58da4d11e77eb17c679103f082e4480a82b19964c8937b3d7b4",
         "description": "Route agents to usage, repository map, contribution, and verification surfaces."
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "697f43e5e5bea5a9f0ea75f3a0cf826cc71678b32fcf9dab60959a9d349816c1",
+        "sha256": "086dcc0f5c16e39b775570bf27e2f0433af9bee15129ecfa0ea7808e42e19ae1",
         "description": "Find tap structure, checks, KFD claims, and governance documents."
       },
       {
@@ -66,12 +66,12 @@
       },
       {
         "path": "AGENTS.md",
-        "sha256": "edd9512cd73a72c432ef1ac7c1f0b5c16abd28029371b3b0ef0ac98eda650ef8",
+        "sha256": "dbe590c2c58be58da4d11e77eb17c679103f082e4480a82b19964c8937b3d7b4",
         "description": "Agent routing entrypoint."
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "697f43e5e5bea5a9f0ea75f3a0cf826cc71678b32fcf9dab60959a9d349816c1",
+        "sha256": "086dcc0f5c16e39b775570bf27e2f0433af9bee15129ecfa0ea7808e42e19ae1",
         "description": "Documentation map."
       },
       {
@@ -108,7 +108,7 @@
     "transparentConstraints": [
       {
         "path": "scripts/check-tap.mjs",
-        "sha256": "8682a773e540bdae7fc2cd0bd0a9c656c9455695a791c990d9926454fcfcd13f",
+        "sha256": "9e95a037b9849d109f18d462fc4694a138f74be3a9dea4b6a7be3c9a2c2fbf64",
         "description": "Closed-world verification command."
       },
       {
@@ -150,12 +150,12 @@
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "697f43e5e5bea5a9f0ea75f3a0cf826cc71678b32fcf9dab60959a9d349816c1",
+        "sha256": "086dcc0f5c16e39b775570bf27e2f0433af9bee15129ecfa0ea7808e42e19ae1",
         "description": "Inspection path."
       },
       {
         "path": "CONTRIBUTING.md",
-        "sha256": "cfc7735a74ffb995af5134415906234802796654dc8fbc8095736a4614e6bfc6",
+        "sha256": "dde4d9843e9247417cb9d3ef5d4dca20de2e16eca1f9151abb6c338c427840fd",
         "description": "Maintenance path."
       },
       {
@@ -175,7 +175,7 @@
       },
       {
         "path": "kfd/kfd-2.release-claims.json",
-        "sha256": "77c7c1b7b4f9ea2ed446aef92f9c0f34788def42255b354373e44cfc3bd0b9f7",
+        "sha256": "7894414813406f80c4c520bae87bf93e00feb05f477a2243e7104bc5783e3f8a",
         "description": "Public trust claim path."
       }
     ],
@@ -186,11 +186,11 @@
       },
       {
         "path": "AGENTS.md",
-        "sha256": "edd9512cd73a72c432ef1ac7c1f0b5c16abd28029371b3b0ef0ac98eda650ef8"
+        "sha256": "dbe590c2c58be58da4d11e77eb17c679103f082e4480a82b19964c8937b3d7b4"
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "697f43e5e5bea5a9f0ea75f3a0cf826cc71678b32fcf9dab60959a9d349816c1"
+        "sha256": "086dcc0f5c16e39b775570bf27e2f0433af9bee15129ecfa0ea7808e42e19ae1"
       },
       {
         "path": "docs/KUNGFU-GUI-CASK.md",
@@ -202,7 +202,7 @@
       },
       {
         "path": "CONTRIBUTING.md",
-        "sha256": "cfc7735a74ffb995af5134415906234802796654dc8fbc8095736a4614e6bfc6"
+        "sha256": "dde4d9843e9247417cb9d3ef5d4dca20de2e16eca1f9151abb6c338c427840fd"
       },
       {
         "path": "kfd/README.md",
