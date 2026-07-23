@@ -40,6 +40,12 @@
       "path": "buildchain.contract-lock.json"
     },
     {
+      "id": "buildchain-package-manager-contract",
+      "class": "integration-time",
+      "description": "Private zero-dependency npm consumer declaration required by the Buildchain trust gate.",
+      "path": "package.json"
+    },
+    {
       "id": "tap-verification",
       "class": "integration-time",
       "description": "Local and CI verification commands that reject formula, evidence, KFD, and workflow drift.",

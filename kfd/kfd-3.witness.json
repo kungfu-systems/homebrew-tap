@@ -9,11 +9,11 @@
   },
   "collaborationInterface": {
     "schemaId": "https://kfd.libkungfu.dev/schemas/kfd-3/collaboration-interface.schema.json",
-    "digest": "sha256:66998a927332082cf26baf78c897e83cdc374ef7bb293e4ea6a1f462c1462d0c"
+    "digest": "sha256:2b73c24b6ae17463e85d0531836569356947dec7ab216774ea85fa66ff8ee78b"
   },
   "sourceRegistry": {
     "path": "kfd/kfd-3.collaboration-interface.json",
-    "sha256": "66998a927332082cf26baf78c897e83cdc374ef7bb293e4ea6a1f462c1462d0c"
+    "sha256": "2b73c24b6ae17463e85d0531836569356947dec7ab216774ea85fa66ff8ee78b"
   },
   "evidence": {
     "minimalEntrypoints": [
@@ -24,12 +24,12 @@
       },
       {
         "path": "AGENTS.md",
-        "sha256": "8091dc27cfbe3ed1ec2fe79cde37c4bec32788368c4f303e25fb4b7d94f67809",
+        "sha256": "edd9512cd73a72c432ef1ac7c1f0b5c16abd28029371b3b0ef0ac98eda650ef8",
         "description": "Route agents to usage, repository map, contribution, and verification surfaces."
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "bd7f1bfe842a309a125e9added6d689f6829281eb85294bf2133fb9ac199f40f",
+        "sha256": "697f43e5e5bea5a9f0ea75f3a0cf826cc71678b32fcf9dab60959a9d349816c1",
         "description": "Find tap structure, checks, KFD claims, and governance documents."
       },
       {
@@ -66,12 +66,12 @@
       },
       {
         "path": "AGENTS.md",
-        "sha256": "8091dc27cfbe3ed1ec2fe79cde37c4bec32788368c4f303e25fb4b7d94f67809",
+        "sha256": "edd9512cd73a72c432ef1ac7c1f0b5c16abd28029371b3b0ef0ac98eda650ef8",
         "description": "Agent routing entrypoint."
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "bd7f1bfe842a309a125e9added6d689f6829281eb85294bf2133fb9ac199f40f",
+        "sha256": "697f43e5e5bea5a9f0ea75f3a0cf826cc71678b32fcf9dab60959a9d349816c1",
         "description": "Documentation map."
       },
       {
@@ -108,7 +108,7 @@
     "transparentConstraints": [
       {
         "path": "scripts/check-tap.mjs",
-        "sha256": "f741382618c3b39844521e2f7734711ba9dcf2e6397ec8e2d199cd95c3323d50",
+        "sha256": "8682a773e540bdae7fc2cd0bd0a9c656c9455695a791c990d9926454fcfcd13f",
         "description": "Closed-world verification command."
       },
       {
@@ -123,7 +123,7 @@
       },
       {
         "path": ".github/workflows/tap-check.yml",
-        "sha256": "4428d71b77ced869bb13b80811d00406fcea9bed90387746291e5bdab26c396b",
+        "sha256": "2086683edd1f98922f1cc993f50d4e8ba66e28dffe78f2d7cdf3b596059c71ea",
         "description": "Buildchain reusable workflow trust gate."
       },
       {
@@ -150,12 +150,12 @@
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "bd7f1bfe842a309a125e9added6d689f6829281eb85294bf2133fb9ac199f40f",
+        "sha256": "697f43e5e5bea5a9f0ea75f3a0cf826cc71678b32fcf9dab60959a9d349816c1",
         "description": "Inspection path."
       },
       {
         "path": "CONTRIBUTING.md",
-        "sha256": "d8ce8b63ee9ef4fb92dbebabcc377dfa282eb01b68eda076e27cfe76a2c07f24",
+        "sha256": "cfc7735a74ffb995af5134415906234802796654dc8fbc8095736a4614e6bfc6",
         "description": "Maintenance path."
       },
       {
@@ -175,7 +175,7 @@
       },
       {
         "path": "kfd/kfd-2.release-claims.json",
-        "sha256": "ad8560ebffe1a2259ce6aac1e54d9c9e69ac842673d808abe47b2a49d1df4f9d",
+        "sha256": "77c7c1b7b4f9ea2ed446aef92f9c0f34788def42255b354373e44cfc3bd0b9f7",
         "description": "Public trust claim path."
       }
     ],
@@ -186,11 +186,11 @@
       },
       {
         "path": "AGENTS.md",
-        "sha256": "8091dc27cfbe3ed1ec2fe79cde37c4bec32788368c4f303e25fb4b7d94f67809"
+        "sha256": "edd9512cd73a72c432ef1ac7c1f0b5c16abd28029371b3b0ef0ac98eda650ef8"
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "bd7f1bfe842a309a125e9added6d689f6829281eb85294bf2133fb9ac199f40f"
+        "sha256": "697f43e5e5bea5a9f0ea75f3a0cf826cc71678b32fcf9dab60959a9d349816c1"
       },
       {
         "path": "docs/KUNGFU-GUI-CASK.md",
@@ -202,7 +202,7 @@
       },
       {
         "path": "CONTRIBUTING.md",
-        "sha256": "d8ce8b63ee9ef4fb92dbebabcc377dfa282eb01b68eda076e27cfe76a2c07f24"
+        "sha256": "cfc7735a74ffb995af5134415906234802796654dc8fbc8095736a4614e6bfc6"
       },
       {
         "path": "kfd/README.md",
@@ -260,6 +260,7 @@
       "kfd/kfd-2.release-claims.json",
       "kfd/kfd-3.collaboration-interface.json",
       "kfd/kfd-3.witness.json",
+      "package.json",
       "scripts/check-tap.mjs",
       "scripts/update-kfd-witnesses.mjs",
       "scripts/update-managed-products.mjs",

@@ -9,7 +9,7 @@
   },
   "contractWorld": {
     "schemaId": "https://kfd.libkungfu.dev/schemas/kfd-1/contract-world.schema.json",
-    "digest": "sha256:298d8fe70dfa7ceb323838e54e62d126ec097124eac41ff0930c233391453b87"
+    "digest": "sha256:b757586aeb4865e463fe1c62f33dca84a7813176af13819904c4a124dc84805b"
   },
   "evidence": [
     {
@@ -39,6 +39,11 @@
     },
     {
       "kind": "file",
+      "path": "package.json",
+      "sha256": "cf140b2c5a26bc9cef01ba743aaec74cb4a9d79e949d3c857367efac623e7dd0"
+    },
+    {
+      "kind": "file",
       "path": ".github/workflows/managed-product-updates.yml",
       "sha256": "bf93a6c91ccb8656c4c45c6543ba7b18b8fc961481915fda301f63cbf5bcde03"
     },
@@ -50,17 +55,17 @@
     {
       "kind": "file",
       "path": ".github/workflows/tap-check.yml",
-      "sha256": "4428d71b77ced869bb13b80811d00406fcea9bed90387746291e5bdab26c396b"
+      "sha256": "2086683edd1f98922f1cc993f50d4e8ba66e28dffe78f2d7cdf3b596059c71ea"
     },
     {
       "kind": "file",
       "path": "scripts/check-tap.mjs",
-      "sha256": "f741382618c3b39844521e2f7734711ba9dcf2e6397ec8e2d199cd95c3323d50"
+      "sha256": "8682a773e540bdae7fc2cd0bd0a9c656c9455695a791c990d9926454fcfcd13f"
     },
     {
       "kind": "file",
       "path": "kfd/kfd-1.contract-world.json",
-      "sha256": "298d8fe70dfa7ceb323838e54e62d126ec097124eac41ff0930c233391453b87"
+      "sha256": "b757586aeb4865e463fe1c62f33dca84a7813176af13819904c4a124dc84805b"
     }
   ],
   "closure": {
@@ -92,6 +97,7 @@
       "kfd/kfd-2.release-claims.json",
       "kfd/kfd-3.collaboration-interface.json",
       "kfd/kfd-3.witness.json",
+      "package.json",
       "scripts/check-tap.mjs",
       "scripts/update-kfd-witnesses.mjs",
       "scripts/update-managed-products.mjs",

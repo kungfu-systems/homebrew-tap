@@ -32,6 +32,7 @@ const files = {
   issueTemplateConfig: ".github/ISSUE_TEMPLATE/config.yml",
   prTemplate: ".github/pull_request_template.md",
   tapManifest: "tap-manifest.json",
+  packageManagerContract: "package.json",
   formulaBuildchain: "Formula/buildchain.rb",
   buildchainConfig: "buildchain.toml",
   buildchainAlphaContractLock: "buildchain.alpha-contract-lock.json",
@@ -166,6 +167,12 @@ const kfd1ContractWorld = {
       path: files.buildchainContractLock,
     },
     {
+      id: "buildchain-package-manager-contract",
+      class: "integration-time",
+      description: "Private zero-dependency npm consumer declaration required by the Buildchain trust gate.",
+      path: files.packageManagerContract,
+    },
+    {
       id: "tap-verification",
       class: "integration-time",
       description: "Local and CI verification commands that reject formula, evidence, KFD, and workflow drift.",
@@ -203,6 +210,7 @@ const kfd1Witness = {
     { kind: "file", path: files.kungfuCliFormulaGuide, sha256: sha256File(files.kungfuCliFormulaGuide) },
     { kind: "file", path: files.kungfuGuiCaskGuide, sha256: sha256File(files.kungfuGuiCaskGuide) },
     { kind: "file", path: files.buildchainContractLock, sha256: sha256File(files.buildchainContractLock) },
+    { kind: "file", path: files.packageManagerContract, sha256: sha256File(files.packageManagerContract) },
     { kind: "file", path: files.managedProductUpdatesWorkflow, sha256: sha256File(files.managedProductUpdatesWorkflow) },
     { kind: "file", path: files.managedProductUpdateScript, sha256: sha256File(files.managedProductUpdateScript) },
     { kind: "file", path: files.tapCheckWorkflow, sha256: sha256File(files.tapCheckWorkflow) },
@@ -270,6 +278,7 @@ const kfd2Claims = {
       source: { kind: "file", path: files.buildchainContractLock, sha256: sha256File(files.buildchainContractLock) },
       evidence: [
         evidencePointer(files.buildchainContractLock, "Accepted Buildchain @v2 contract digest and breaking-surface set."),
+        evidencePointer(files.packageManagerContract, "Exact zero-dependency package-manager declaration consumed by the Buildchain trust gate."),
         evidencePointer(files.tapCheckWorkflow, "Tap Check calls the Buildchain reusable workflow with buildchain-contract-lock-path."),
         evidencePointer(files.buildchainValidateWorkflow, "Buildchain Validate rejects a missing contract lock."),
       ],
@@ -354,6 +363,7 @@ const surfaces = [
   { id: "managed-cli-formula", kind: "config", participants: ["installer", "agent-reader", "maintainer", "release-system"], value: "Release-passport-gated standalone Kungfu CLI Formula projection with exact Homebrew update and verification argv; planned until official CLI artifacts exist.", discoverability: { fromMinimalEntrypoint: true, path: `${files.tapManifest}, ${files.kungfuCliFormulaGuide}, Formula/kungfu.rb` }, maturity: "prepared" },
   { id: "managed-cask-support", kind: "config", participants: ["installer", "agent-reader", "maintainer", "release-system"], value: "Prepared Homebrew cask projection path for the Kungfu GUI App; planned entries are not installable until materialized from an upstream release passport.", discoverability: { fromMinimalEntrypoint: true, path: `${files.tapManifest}, ${files.kungfuGuiCaskGuide}, Casks/*.rb` }, maturity: "prepared" },
   { id: "buildchain-runtime-lock", kind: "json-api", participants: ["agent-reader", "release-system"], value: "Accepted Buildchain @v2 stable and @v2-alpha runtime contract locks.", discoverability: { fromMinimalEntrypoint: true, path: `${files.buildchainContractLock}, ${files.buildchainAlphaContractLock}` }, maturity: "stable" },
+  { id: "buildchain-package-manager-contract", kind: "config", participants: ["agent-reader", "release-system", "maintainer"], value: "Private zero-dependency npm consumer declaration used only for Buildchain package-manager detection.", discoverability: { fromMinimalEntrypoint: true, path: files.packageManagerContract }, maturity: "stable" },
   { id: "buildchain-lifecycle", kind: "config", participants: ["maintainer", "release-system"], value: "Buildchain lifecycle declaration and GitHub workflow callers.", discoverability: { fromMinimalEntrypoint: true, path: "buildchain.toml, .github/workflows/*.yml" }, maturity: "stable" },
   { id: "tap-verification", kind: "cli-command", participants: ["maintainer", "release-system", "agent-reader"], value: "Repository self-check for tap metadata, upstream release passports, KFD witnesses, and declared control surfaces.", discoverability: { fromMinimalEntrypoint: true, path: "node scripts/check-tap.mjs" }, maturity: "stable" },
   { id: "managed-product-updater", kind: "cli-command", participants: ["maintainer", "release-system", "agent-reader"], value: "Dry-run, check, or write managed formula and cask updates from upstream release passports, including compatible Buildchain @v2 lock refresh and automation PR auto-merge.", discoverability: { fromMinimalEntrypoint: true, path: "node scripts/update-managed-products.mjs --help, .github/workflows/managed-product-updates.yml" }, maturity: "stable" },
@@ -411,7 +421,7 @@ const kfd3Interface = {
     },
     {
       id: "floating-runtime-lock",
-      appliesTo: ["buildchain-runtime-lock", "buildchain-lifecycle", "managed-product-updater"],
+      appliesTo: ["buildchain-runtime-lock", "buildchain-package-manager-contract", "buildchain-lifecycle", "managed-product-updater"],
       restriction: "Buildchain @v2 and @v2-alpha movement must pass their channel-specific consumer contract lock before lifecycle verification.",
       rationale: "Floating refs are useful only when incompatible runtime contract drift fails closed.",
       reviewPath: files.tapCheckWorkflow,

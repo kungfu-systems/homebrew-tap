@@ -45,6 +45,7 @@
         "kfd/kfd-2.release-claims.json",
         "kfd/kfd-3.collaboration-interface.json",
         "kfd/kfd-3.witness.json",
+        "package.json",
         "scripts/check-tap.mjs",
         "scripts/update-kfd-witnesses.mjs",
         "scripts/update-managed-products.mjs",
@@ -294,6 +295,21 @@
       "maturity": "stable"
     },
     {
+      "id": "buildchain-package-manager-contract",
+      "kind": "config",
+      "participants": [
+        "agent-reader",
+        "release-system",
+        "maintainer"
+      ],
+      "value": "Private zero-dependency npm consumer declaration used only for Buildchain package-manager detection.",
+      "discoverability": {
+        "fromMinimalEntrypoint": true,
+        "path": "package.json"
+      },
+      "maturity": "stable"
+    },
+    {
       "id": "buildchain-lifecycle",
       "kind": "config",
       "participants": [
@@ -390,6 +406,7 @@
       "id": "floating-runtime-lock",
       "appliesTo": [
         "buildchain-runtime-lock",
+        "buildchain-package-manager-contract",
         "buildchain-lifecycle",
         "managed-product-updater"
       ],
@@ -508,6 +525,7 @@
       "kfd/kfd-2.release-claims.json",
       "kfd/kfd-3.collaboration-interface.json",
       "kfd/kfd-3.witness.json",
+      "package.json",
       "scripts/check-tap.mjs",
       "scripts/update-kfd-witnesses.mjs",
       "scripts/update-managed-products.mjs",

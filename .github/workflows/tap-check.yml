@@ -31,9 +31,10 @@ jobs:
         tap-manifest.json
         buildchain.alpha-contract-lock.json
         buildchain.contract-lock.json
+        package.json
         Formula
         Casks
         docs
         kfd
       expected-artifacts-json: >-
-        {"requiredPaths":["tap-manifest.json","buildchain.alpha-contract-lock.json","buildchain.contract-lock.json","Formula/buildchain.rb","docs/MAP.md","kfd/kfd-1.witness.json","kfd/kfd-2.release-claims.json","kfd/kfd-3.witness.json"]}
+        {"requiredPaths":["tap-manifest.json","buildchain.alpha-contract-lock.json","buildchain.contract-lock.json","package.json","Formula/buildchain.rb","docs/MAP.md","kfd/kfd-1.witness.json","kfd/kfd-2.release-claims.json","kfd/kfd-3.witness.json"]}
