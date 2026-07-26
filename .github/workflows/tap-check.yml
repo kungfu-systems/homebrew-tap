@@ -21,6 +21,7 @@ jobs:
       buildchain-contract-compatibility-policy: major-compatible
       buildchain-contract-drift-issue-mode: compatible-and-breaking
       runner-preset: custom
+      untrusted-policy: skip
       platforms-json: >-
         [{"id":"linux-x64","name":"Linux x64","runner":"[\"ubuntu-24.04\"]"}]
       require-build: false

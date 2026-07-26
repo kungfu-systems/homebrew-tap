@@ -136,7 +136,7 @@
           "pointer": {
             "kind": "file",
             "path": ".github/workflows/tap-check.yml",
-            "sha256": "9f4c8945bde41b50a1d862fb83afe5b00d8ae2097472c86de1577bcf59e2fc7e"
+            "sha256": "23a1b5bc86cf49c69d3443bbb25c7cedf3b1ab3968858120228e18c1c3489e68"
           },
           "description": "Tap Check calls the Buildchain reusable workflow with buildchain-contract-lock-path."
         },
@@ -191,7 +191,7 @@
           "pointer": {
             "kind": "file",
             "path": "kfd/kfd-1.witness.json",
-            "sha256": "cf68c91b40c50327813e0c27131bbac2a42b3c704ccfb6dd78d3057b5e032bb5"
+            "sha256": "433094aa71d38283fef0e68779b16c0d693a7995dc7fa4c8177872283827be38"
           },
           "description": "KFD-1 witness for declared fact surfaces."
         },
