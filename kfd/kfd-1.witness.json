@@ -9,7 +9,7 @@
   },
   "contractWorld": {
     "schemaId": "https://kfd.libkungfu.dev/schemas/kfd-1/contract-world.schema.json",
-    "digest": "sha256:c0f8f4590ad99fee48fcd4f488dd54acce4af0e770dbbfb5f9bec2eb431c1c8e"
+    "digest": "sha256:f3225ce24685c838fa878001b281515795fd5f66576a9c394b2a8c43aba2db96"
   },
   "evidence": [
     {
@@ -35,7 +35,7 @@
     {
       "kind": "file",
       "path": "buildchain.contract-lock.json",
-      "sha256": "cfd4438c289e9f4902cf4633bc7a6ddb88e13f27de248a8bc67803c5b06e7331"
+      "sha256": "4b3361400b814d8d4dece70579a9bb02d0134eec3170953f7996a88db2a2698c"
     },
     {
       "kind": "file",
@@ -50,22 +50,22 @@
     {
       "kind": "file",
       "path": "scripts/update-managed-products.mjs",
-      "sha256": "0e523ed328cb74c437fc45df0cfd836f8f8981cd2a4299cab35d7a57f16d456d"
+      "sha256": "edddf9931bab8354546cad24aa3126388031110455b92f9b86f7f4fac96ce160"
     },
     {
       "kind": "file",
       "path": ".github/workflows/tap-check.yml",
-      "sha256": "2086683edd1f98922f1cc993f50d4e8ba66e28dffe78f2d7cdf3b596059c71ea"
+      "sha256": "1bd227f1fba1f415c8e81a8a862e7633e1d1b91fa8118be184740807cd6b2b68"
     },
     {
       "kind": "file",
       "path": "scripts/check-tap.mjs",
-      "sha256": "9e95a037b9849d109f18d462fc4694a138f74be3a9dea4b6a7be3c9a2c2fbf64"
+      "sha256": "79b0012d8a5af85107ad07e88f6dea4e755f94655588f667ff46b1c5d622e0ae"
     },
     {
       "kind": "file",
       "path": "kfd/kfd-1.contract-world.json",
-      "sha256": "c0f8f4590ad99fee48fcd4f488dd54acce4af0e770dbbfb5f9bec2eb431c1c8e"
+      "sha256": "f3225ce24685c838fa878001b281515795fd5f66576a9c394b2a8c43aba2db96"
     }
   ],
   "closure": {

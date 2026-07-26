@@ -9,27 +9,27 @@
   },
   "collaborationInterface": {
     "schemaId": "https://kfd.libkungfu.dev/schemas/kfd-3/collaboration-interface.schema.json",
-    "digest": "sha256:31bb107313b37cda3f917aff9d86225fde366075ad5829c9d04c53f7f3bb3a05"
+    "digest": "sha256:28729e97b3d55b8116c37ecb18a39326381086a13cd67c186fa08e164ce1d64c"
   },
   "sourceRegistry": {
     "path": "kfd/kfd-3.collaboration-interface.json",
-    "sha256": "31bb107313b37cda3f917aff9d86225fde366075ad5829c9d04c53f7f3bb3a05"
+    "sha256": "28729e97b3d55b8116c37ecb18a39326381086a13cd67c186fa08e164ce1d64c"
   },
   "evidence": {
     "minimalEntrypoints": [
       {
         "path": "README.md",
-        "sha256": "b5080ca0340f0b4a81a9c20b3c298ac9262961710d64b51bb931954b783a2dca",
+        "sha256": "c3445dcf199884cb77e8f06a44a1f504e040f2a25e25fdfa3aed56b2631844ab",
         "description": "Install packages and understand the tap role."
       },
       {
         "path": "AGENTS.md",
-        "sha256": "dbe590c2c58be58da4d11e77eb17c679103f082e4480a82b19964c8937b3d7b4",
+        "sha256": "29c3a3a649a56185eaea01bdc499b62289947f05e3504a95304a35193a5ad633",
         "description": "Route agents to usage, repository map, contribution, and verification surfaces."
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "086dcc0f5c16e39b775570bf27e2f0433af9bee15129ecfa0ea7808e42e19ae1",
+        "sha256": "da8bb1ab7eee657218bd1d1e6f43a6ff2b5c19380316d2b555413f5a745ee262",
         "description": "Find tap structure, checks, KFD claims, and governance documents."
       },
       {
@@ -44,7 +44,7 @@
       },
       {
         "path": "scripts/update-managed-products.mjs",
-        "sha256": "0e523ed328cb74c437fc45df0cfd836f8f8981cd2a4299cab35d7a57f16d456d",
+        "sha256": "edddf9931bab8354546cad24aa3126388031110455b92f9b86f7f4fac96ce160",
         "description": "Update managed formulae from upstream release passports and refresh compatible Buildchain runtime locks."
       },
       {
@@ -61,17 +61,17 @@
     "discoverability": [
       {
         "path": "README.md",
-        "sha256": "b5080ca0340f0b4a81a9c20b3c298ac9262961710d64b51bb931954b783a2dca",
+        "sha256": "c3445dcf199884cb77e8f06a44a1f504e040f2a25e25fdfa3aed56b2631844ab",
         "description": "Install and release-evidence entrypoint."
       },
       {
         "path": "AGENTS.md",
-        "sha256": "dbe590c2c58be58da4d11e77eb17c679103f082e4480a82b19964c8937b3d7b4",
+        "sha256": "29c3a3a649a56185eaea01bdc499b62289947f05e3504a95304a35193a5ad633",
         "description": "Agent routing entrypoint."
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "086dcc0f5c16e39b775570bf27e2f0433af9bee15129ecfa0ea7808e42e19ae1",
+        "sha256": "da8bb1ab7eee657218bd1d1e6f43a6ff2b5c19380316d2b555413f5a745ee262",
         "description": "Documentation map."
       },
       {
@@ -91,7 +91,7 @@
       },
       {
         "path": "scripts/update-managed-products.mjs",
-        "sha256": "0e523ed328cb74c437fc45df0cfd836f8f8981cd2a4299cab35d7a57f16d456d",
+        "sha256": "edddf9931bab8354546cad24aa3126388031110455b92f9b86f7f4fac96ce160",
         "description": "Managed update command."
       },
       {
@@ -108,7 +108,7 @@
     "transparentConstraints": [
       {
         "path": "scripts/check-tap.mjs",
-        "sha256": "9e95a037b9849d109f18d462fc4694a138f74be3a9dea4b6a7be3c9a2c2fbf64",
+        "sha256": "79b0012d8a5af85107ad07e88f6dea4e755f94655588f667ff46b1c5d622e0ae",
         "description": "Closed-world verification command."
       },
       {
@@ -123,17 +123,17 @@
       },
       {
         "path": ".github/workflows/tap-check.yml",
-        "sha256": "2086683edd1f98922f1cc993f50d4e8ba66e28dffe78f2d7cdf3b596059c71ea",
+        "sha256": "1bd227f1fba1f415c8e81a8a862e7633e1d1b91fa8118be184740807cd6b2b68",
         "description": "Buildchain reusable workflow trust gate."
       },
       {
         "path": ".github/workflows/buildchain-validate.yml",
-        "sha256": "8cea7e04b1f5a0f0f6e25e55a79dd3595299c814bb1fd71e18afc101e1867845",
+        "sha256": "866edf54161cfb87214c962c11b1ca8eb8b1d6c6b0d456b925e5732a18ba24bd",
         "description": "Config and lock presence validation."
       },
       {
         "path": "scripts/update-managed-products.mjs",
-        "sha256": "0e523ed328cb74c437fc45df0cfd836f8f8981cd2a4299cab35d7a57f16d456d",
+        "sha256": "edddf9931bab8354546cad24aa3126388031110455b92f9b86f7f4fac96ce160",
         "description": "Managed update lock refresh gate."
       },
       {
@@ -145,17 +145,17 @@
     "choicePaths": [
       {
         "path": "README.md",
-        "sha256": "b5080ca0340f0b4a81a9c20b3c298ac9262961710d64b51bb931954b783a2dca",
+        "sha256": "c3445dcf199884cb77e8f06a44a1f504e040f2a25e25fdfa3aed56b2631844ab",
         "description": "Install path."
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "086dcc0f5c16e39b775570bf27e2f0433af9bee15129ecfa0ea7808e42e19ae1",
+        "sha256": "da8bb1ab7eee657218bd1d1e6f43a6ff2b5c19380316d2b555413f5a745ee262",
         "description": "Inspection path."
       },
       {
         "path": "CONTRIBUTING.md",
-        "sha256": "dde4d9843e9247417cb9d3ef5d4dca20de2e16eca1f9151abb6c338c427840fd",
+        "sha256": "b3cdbadcda1cb29d93bbc9731d8aebfa9e1e41fa216a0dad2daf7cd94b127e7e",
         "description": "Maintenance path."
       },
       {
@@ -170,27 +170,27 @@
       },
       {
         "path": "scripts/update-managed-products.mjs",
-        "sha256": "0e523ed328cb74c437fc45df0cfd836f8f8981cd2a4299cab35d7a57f16d456d",
+        "sha256": "edddf9931bab8354546cad24aa3126388031110455b92f9b86f7f4fac96ce160",
         "description": "Managed update path."
       },
       {
         "path": "kfd/kfd-2.release-claims.json",
-        "sha256": "7894414813406f80c4c520bae87bf93e00feb05f477a2243e7104bc5783e3f8a",
+        "sha256": "298dc20da4ffb58f4eb3be0cd5d753f8318d3c215f2c52745387fc0c391deac0",
         "description": "Public trust claim path."
       }
     ],
     "manuals": [
       {
         "path": "README.md",
-        "sha256": "b5080ca0340f0b4a81a9c20b3c298ac9262961710d64b51bb931954b783a2dca"
+        "sha256": "c3445dcf199884cb77e8f06a44a1f504e040f2a25e25fdfa3aed56b2631844ab"
       },
       {
         "path": "AGENTS.md",
-        "sha256": "dbe590c2c58be58da4d11e77eb17c679103f082e4480a82b19964c8937b3d7b4"
+        "sha256": "29c3a3a649a56185eaea01bdc499b62289947f05e3504a95304a35193a5ad633"
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "086dcc0f5c16e39b775570bf27e2f0433af9bee15129ecfa0ea7808e42e19ae1"
+        "sha256": "da8bb1ab7eee657218bd1d1e6f43a6ff2b5c19380316d2b555413f5a745ee262"
       },
       {
         "path": "docs/KUNGFU-GUI-CASK.md",
@@ -202,7 +202,7 @@
       },
       {
         "path": "CONTRIBUTING.md",
-        "sha256": "dde4d9843e9247417cb9d3ef5d4dca20de2e16eca1f9151abb6c338c427840fd"
+        "sha256": "b3cdbadcda1cb29d93bbc9731d8aebfa9e1e41fa216a0dad2daf7cd94b127e7e"
       },
       {
         "path": "kfd/README.md",
