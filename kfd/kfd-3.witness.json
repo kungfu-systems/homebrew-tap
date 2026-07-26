@@ -123,7 +123,7 @@
       },
       {
         "path": ".github/workflows/tap-check.yml",
-        "sha256": "23a1b5bc86cf49c69d3443bbb25c7cedf3b1ab3968858120228e18c1c3489e68",
+        "sha256": "1bd227f1fba1f415c8e81a8a862e7633e1d1b91fa8118be184740807cd6b2b68",
         "description": "Buildchain reusable workflow trust gate."
       },
       {
@@ -175,7 +175,7 @@
       },
       {
         "path": "kfd/kfd-2.release-claims.json",
-        "sha256": "5ac6c6461e7f9de84804c895613752f96c00635444cb5fc5f77369dae1997199",
+        "sha256": "298dc20da4ffb58f4eb3be0cd5d753f8318d3c215f2c52745387fc0c391deac0",
         "description": "Public trust claim path."
       }
     ],
