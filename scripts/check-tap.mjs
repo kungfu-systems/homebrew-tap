@@ -385,8 +385,8 @@ const buildchain = manifest.entries.find(
 if (contractLock.contract !== "kungfu-buildchain-contract-lock") {
   fail("buildchain.contract-lock.json must be a Buildchain contract lock");
 }
-if (contractLock.buildchain?.ref !== "v2") {
-  fail("buildchain.contract-lock.json must accept the Buildchain v2 floating runtime");
+if (contractLock.buildchain?.ref !== "v3") {
+  fail("buildchain.contract-lock.json must accept the Buildchain v3 floating runtime");
 }
 if (contractLock.buildchain?.compatibilityPolicy !== "major-compatible") {
   fail("buildchain.contract-lock.json must use the major-compatible policy");

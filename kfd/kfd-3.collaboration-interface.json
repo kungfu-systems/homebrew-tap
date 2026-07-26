@@ -287,7 +287,7 @@
         "agent-reader",
         "release-system"
       ],
-      "value": "Accepted Buildchain @v2 stable and @v2-alpha runtime contract locks.",
+      "value": "Accepted Buildchain @v3 stable and @v3-alpha runtime contract locks.",
       "discoverability": {
         "fromMinimalEntrypoint": true,
         "path": "buildchain.contract-lock.json, buildchain.alpha-contract-lock.json"
@@ -346,7 +346,7 @@
         "release-system",
         "agent-reader"
       ],
-      "value": "Dry-run, check, or write managed formula and cask updates from upstream release passports, including compatible Buildchain @v2 lock refresh and automation PR auto-merge.",
+      "value": "Dry-run, check, or write managed formula and cask updates from upstream release passports, including compatible Buildchain @v3 lock refresh and automation PR auto-merge.",
       "discoverability": {
         "fromMinimalEntrypoint": true,
         "path": "node scripts/update-managed-products.mjs --help, .github/workflows/managed-product-updates.yml"
@@ -410,7 +410,7 @@
         "buildchain-lifecycle",
         "managed-product-updater"
       ],
-      "restriction": "Buildchain @v2 and @v2-alpha movement must pass their channel-specific consumer contract lock before lifecycle verification.",
+      "restriction": "Buildchain @v3 and @v3-alpha movement must pass their channel-specific consumer contract lock before lifecycle verification.",
       "rationale": "Floating refs are useful only when incompatible runtime contract drift fails closed.",
       "reviewPath": ".github/workflows/tap-check.yml"
     },

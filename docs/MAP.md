@@ -26,7 +26,7 @@ scripts/check-tap.mjs Drift check for formulae, casks, and upstream release evid
                       Scheduled/manual update PR and auto-merge workflow
 buildchain.toml       Buildchain lifecycle declaration
 buildchain.contract-lock.json
-                      Accepted Buildchain @v2 runtime contract lock
+                      Accepted Buildchain @v3 runtime contract lock
 kfd/                  Tap-local KFD-1/2/3 claims and witnesses
 ```
 
@@ -43,7 +43,7 @@ only after the managed updater materializes it into installable `entries` from
 an exact upstream release passport.
 
 The Buildchain floating runtime is also not accepted blindly. The tap records
-the reviewed `@v2` runtime contract in `buildchain.contract-lock.json`; CI
+the reviewed `@v3` runtime contract in `buildchain.contract-lock.json`; CI
 checks that contract before running repository lifecycle verification.
 `package.json` is a private, zero-dependency consumer declaration that pins
 `pnpm@11.7.0` solely for Buildchain package-manager detection and its isolated
