@@ -15,12 +15,12 @@
     {
       "kind": "file",
       "path": "tap-manifest.json",
-      "sha256": "32c4caffec2a7c0d3c41d72090c1c3d2bee695688467df50b6ca5b891746150b"
+      "sha256": "4fdab883ddbee435011e62258b5cd0a3b9dfe74621a0ca82599fe8ab2dde6250"
     },
     {
       "kind": "file",
       "path": "Formula/buildchain.rb",
-      "sha256": "26d54ed718d2a36647ab503a7a5d13af02f409e2879a5fa02db6df34c1b51451"
+      "sha256": "82be24dacdf8dc71698fefd14c27fe579ae5a9fc0bcae23872ad2f91aa6231ac"
     },
     {
       "kind": "file",
@@ -35,7 +35,7 @@
     {
       "kind": "file",
       "path": "buildchain.contract-lock.json",
-      "sha256": "4b3361400b814d8d4dece70579a9bb02d0134eec3170953f7996a88db2a2698c"
+      "sha256": "ee6d70ab9b147bddc6c7d078466269d0aa3679fcc6a6bb5bf10f8ed9ff841b5b"
     },
     {
       "kind": "file",
