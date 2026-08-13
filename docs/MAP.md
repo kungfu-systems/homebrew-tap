@@ -3,7 +3,8 @@
 | Question | Start here |
 | --- | --- |
 | How do I install Buildchain with Homebrew? | [`README.md`](../README.md) |
-| How will the standalone Kungfu CLI be published as a Formula? | [`docs/KUNGFU-CLI-FORMULA.md`](KUNGFU-CLI-FORMULA.md) |
+| How do I install the native KFD CLI? | [`docs/KFD-FORMULA.md`](KFD-FORMULA.md) |
+| How do I install the standalone Kungfu CLI? | [`docs/KUNGFU-CLI-FORMULA.md`](KUNGFU-CLI-FORMULA.md) |
 | How will the Kungfu GUI App be published as a cask? | [`docs/KUNGFU-GUI-CASK.md`](KUNGFU-GUI-CASK.md) |
 | How is tap metadata checked? | [`scripts/check-tap.mjs`](../scripts/check-tap.mjs) and [`tap-manifest.json`](../tap-manifest.json) |
 | How are managed product versions updated? | [`scripts/update-managed-products.mjs`](../scripts/update-managed-products.mjs) and [`managed-product-updates.yml`](../.github/workflows/managed-product-updates.yml) |

@@ -4,18 +4,25 @@ The `kungfu` Formula is the Homebrew-owned installation path for the standalone
 headless CLI. It is separate from the planned `kungfu` GUI Cask and never
 installs Electron or `Kungfu.app`.
 
+```sh
+brew install kungfu-systems/tap/kungfu
+```
+
 ## Publication gate
 
-The Formula remains under `tap-manifest.json#plannedEntries` until an official
-`kungfu.release.json` provides all of the following:
+The Formula was materialized from the exact `v4.0.0-alpha.1`
+`buildchain.release.json`, which provides:
 
 - one exact release tag and published SemVer;
-- `passed` KFD-1, KFD-2, and KFD-3 status;
 - macOS arm64 and Linux x86_64 `kungfu-episodes-cli-*.tar.gz` artifacts;
 - exact SHA-256 digests for those archive names.
 
-Do not create `Formula/kungfu.rb` by hand. Materialize the planned entry through
-the managed updater:
+The passport reports KFD-1 and KFD-3 as `passed` and KFD-2 as `downgraded`.
+The tap preserves those statuses verbatim under an explicit evidence policy;
+installability is not presented as KFD certification.
+
+Do not update `Formula/kungfu.rb` by hand. Move it through the managed updater
+with an exact immutable passport URL:
 
 ```sh
 node scripts/update-managed-products.mjs \
@@ -27,8 +34,8 @@ node scripts/update-kfd-witnesses.mjs
 node scripts/check-tap.mjs
 ```
 
-Alpha and stable movement must pass an exact release-passport URL. The generic
-GitHub `releases/latest` pointer is not used for the prerelease channel.
+Alpha movement must pass an exact release-passport URL. The generic GitHub
+`releases/latest` pointer is not used for the prerelease channel.
 
 ## Ownership and one-command update
 

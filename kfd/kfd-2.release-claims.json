@@ -14,12 +14,12 @@
   "claims": [
     {
       "id": "upstream-release-evidence",
-      "statement": "Every installable formula or cask entry is bound to upstream release passport evidence before it is presented as Homebrew metadata.",
+      "statement": "Every installable formula or cask entry is bound to upstream release passport or equivalent native provenance evidence before it is presented as Homebrew metadata.",
       "category": "release",
       "source": {
         "kind": "file",
         "path": "tap-manifest.json",
-        "sha256": "4fdab883ddbee435011e62258b5cd0a3b9dfe74621a0ca82599fe8ab2dde6250"
+        "sha256": "3735a2b154bf5614aac11814e94c71fd5de84e956a388d243beef8b5ad3fc3ec"
       },
       "evidence": [
         {
@@ -27,7 +27,7 @@
           "pointer": {
             "kind": "file",
             "path": "tap-manifest.json",
-            "sha256": "4fdab883ddbee435011e62258b5cd0a3b9dfe74621a0ca82599fe8ab2dde6250"
+            "sha256": "3735a2b154bf5614aac11814e94c71fd5de84e956a388d243beef8b5ad3fc3ec"
           },
           "description": "Tap entry declares upstream release passport and KFD status."
         },
@@ -44,8 +44,35 @@
           "type": "file",
           "pointer": {
             "kind": "file",
+            "path": "Formula/kfd.rb",
+            "sha256": "397d52227e971b5d811c71b8b9ed400633c527b9250e16369302268eae5b1d63"
+          },
+          "description": "Native KFD Formula archives are bound to GitHub Release digests and per-target provenance."
+        },
+        {
+          "type": "file",
+          "pointer": {
+            "kind": "file",
+            "path": "Formula/kungfu.rb",
+            "sha256": "982439c1699c3b0804f091fb465b1c7d84bb356955231ed1f8f60bde8942eb4a"
+          },
+          "description": "Standalone Kungfu Formula is bound to exact prerelease passport artifacts and truthful KFD status."
+        },
+        {
+          "type": "file",
+          "pointer": {
+            "kind": "file",
+            "path": "docs/KFD-FORMULA.md",
+            "sha256": "71b04226b5952d11c12cefc041e986aeab2aea5a01b2d539359ed54d2f85f17e"
+          },
+          "description": "Native KFD Formula installation, capability, and release-evidence boundary."
+        },
+        {
+          "type": "file",
+          "pointer": {
+            "kind": "file",
             "path": "docs/KUNGFU-CLI-FORMULA.md",
-            "sha256": "b088e595488fd289ee408a411da6b30f4d9f6cb254efe5985ac8cb051aa1f0ca"
+            "sha256": "c5e971f3f7d4d5da51776e62847bedb6cd3183096704b0efc7667460ffdb07d3"
           },
           "description": "Standalone Kungfu CLI Formula materialization and package-manager ownership boundary."
         },
@@ -63,7 +90,7 @@
           "pointer": {
             "kind": "command",
             "path": "scripts/update-managed-products.mjs",
-            "sha256": "edddf9931bab8354546cad24aa3126388031110455b92f9b86f7f4fac96ce160"
+            "sha256": "1fc24d369cd4f0f457d4c69ecb062e11893a7f9b2fd11e33fb6acb129afb3e4c"
           },
           "description": "Managed updater projects the latest upstream release passport into formula, cask, and manifest state."
         },
@@ -81,7 +108,7 @@
           "pointer": {
             "kind": "command",
             "path": "scripts/check-tap.mjs",
-            "sha256": "79b0012d8a5af85107ad07e88f6dea4e755f94655588f667ff46b1c5d622e0ae"
+            "sha256": "28314295e13eef1cdb2bf35480f03f9007db1ae5876285627d192447cc182103"
           },
           "description": "Verification fetches upstream release passport and compares tag, version, KFD status, and artifact digests."
         }
@@ -136,7 +163,7 @@
           "pointer": {
             "kind": "file",
             "path": ".github/workflows/tap-check.yml",
-            "sha256": "1bd227f1fba1f415c8e81a8a862e7633e1d1b91fa8118be184740807cd6b2b68"
+            "sha256": "24a64bea84d7eb6b1a2def7f8bf3c415bca16bc5cd14bbb131b565326028e1e4"
           },
           "description": "Tap Check calls the Buildchain reusable workflow with buildchain-contract-lock-path."
         },
@@ -182,7 +209,7 @@
           "pointer": {
             "kind": "file",
             "path": "kfd/kfd-1.contract-world.json",
-            "sha256": "f3225ce24685c838fa878001b281515795fd5f66576a9c394b2a8c43aba2db96"
+            "sha256": "85b6f8a83f4e359a6628a574d048cfb077b84192d7df19989e3271cd0ca40978"
           },
           "description": "KFD-1 contract world for tap distribution facts."
         },
@@ -191,7 +218,7 @@
           "pointer": {
             "kind": "file",
             "path": "kfd/kfd-1.witness.json",
-            "sha256": "92a10789d8b0f9e7470f2b13fc4ac164cf37a56db155c0130b58c00acfddd7af"
+            "sha256": "a1200dd13fb6277fdbec64cb10ec1f8dcbd3dea303b73efe9d0a6d5c68060f3e"
           },
           "description": "KFD-1 witness for declared fact surfaces."
         },
@@ -209,7 +236,7 @@
           "pointer": {
             "kind": "command",
             "path": "scripts/check-tap.mjs",
-            "sha256": "79b0012d8a5af85107ad07e88f6dea4e755f94655588f667ff46b1c5d622e0ae"
+            "sha256": "28314295e13eef1cdb2bf35480f03f9007db1ae5876285627d192447cc182103"
           },
           "description": "Verification rejects stale hashes and undeclared control surfaces."
         }

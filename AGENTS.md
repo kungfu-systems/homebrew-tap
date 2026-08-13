@@ -60,6 +60,9 @@ path documented in [`docs/KUNGFU-GUI-CASK.md`](docs/KUNGFU-GUI-CASK.md).
 Prepare or materialize the standalone Kungfu CLI Formula only through
 [`docs/KUNGFU-CLI-FORMULA.md`](docs/KUNGFU-CLI-FORMULA.md); the shared
 `kungfu` token requires `--type formula` or `--type cask`.
+Update the native KFD Formula only through
+[`docs/KFD-FORMULA.md`](docs/KFD-FORMULA.md); its archive digests must match
+both GitHub Release asset digests and per-target native provenance.
 
 The `Managed Product Updates` workflow runs the write path, opens an automation
 pull request, and enables GitHub auto-merge when managed formulae, casks,

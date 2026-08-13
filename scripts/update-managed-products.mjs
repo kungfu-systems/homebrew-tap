@@ -11,9 +11,15 @@ import { fileURLToPath } from "node:url";
 const cwd = process.cwd();
 const manifestPath = path.join(cwd, "tap-manifest.json");
 const contractLockPath = path.join(cwd, "buildchain.contract-lock.json");
-const supportedPlatforms = new Set(["darwin-arm64", "linux-x64"]);
+const supportedPlatforms = new Set(["darwin-arm64", "darwin-x64", "linux-arm64", "linux-x64"]);
 const supportedCaskPlatforms = new Set(["darwin-arm64"]);
 const kfdKeys = ["kfd-1", "kfd-2", "kfd-3"];
+const kfdNativeTargets = {
+  "darwin-arm64": "aarch64-apple-darwin",
+  "darwin-x64": "x86_64-apple-darwin",
+  "linux-arm64": "aarch64-unknown-linux-gnu",
+  "linux-x64": "x86_64-unknown-linux-gnu",
+};
 
 function usage() {
   return `Usage:
@@ -142,7 +148,14 @@ function rubyString(value) {
   return optionalString(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"');
 }
 
+function rubyArray(values) {
+  return `[${values.map((value) => `"${rubyString(value)}"`).join(", ")}]`;
+}
+
 async function fetchJson(url) {
+  if (optionalString(url).startsWith("file:")) {
+    return JSON.parse(fs.readFileSync(fileURLToPath(url), "utf8"));
+  }
   let lastError;
   for (let attempt = 1; attempt <= 3; attempt += 1) {
     try {
@@ -151,6 +164,7 @@ async function fetchJson(url) {
           accept: "application/json",
           "user-agent": "kungfu-systems-homebrew-tap-updater",
         },
+        signal: AbortSignal.timeout(180_000),
       });
       if (!response.ok) {
         throw new Error(`${url} returned HTTP ${response.status}`);
@@ -164,6 +178,11 @@ async function fetchJson(url) {
     }
   }
   throw lastError;
+}
+
+async function fetchGithubRelease(repository, tag) {
+  const repo = normalizeRepository(repository);
+  return fetchJson(`https://api.github.com/repos/${repo}/releases/tags/${encodeURIComponent(tag)}`);
 }
 
 function runGit(args, options = {}) {
@@ -212,6 +231,67 @@ function formulaArchiveArtifacts(passport, context, entry = {}) {
     .sort((left, right) => left.platform.localeCompare(right.platform));
 }
 
+async function kfdNativeArtifacts({ release, repository, tag, version, fetcher = fetchJson }) {
+  const assets = new Map((release.assets || []).map((asset) => [asset.name, asset]));
+  const artifacts = [];
+  const sourceTrees = new Set();
+
+  for (const [platform, target] of Object.entries(kfdNativeTargets)) {
+    const baseName = `kfd-${version}-${target}`;
+    const archiveName = `${baseName}.tar.gz`;
+    const provenanceName = `${baseName}.provenance.json`;
+    const archive = assets.get(archiveName);
+    const provenanceAsset = assets.get(provenanceName);
+    if (!archive || !provenanceAsset) {
+      throw new Error(`KFD native release is missing ${archiveName} or ${provenanceName}`);
+    }
+    const archiveSha256 = digestWithoutPrefix(archive.digest);
+    const provenanceSha256 = digestWithoutPrefix(provenanceAsset.digest);
+    if (!/^[0-9a-f]{64}$/.test(archiveSha256) || !/^[0-9a-f]{64}$/.test(provenanceSha256)) {
+      throw new Error(`KFD native release assets for ${target} require GitHub SHA-256 digests`);
+    }
+
+    const provenanceUrl = optionalString(provenanceAsset.browser_download_url)
+      || githubAssetUrl(repository, tag, provenanceName);
+    const provenance = await fetcher(provenanceUrl);
+    const boundary = [...(provenance.verification?.capabilityBoundary || [])].sort();
+    if (
+      provenance.schema !== "kfd.native-release-provenance/v1"
+      || provenance.identity?.name !== "kfd"
+      || provenance.identity?.version !== version
+      || provenance.identity?.target !== target
+      || provenance.artifacts?.archive?.name !== archiveName
+      || provenance.artifacts?.archive?.sha256 !== archiveSha256
+      || provenance.build?.implementation !== "rust"
+      || provenance.build?.sourceDirty !== false
+      || JSON.stringify(boundary) !== JSON.stringify(["bundle", "verify"])
+    ) {
+      throw new Error(`KFD native provenance mismatch for ${target}`);
+    }
+    if (!/^[0-9a-f]{40}$/.test(provenance.identity?.sourceTree || "")) {
+      throw new Error(`KFD native provenance source tree is invalid for ${target}`);
+    }
+    sourceTrees.add(provenance.identity.sourceTree);
+    artifacts.push({
+      name: archiveName,
+      platform,
+      url: optionalString(archive.browser_download_url) || githubAssetUrl(repository, tag, archiveName),
+      sha256: archiveSha256,
+      provenance: {
+        name: provenanceName,
+        url: provenanceUrl,
+        sha256: provenanceSha256,
+        sourceSha: provenance.identity.sourceSha,
+        sourceTree: provenance.identity.sourceTree,
+      },
+    });
+  }
+  if (sourceTrees.size !== 1) {
+    throw new Error("KFD native provenance targets do not share one source tree");
+  }
+  return artifacts.sort((left, right) => left.platform.localeCompare(right.platform));
+}
+
 function artifactMatchesExtensions(artifact, extensions) {
   const lowerName = artifact.name.toLowerCase();
   return extensions.some((extension) => lowerName.endsWith(extension.toLowerCase()));
@@ -231,7 +311,52 @@ function renderFormula({ entry, passport, artifacts, repository }) {
   const packageName = entry.name;
   const formulaClass = formulaClassName(packageName);
   const darwinArm64 = artifacts.find((artifact) => artifact.platform === "darwin-arm64");
+  const darwinX64 = artifacts.find((artifact) => artifact.platform === "darwin-x64");
+  const linuxArm64 = artifacts.find((artifact) => artifact.platform === "linux-arm64");
   const linuxX64 = artifacts.find((artifact) => artifact.platform === "linux-x64");
+  const formulaKind = entry.formula?.kind;
+  if (formulaKind === "kfd-native-cli") {
+    if (!darwinArm64 || !darwinX64 || !linuxArm64 || !linuxX64) {
+      throw new Error("kfd formula requires macOS and Linux archives for arm64 and x86_64");
+    }
+    return `class ${formulaClass} < Formula
+  desc "${rubyString(entry.formula?.desc || "Offline verifier and bundle tool for Kungfu Definition standards")}"
+  homepage "${rubyString(entry.formula?.homepage || "https://kfd.libkungfu.dev")}"
+  version "${rubyString(passport.release?.publishedVersion || passport.release?.versionLabel)}"
+  license "${rubyString(entry.formula?.license || "Apache-2.0")}"
+
+  if OS.mac? && Hardware::CPU.arm?
+    url "${rubyString(darwinArm64.url)}"
+    sha256 "${rubyString(darwinArm64.sha256)}"
+  elsif OS.mac? && Hardware::CPU.intel?
+    url "${rubyString(darwinX64.url)}"
+    sha256 "${rubyString(darwinX64.sha256)}"
+  elsif OS.linux? && Hardware::CPU.arm?
+    url "${rubyString(linuxArm64.url)}"
+    sha256 "${rubyString(linuxArm64.sha256)}"
+  elsif OS.linux? && Hardware::CPU.intel?
+    url "${rubyString(linuxX64.url)}"
+    sha256 "${rubyString(linuxX64.sha256)}"
+  else
+    odie "KFD Homebrew formula supports macOS and Linux on arm64 and x86_64."
+  end
+
+  def install
+    payload_root = ([buildpath] + buildpath.children.select(&:directory?)).find do |candidate|
+      (candidate/"kfd").file?
+    end
+    odie "KFD native archive layout is invalid." if payload_root.nil?
+
+    bin.install payload_root/"kfd"
+  end
+
+  test do
+    assert_match version.to_s, shell_output("#{bin}/kfd --version")
+    assert_match "usage:", shell_output("#{bin}/kfd --help")
+  end
+end
+`;
+  }
   if (!darwinArm64 || !linuxX64) {
     throw new Error(`${packageName} formula requires darwin-arm64 and linux-x64 tar.gz artifacts`);
   }
@@ -281,12 +406,12 @@ class ${formulaClass} < Formula
     manifest_path = libexec/"product.json"
     manifest = JSON.parse(manifest_path.read)
     manifest["install"] = {
-      "source" => "homebrew",
-      "frontendAuthority" => "package-manager",
-      "runtimeAuthority" => "kungfu-core-runtime-upgrade-controller",
-      "backgroundUpdater" => false,
-      "managerCommand" => ${JSON.stringify(managerCommand)},
-      "verificationCommand" => ${JSON.stringify(verificationCommand)},
+      "source"              => "homebrew",
+      "frontendAuthority"   => "package-manager",
+      "runtimeAuthority"    => "kungfu-core-runtime-upgrade-controller",
+      "backgroundUpdater"   => false,
+      "managerCommand"      => ${rubyArray(managerCommand)},
+      "verificationCommand" => ${rubyArray(verificationCommand)},
     }
     manifest_path.write(JSON.pretty_generate(manifest) + "\\n")
     bin.install_symlink libexec/"kungfu"
@@ -294,7 +419,7 @@ class ${formulaClass} < Formula
 
   test do
     assert_match version.to_s, shell_output("#{bin}/kungfu --version")
-    assert_match "Usage", shell_output("#{bin}/kungfu --help")
+    assert_match "usage:", shell_output("#{bin}/kungfu --help")
     assert_match '"source": "homebrew"', shell_output("#{bin}/kungfu update status --json")
     assert_match "Usage", shell_output("#{bin}/kungfu run agent --help")
   end
@@ -357,13 +482,16 @@ end
 `;
 }
 
-function kfdProjection(passport) {
+function kfdProjection(passport, entry) {
+  if (entry.formula?.kind === "kfd-native-cli") return undefined;
+  const statusPolicy = entry.evidencePolicy?.allowedKfdStatuses || {};
   return Object.fromEntries(kfdKeys.map((key) => {
     const status = passport[key]?.status;
-    if (status !== "passed") {
-      throw new Error(`${key} status must be passed in upstream release passport; got ${status || "(missing)"}`);
+    const allowed = statusPolicy[key] || ["passed"];
+    if (!allowed.includes(status)) {
+      throw new Error(`${key} status ${status || "(missing)"} is outside the tap evidence policy: ${allowed.join(", ")}`);
     }
-    return [key, "passed"];
+    return [key, status];
   }));
 }
 
@@ -378,10 +506,21 @@ async function projectEntry({ entry, releasePassportOverride = "", planned = fal
   const version = nonEmptyString(passport.release?.publishedVersion || passport.release?.versionLabel, "release.publishedVersion");
   const passportAsset = releasePassportAssetName(entry);
   const releasePassportUrl = canonicalPassportUrl(repository, tag, passportAsset);
-  const artifacts = entry.type === "cask"
-    ? caskArtifacts(passport, entry, { repository, tag })
-    : formulaArchiveArtifacts(passport, { repository, tag }, entry);
-  const kfd = kfdProjection(passport);
+  const artifacts = entry.formula?.kind === "kfd-native-cli"
+    ? await kfdNativeArtifacts({
+      release: await fetchGithubRelease(repository, tag),
+      repository,
+      tag,
+      version,
+    })
+    : entry.type === "cask"
+      ? caskArtifacts(passport, entry, { repository, tag })
+      : formulaArchiveArtifacts(passport, { repository, tag }, entry);
+  const kfd = kfdProjection(passport, entry);
+  const latestReleasePassportUrl = entry.upstream?.latestReleasePassportUrl
+    || (entry.upstream?.channel === "alpha"
+      ? ""
+      : `https://github.com/${repository}/releases/latest/download/${passportAsset}`);
   const updatedEntry = {
     ...entry,
     ...(planned ? {} : { status: entry.status }),
@@ -391,16 +530,23 @@ async function projectEntry({ entry, releasePassportOverride = "", planned = fal
       tag,
       releasePassportAsset: passportAsset,
       releasePassportUrl,
-      latestReleasePassportUrl: entry.upstream?.latestReleasePassportUrl
-        || `https://github.com/${repository}/releases/latest/download/${passportAsset}`,
+      ...(latestReleasePassportUrl ? { latestReleasePassportUrl } : {}),
     },
     version,
-    kfd,
+    ...(kfd ? { kfd } : {}),
+    ...(entry.formula?.kind === "kfd-native-cli" ? {
+      releaseEvidence: {
+        kind: "kfd-native-release-provenance/v1",
+        capabilityBoundary: ["verify", "bundle"],
+        sourceTree: artifacts[0]?.provenance?.sourceTree || "",
+      },
+    } : {}),
     artifacts: artifacts.map((artifact) => ({
       name: artifact.name,
       platform: artifact.platform,
       url: artifact.url,
       sha256: artifact.sha256,
+      ...(artifact.provenance ? { provenance: artifact.provenance } : {}),
     })),
   };
   if (planned) {
@@ -531,7 +677,7 @@ async function main(argv = process.argv.slice(2)) {
   if (selectedEntries.length === 0) {
     throw new Error(packageName ? `no managed tap entry named ${packageName}` : "tap-manifest.json has no managed entries");
   }
-  if (selectedEntries.length > 1 && !packageType) {
+  if (packageName && selectedEntries.length > 1 && !packageType) {
     throw new Error(`managed tap entry ${packageName} is ambiguous; pass --type formula or --type cask`);
   }
 
@@ -626,6 +772,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
 
 export {
   formulaArchiveArtifacts,
+  kfdNativeArtifacts,
   projectEntry,
   renderFormula,
 };

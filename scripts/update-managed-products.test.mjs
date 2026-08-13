@@ -6,6 +6,7 @@ import { test } from "node:test";
 
 import {
   formulaArchiveArtifacts,
+  kfdNativeArtifacts,
   projectEntry,
   renderFormula,
 } from "./update-managed-products.mjs";
@@ -83,11 +84,11 @@ test("Kungfu Formula projects only standalone CLI archives and exact manager arg
   assert.match(formula, /bin\.install_symlink libexec\/"kungfu"/);
   assert.match(
     formula,
-    /"managerCommand" => \["brew","upgrade","--formula","kungfu-systems\/tap\/kungfu"\]/,
+    /"managerCommand"\s+=> \["brew", "upgrade", "--formula", "kungfu-systems\/tap\/kungfu"\]/,
   );
   assert.match(
     formula,
-    /"verificationCommand" => \["kungfu","--version"\]/,
+    /"verificationCommand"\s+=> \["kungfu", "--version"\]/,
   );
   assert.match(formula, /kungfu update status --json/);
   assert.match(formula, /kungfu run agent --help/);
@@ -120,7 +121,7 @@ test("exact Kungfu passport deterministically materializes Formula provenance an
   const completePassport = {
     ...passport,
     "kfd-1": { status: "passed" },
-    "kfd-2": { status: "passed" },
+    "kfd-2": { status: "downgraded" },
     "kfd-3": { status: "passed" },
   };
   const projected = await projectEntry({
@@ -129,8 +130,15 @@ test("exact Kungfu passport deterministically materializes Formula provenance an
       status: "planned",
       upstream: {
         repository: "kungfu-systems/kungfu",
-        releasePassportAsset: "kungfu.release.json",
+        releasePassportAsset: "buildchain.release.json",
         channel: "alpha",
+      },
+      evidencePolicy: {
+        allowedKfdStatuses: {
+          "kfd-1": ["passed"],
+          "kfd-2": ["passed", "downgraded"],
+          "kfd-3": ["passed"],
+        },
       },
     },
     planned: true,
@@ -141,11 +149,11 @@ test("exact Kungfu passport deterministically materializes Formula provenance an
   assert.equal(projected.version, "4.0.0-alpha.1");
   assert.equal(
     projected.releasePassportUrl,
-    "https://github.com/kungfu-systems/kungfu/releases/download/v4.0.0-alpha.1/kungfu.release.json",
+    "https://github.com/kungfu-systems/kungfu/releases/download/v4.0.0-alpha.1/buildchain.release.json",
   );
   assert.deepEqual(projected.updatedEntry.kfd, {
     "kfd-1": "passed",
-    "kfd-2": "passed",
+    "kfd-2": "downgraded",
     "kfd-3": "passed",
   });
   assert.deepEqual(
@@ -165,6 +173,78 @@ test("exact Kungfu passport deterministically materializes Formula provenance an
   const rubySyntax = childProcess.spawnSync("ruby", ["-c"], {
     encoding: "utf8",
     input: projected.projection,
+  });
+  assert.equal(rubySyntax.status, 0, rubySyntax.stderr);
+});
+
+test("KFD native provenance projects four immutable Homebrew archives", async () => {
+  const version = "1.0.0-alpha.63";
+  const targets = {
+    "darwin-arm64": "aarch64-apple-darwin",
+    "darwin-x64": "x86_64-apple-darwin",
+    "linux-arm64": "aarch64-unknown-linux-gnu",
+    "linux-x64": "x86_64-unknown-linux-gnu",
+  };
+  const provenances = new Map();
+  const assets = [];
+  for (const target of Object.values(targets)) {
+    const base = `kfd-${version}-${target}`;
+    const archiveName = `${base}.tar.gz`;
+    const provenanceName = `${base}.provenance.json`;
+    const provenanceUrl = `https://example.invalid/${provenanceName}`;
+    assets.push({
+      name: archiveName,
+      browser_download_url: `https://example.invalid/${archiveName}`,
+      digest: `sha256:${"a".repeat(64)}`,
+    });
+    assets.push({
+      name: provenanceName,
+      browser_download_url: provenanceUrl,
+      digest: `sha256:${"b".repeat(64)}`,
+    });
+    provenances.set(provenanceUrl, {
+      schema: "kfd.native-release-provenance/v1",
+      identity: {
+        name: "kfd",
+        version,
+        target,
+        sourceSha: "c".repeat(40),
+        sourceTree: "d".repeat(40),
+      },
+      build: { implementation: "rust", sourceDirty: false },
+      artifacts: { archive: { name: archiveName, sha256: "a".repeat(64) } },
+      verification: { capabilityBoundary: ["verify", "bundle"] },
+    });
+  }
+
+  const artifacts = await kfdNativeArtifacts({
+    release: { assets },
+    repository: "kungfu-systems/kfd",
+    tag: `v${version}`,
+    version,
+    fetcher: async (url) => provenances.get(url),
+  });
+  assert.deepEqual(artifacts.map((artifact) => artifact.platform), Object.keys(targets));
+  assert.ok(artifacts.every((artifact) => artifact.provenance.sourceTree === "d".repeat(40)));
+
+  const formula = renderFormula({
+    entry: {
+      type: "formula",
+      name: "kfd",
+      formula: { kind: "kfd-native-cli" },
+    },
+    passport: { release: { publishedVersion: version } },
+    artifacts,
+    repository: "kungfu-systems/kfd",
+  });
+  assert.match(formula, /class Kfd < Formula/);
+  assert.match(formula, /OS\.mac\? && Hardware::CPU\.intel\?/);
+  assert.match(formula, /OS\.linux\? && Hardware::CPU\.arm\?/);
+  assert.match(formula, /bin\.install payload_root\/"kfd"/);
+  assert.match(formula, /kfd --version/);
+  const rubySyntax = childProcess.spawnSync("ruby", ["-c"], {
+    encoding: "utf8",
+    input: formula,
   });
   assert.equal(rubySyntax.status, 0, rubySyntax.stderr);
 });
