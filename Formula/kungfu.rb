@@ -23,6 +23,18 @@ class Kungfu < Formula
     odie "Kungfu standalone CLI archive layout is invalid." if payload_root.nil?
 
     libexec.install Dir["#{payload_root}/*"]
+    if OS.mac?
+      # Keep the relocated executable and its bundled libraries in one local
+      # signing domain so macOS library validation can load the runtime.
+      mach_o_magics = [0xCAFEBABE, 0xBEBAFECA, 0xFEEDFACE, 0xCEFAEDFE, 0xFEEDFACF, 0xCFFAEDFE]
+      Dir["#{libexec}/runtime/**/*"].each do |path|
+        next unless File.file?(path)
+        next unless mach_o_magics.include?(File.binread(path, 4)&.unpack1("N"))
+
+        system "codesign", "--force", "--sign", "-", path
+      end
+    end
+
     manifest_path = libexec/"product.json"
     manifest = JSON.parse(manifest_path.read)
     manifest["install"] = {
@@ -33,7 +45,7 @@ class Kungfu < Formula
       "managerCommand"      => ["brew", "upgrade", "--formula", "kungfu-systems/tap/kungfu"],
       "verificationCommand" => ["kungfu", "--version"],
     }
-    manifest_path.write(JSON.pretty_generate(manifest) + "\n")
+    manifest_path.atomic_write(JSON.pretty_generate(manifest) + "\n")
     bin.install_symlink libexec/"kungfu"
   end
 

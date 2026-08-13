@@ -44,7 +44,7 @@
       },
       {
         "path": "scripts/update-managed-products.mjs",
-        "sha256": "1fc24d369cd4f0f457d4c69ecb062e11893a7f9b2fd11e33fb6acb129afb3e4c",
+        "sha256": "d125fc8d671cbac8984fd771596cf6138dd42c0ccca404f9ef2312aa5982602e",
         "description": "Update managed formulae from upstream release passports and refresh compatible Buildchain runtime locks."
       },
       {
@@ -101,7 +101,7 @@
       },
       {
         "path": "scripts/update-managed-products.mjs",
-        "sha256": "1fc24d369cd4f0f457d4c69ecb062e11893a7f9b2fd11e33fb6acb129afb3e4c",
+        "sha256": "d125fc8d671cbac8984fd771596cf6138dd42c0ccca404f9ef2312aa5982602e",
         "description": "Managed update command."
       },
       {
@@ -148,7 +148,7 @@
       },
       {
         "path": "scripts/update-managed-products.mjs",
-        "sha256": "1fc24d369cd4f0f457d4c69ecb062e11893a7f9b2fd11e33fb6acb129afb3e4c",
+        "sha256": "d125fc8d671cbac8984fd771596cf6138dd42c0ccca404f9ef2312aa5982602e",
         "description": "Managed update lock refresh gate."
       },
       {
@@ -190,12 +190,12 @@
       },
       {
         "path": "scripts/update-managed-products.mjs",
-        "sha256": "1fc24d369cd4f0f457d4c69ecb062e11893a7f9b2fd11e33fb6acb129afb3e4c",
+        "sha256": "d125fc8d671cbac8984fd771596cf6138dd42c0ccca404f9ef2312aa5982602e",
         "description": "Managed update path."
       },
       {
         "path": "kfd/kfd-2.release-claims.json",
-        "sha256": "31ec0fc868f44411b506ccfec2ba9ada8b9e4a38702aee613b93d4f5d2af7a1c",
+        "sha256": "ef6ebc8301a102d9601818b410a1c40ae21c093591cf1991caaad4c2b21738ab",
         "description": "Public trust claim path."
       }
     ],
