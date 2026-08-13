@@ -31,8 +31,8 @@ node scripts/update-kfd-witnesses.mjs
 node scripts/check-tap.mjs
 ```
 
-The `kungfu` token is shared by a planned CLI Formula and GUI Cask. Always
-select the entry type explicitly:
+The `kungfu` token is shared by an installable CLI Formula and a planned GUI
+Cask. Always select the entry type explicitly:
 
 ```sh
 node scripts/update-managed-products.mjs \
@@ -81,6 +81,8 @@ and runs the local tap checks. Non-automation PRs still follow normal review.
 - URLs must point to upstream release assets.
 - SHA-256 values must match upstream release passport or GitHub Release asset
   digests.
+- KFD native Formula archives must also match their per-target
+  `kfd.native-release-provenance/v1` documents.
 - A tap entry may not claim KFD status that the upstream release passport does
   not verify.
 - Planned cask entries are not installable. `scripts/check-tap.mjs` rejects a

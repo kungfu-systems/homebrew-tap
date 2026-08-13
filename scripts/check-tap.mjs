@@ -117,7 +117,6 @@ function actualControlFiles() {
     "ACCEPTABLE_USE.md",
     "AGENTS.md",
     "CONTRIBUTING.md",
-    "Formula/buildchain.rb",
     "LICENSE",
     "PROVIDER_COMPLIANCE.md",
     "README.md",
@@ -128,6 +127,7 @@ function actualControlFiles() {
     "buildchain.toml",
     "package.json",
     "tap-manifest.json",
+    ...listFiles("Formula").filter((file) => file.endsWith(".rb")),
     ...listFiles("Casks").filter((file) => file.endsWith(".rb")),
     ...listFiles(".github").filter((file) => file.endsWith(".yml") || file.endsWith(".md")),
     ...listFiles("docs").filter((file) => file.endsWith(".md")),
@@ -153,6 +153,10 @@ function verifyKfdProjection(entry, passport) {
     if (actualStatus !== expectedStatus) {
       fail(`${entry.type}/${entry.name} ${key} status ${actualStatus} does not match manifest ${expectedStatus}`);
     }
+    const allowed = entry.evidencePolicy?.allowedKfdStatuses?.[key] || ["passed"];
+    if (!allowed.includes(expectedStatus)) {
+      fail(`${entry.type}/${entry.name} ${key} status ${expectedStatus} is outside its declared evidence policy`);
+    }
   }
 }
 
@@ -160,6 +164,63 @@ function passportArtifactDigestMap(passport) {
   return new Map(
     (passport.artifacts || []).map((artifact) => [artifact.name, digestWithoutPrefix(artifact.digest || artifact.sha256 || artifact.checksum)])
   );
+}
+
+function releaseAssetDigestMap(release) {
+  return new Map((release.assets || []).map((asset) => [asset.name, digestWithoutPrefix(asset.digest)]));
+}
+
+async function verifyKfdNativeEntry(entry, passport, text) {
+  if (entry.releaseEvidence?.kind !== "kfd-native-release-provenance/v1") {
+    fail(`${entry.type}/${entry.name} must declare KFD native release provenance evidence`);
+    return;
+  }
+  const repository = entry.upstream.repository;
+  const tag = entry.upstream.tag;
+  const release = await fetchJson(`https://api.github.com/repos/${repository}/releases/tags/${encodeURIComponent(tag)}`);
+  if (release.tag_name !== tag) {
+    fail(`${entry.type}/${entry.name} GitHub Release tag ${release.tag_name} does not match manifest ${tag}`);
+  }
+  const releaseDigests = releaseAssetDigestMap(release);
+  const sourceTrees = new Set();
+  for (const artifact of entry.artifacts || []) {
+    requireIncludes(text, artifact.url, `${entry.type}/${entry.name} ${artifact.platform} url`);
+    requireIncludes(text, artifact.sha256, `${entry.type}/${entry.name} ${artifact.platform} sha256`);
+    if (releaseDigests.get(artifact.name) !== artifact.sha256) {
+      fail(`${entry.type}/${entry.name} ${artifact.name} digest does not match the GitHub Release asset`);
+    }
+    const provenanceRef = artifact.provenance;
+    if (!provenanceRef?.name || !provenanceRef?.url || !provenanceRef?.sha256) {
+      fail(`${entry.type}/${entry.name} ${artifact.name} is missing provenance coordinates`);
+      continue;
+    }
+    if (releaseDigests.get(provenanceRef.name) !== provenanceRef.sha256) {
+      fail(`${entry.type}/${entry.name} ${provenanceRef.name} digest does not match the GitHub Release asset`);
+    }
+    const provenance = await fetchJson(provenanceRef.url);
+    const boundary = [...(provenance.verification?.capabilityBoundary || [])].sort();
+    if (
+      provenance.schema !== "kfd.native-release-provenance/v1"
+      || provenance.identity?.name !== "kfd"
+      || provenance.identity?.version !== passport.release?.publishedVersion
+      || provenance.identity?.sourceSha !== provenanceRef.sourceSha
+      || provenance.identity?.sourceTree !== provenanceRef.sourceTree
+      || provenance.artifacts?.archive?.name !== artifact.name
+      || provenance.artifacts?.archive?.sha256 !== artifact.sha256
+      || provenance.build?.implementation !== "rust"
+      || provenance.build?.sourceDirty !== false
+      || JSON.stringify(boundary) !== JSON.stringify(["bundle", "verify"])
+    ) {
+      fail(`${entry.type}/${entry.name} ${provenanceRef.name} native provenance mismatch`);
+    }
+    sourceTrees.add(provenance.identity?.sourceTree);
+  }
+  if (sourceTrees.size !== 1 || !sourceTrees.has(entry.releaseEvidence.sourceTree)) {
+    fail(`${entry.type}/${entry.name} native targets must share the declared source tree`);
+  }
+  if (JSON.stringify(entry.releaseEvidence.capabilityBoundary) !== JSON.stringify(["verify", "bundle"])) {
+    fail(`${entry.type}/${entry.name} capability boundary must remain verify and bundle`);
+  }
 }
 
 async function verifyPassportBoundEntry(entry) {
@@ -198,14 +259,18 @@ async function verifyPassportBoundEntry(entry) {
 
     verifyKfdProjection(entry, passport);
 
-    const passportArtifacts = passportArtifactDigestMap(passport);
-    for (const artifact of entry.artifacts || []) {
-      requireIncludes(text, artifact.url, `${entry.type}/${entry.name} ${artifact.platform} url`);
-      requireIncludes(text, artifact.sha256, `${entry.type}/${entry.name} ${artifact.platform} sha256`);
-      const assetName = artifact.name || assetNameFromUrl(artifact.url);
-      const actualDigest = passportArtifacts.get(assetName);
-      if (actualDigest !== artifact.sha256) {
-        fail(`${entry.type}/${entry.name} ${assetName} digest ${actualDigest} does not match manifest ${artifact.sha256}`);
+    if (entry.formula?.kind === "kfd-native-cli") {
+      await verifyKfdNativeEntry(entry, passport, text);
+    } else {
+      const passportArtifacts = passportArtifactDigestMap(passport);
+      for (const artifact of entry.artifacts || []) {
+        requireIncludes(text, artifact.url, `${entry.type}/${entry.name} ${artifact.platform} url`);
+        requireIncludes(text, artifact.sha256, `${entry.type}/${entry.name} ${artifact.platform} sha256`);
+        const assetName = artifact.name || assetNameFromUrl(artifact.url);
+        const actualDigest = passportArtifacts.get(assetName);
+        if (actualDigest !== artifact.sha256) {
+          fail(`${entry.type}/${entry.name} ${assetName} digest ${actualDigest} does not match manifest ${artifact.sha256}`);
+        }
       }
     }
   } catch (error) {
@@ -321,7 +386,7 @@ function verifyKfd() {
     }
     requirePath(entrypoint.surface, `KFD-3 entrypoint ${entrypoint.id}`);
   }
-  for (const requiredSurface of ["tap-manifest", "formula-buildchain", "managed-cli-formula", "buildchain-runtime-lock", "tap-verification", "managed-product-updater", "managed-cask-support", "kfd-claims"]) {
+  for (const requiredSurface of ["tap-manifest", "formula-buildchain", "managed-kfd-formula", "managed-cli-formula", "buildchain-runtime-lock", "tap-verification", "managed-product-updater", "managed-cask-support", "kfd-claims"]) {
     if (!surfaceIds.has(requiredSurface)) {
       fail(`KFD-3 collaboration interface missing surface ${requiredSurface}`);
     }
@@ -359,7 +424,8 @@ async function fetchJson(url) {
         headers: {
           accept: "application/json",
           "user-agent": "kungfu-systems-homebrew-tap-check"
-        }
+        },
+        signal: AbortSignal.timeout(180_000)
       });
       if (!response.ok) {
         throw new Error(`${url} returned HTTP ${response.status}`);

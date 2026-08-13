@@ -22,9 +22,15 @@
       "path": "Formula/buildchain.rb"
     },
     {
+      "id": "managed-kfd-formula",
+      "class": "cross-time",
+      "description": "Native KFD Formula projected from exact release, archive-digest, and per-target provenance evidence.",
+      "path": "docs/KFD-FORMULA.md"
+    },
+    {
       "id": "managed-cli-formula",
-      "class": "integration-time",
-      "description": "Prepared standalone Kungfu CLI Formula projection with exact package-manager argv and release-passport gating.",
+      "class": "cross-time",
+      "description": "Installable standalone Kungfu CLI Formula projection with exact package-manager argv and release-passport evidence.",
       "path": "docs/KUNGFU-CLI-FORMULA.md"
     },
     {

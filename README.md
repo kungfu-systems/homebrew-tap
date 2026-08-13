@@ -15,14 +15,14 @@ are owned and verified by their upstream repositories.
 ## Install
 
 ```sh
-brew install kungfu-systems/tap/buildchain
+brew install kungfu-systems/tap/kfd
+brew install kungfu-systems/tap/kungfu
 ```
 
-or:
+Buildchain remains available from the same tap:
 
 ```sh
-brew tap kungfu-systems/tap
-brew install buildchain
+brew install kungfu-systems/tap/buildchain
 ```
 
 ## Current Formulae
@@ -30,18 +30,14 @@ brew install buildchain
 | Formula | Upstream | Evidence |
 | --- | --- | --- |
 | `buildchain` | `kungfu-systems/buildchain` | [`buildchain.release.json`](https://github.com/kungfu-systems/buildchain/releases/latest/download/buildchain.release.json) |
+| `kfd` | `kungfu-systems/kfd` | Exact release passport plus per-target native provenance. See [KFD Formula](docs/KFD-FORMULA.md). |
+| `kungfu` | `kungfu-systems/kungfu` | Exact prerelease passport and standalone CLI archives. See [Kungfu CLI Formula](docs/KUNGFU-CLI-FORMULA.md). |
 
 ## Planned Casks
 
 | Cask | Upstream | Status |
 | --- | --- | --- |
 | `kungfu` | `kungfu-systems/kungfu` | Prepared, not yet installable. See [Kungfu GUI App cask preparation](docs/KUNGFU-GUI-CASK.md). |
-
-## Planned Formulae
-
-| Formula | Upstream | Status |
-| --- | --- | --- |
-| `kungfu` | `kungfu-systems/kungfu` | Standalone CLI projection prepared; it remains non-installable until an exact official release passport and CLI archives materialize it. See [Kungfu CLI Formula preparation](docs/KUNGFU-CLI-FORMULA.md). |
 
 ## Release Evidence
 
@@ -54,7 +50,9 @@ Buildchain, the tap records:
 - SHA-256 digests;
 - KFD-1 / KFD-2 / KFD-3 passport status.
 
-The tap does not replace upstream release passports. It projects them into
+For KFD native archives, the tap additionally records each target's immutable
+GitHub Release digest and `kfd.native-release-provenance/v1` document. The tap
+does not replace upstream release evidence. It projects that evidence into
 Homebrew installation metadata.
 
 ## Buildchain Management
@@ -97,6 +95,8 @@ workflows, formulae, manuals, or KFD surfaces.
 ## Read Next
 
 - [Documentation map](docs/MAP.md)
+- [KFD Formula](docs/KFD-FORMULA.md)
+- [Kungfu CLI Formula](docs/KUNGFU-CLI-FORMULA.md)
 - [Kungfu GUI App cask preparation](docs/KUNGFU-GUI-CASK.md)
 - [Contributing](CONTRIBUTING.md)
 - [Security](SECURITY.md)

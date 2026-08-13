@@ -9,32 +9,32 @@
   },
   "collaborationInterface": {
     "schemaId": "https://kfd.libkungfu.dev/schemas/kfd-3/collaboration-interface.schema.json",
-    "digest": "sha256:28729e97b3d55b8116c37ecb18a39326381086a13cd67c186fa08e164ce1d64c"
+    "digest": "sha256:3b7e1906244ea314549eed7b2c76baa82717f820f2107cb8ff143c199bf4ba3d"
   },
   "sourceRegistry": {
     "path": "kfd/kfd-3.collaboration-interface.json",
-    "sha256": "28729e97b3d55b8116c37ecb18a39326381086a13cd67c186fa08e164ce1d64c"
+    "sha256": "3b7e1906244ea314549eed7b2c76baa82717f820f2107cb8ff143c199bf4ba3d"
   },
   "evidence": {
     "minimalEntrypoints": [
       {
         "path": "README.md",
-        "sha256": "c3445dcf199884cb77e8f06a44a1f504e040f2a25e25fdfa3aed56b2631844ab",
+        "sha256": "4fcb9bc8b1de09edf2a505b20395bd1f883a8a5e7be397449e5cd42f8b9e4b8d",
         "description": "Install packages and understand the tap role."
       },
       {
         "path": "AGENTS.md",
-        "sha256": "29c3a3a649a56185eaea01bdc499b62289947f05e3504a95304a35193a5ad633",
+        "sha256": "77fc13e5f4cbe3cb4740c4a30bbc5d1a191a9a6b8173723dc88f4535e909d105",
         "description": "Route agents to usage, repository map, contribution, and verification surfaces."
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "da8bb1ab7eee657218bd1d1e6f43a6ff2b5c19380316d2b555413f5a745ee262",
+        "sha256": "c784bc29f53f4deb07dac012e6827ac592d7557e3add2867325eafc6f06ce6fc",
         "description": "Find tap structure, checks, KFD claims, and governance documents."
       },
       {
         "path": "tap-manifest.json",
-        "sha256": "4fdab883ddbee435011e62258b5cd0a3b9dfe74621a0ca82599fe8ab2dde6250",
+        "sha256": "3735a2b154bf5614aac11814e94c71fd5de84e956a388d243beef8b5ad3fc3ec",
         "description": "Consume the machine-readable distribution index."
       },
       {
@@ -44,12 +44,17 @@
       },
       {
         "path": "scripts/update-managed-products.mjs",
-        "sha256": "edddf9931bab8354546cad24aa3126388031110455b92f9b86f7f4fac96ce160",
+        "sha256": "1fc24d369cd4f0f457d4c69ecb062e11893a7f9b2fd11e33fb6acb129afb3e4c",
         "description": "Update managed formulae from upstream release passports and refresh compatible Buildchain runtime locks."
       },
       {
+        "path": "docs/KFD-FORMULA.md",
+        "sha256": "71b04226b5952d11c12cefc041e986aeab2aea5a01b2d539359ed54d2f85f17e",
+        "description": "Install or audit the native KFD Formula and its provenance boundary."
+      },
+      {
         "path": "docs/KUNGFU-CLI-FORMULA.md",
-        "sha256": "b088e595488fd289ee408a411da6b30f4d9f6cb254efe5985ac8cb051aa1f0ca",
+        "sha256": "c5e971f3f7d4d5da51776e62847bedb6cd3183096704b0efc7667460ffdb07d3",
         "description": "Prepare or audit the standalone Kungfu CLI Formula publication path."
       },
       {
@@ -61,18 +66,23 @@
     "discoverability": [
       {
         "path": "README.md",
-        "sha256": "c3445dcf199884cb77e8f06a44a1f504e040f2a25e25fdfa3aed56b2631844ab",
+        "sha256": "4fcb9bc8b1de09edf2a505b20395bd1f883a8a5e7be397449e5cd42f8b9e4b8d",
         "description": "Install and release-evidence entrypoint."
       },
       {
         "path": "AGENTS.md",
-        "sha256": "29c3a3a649a56185eaea01bdc499b62289947f05e3504a95304a35193a5ad633",
+        "sha256": "77fc13e5f4cbe3cb4740c4a30bbc5d1a191a9a6b8173723dc88f4535e909d105",
         "description": "Agent routing entrypoint."
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "da8bb1ab7eee657218bd1d1e6f43a6ff2b5c19380316d2b555413f5a745ee262",
+        "sha256": "c784bc29f53f4deb07dac012e6827ac592d7557e3add2867325eafc6f06ce6fc",
         "description": "Documentation map."
+      },
+      {
+        "path": "docs/KFD-FORMULA.md",
+        "sha256": "71b04226b5952d11c12cefc041e986aeab2aea5a01b2d539359ed54d2f85f17e",
+        "description": "KFD native Formula installation and provenance guide."
       },
       {
         "path": "docs/KUNGFU-GUI-CASK.md",
@@ -81,17 +91,17 @@
       },
       {
         "path": "docs/KUNGFU-CLI-FORMULA.md",
-        "sha256": "b088e595488fd289ee408a411da6b30f4d9f6cb254efe5985ac8cb051aa1f0ca",
+        "sha256": "c5e971f3f7d4d5da51776e62847bedb6cd3183096704b0efc7667460ffdb07d3",
         "description": "Kungfu standalone CLI Formula publication guide."
       },
       {
         "path": "tap-manifest.json",
-        "sha256": "4fdab883ddbee435011e62258b5cd0a3b9dfe74621a0ca82599fe8ab2dde6250",
+        "sha256": "3735a2b154bf5614aac11814e94c71fd5de84e956a388d243beef8b5ad3fc3ec",
         "description": "Machine-readable tap entry facts."
       },
       {
         "path": "scripts/update-managed-products.mjs",
-        "sha256": "edddf9931bab8354546cad24aa3126388031110455b92f9b86f7f4fac96ce160",
+        "sha256": "1fc24d369cd4f0f457d4c69ecb062e11893a7f9b2fd11e33fb6acb129afb3e4c",
         "description": "Managed update command."
       },
       {
@@ -108,8 +118,13 @@
     "transparentConstraints": [
       {
         "path": "scripts/check-tap.mjs",
-        "sha256": "79b0012d8a5af85107ad07e88f6dea4e755f94655588f667ff46b1c5d622e0ae",
+        "sha256": "28314295e13eef1cdb2bf35480f03f9007db1ae5876285627d192447cc182103",
         "description": "Closed-world verification command."
+      },
+      {
+        "path": "docs/KFD-FORMULA.md",
+        "sha256": "71b04226b5952d11c12cefc041e986aeab2aea5a01b2d539359ed54d2f85f17e",
+        "description": "KFD native Formula provenance and capability boundary."
       },
       {
         "path": "docs/KUNGFU-GUI-CASK.md",
@@ -118,12 +133,12 @@
       },
       {
         "path": "docs/KUNGFU-CLI-FORMULA.md",
-        "sha256": "b088e595488fd289ee408a411da6b30f4d9f6cb254efe5985ac8cb051aa1f0ca",
+        "sha256": "c5e971f3f7d4d5da51776e62847bedb6cd3183096704b0efc7667460ffdb07d3",
         "description": "Planned CLI Formula materialization and exact argv boundary."
       },
       {
         "path": ".github/workflows/tap-check.yml",
-        "sha256": "1bd227f1fba1f415c8e81a8a862e7633e1d1b91fa8118be184740807cd6b2b68",
+        "sha256": "24a64bea84d7eb6b1a2def7f8bf3c415bca16bc5cd14bbb131b565326028e1e4",
         "description": "Buildchain reusable workflow trust gate."
       },
       {
@@ -133,7 +148,7 @@
       },
       {
         "path": "scripts/update-managed-products.mjs",
-        "sha256": "edddf9931bab8354546cad24aa3126388031110455b92f9b86f7f4fac96ce160",
+        "sha256": "1fc24d369cd4f0f457d4c69ecb062e11893a7f9b2fd11e33fb6acb129afb3e4c",
         "description": "Managed update lock refresh gate."
       },
       {
@@ -145,17 +160,17 @@
     "choicePaths": [
       {
         "path": "README.md",
-        "sha256": "c3445dcf199884cb77e8f06a44a1f504e040f2a25e25fdfa3aed56b2631844ab",
+        "sha256": "4fcb9bc8b1de09edf2a505b20395bd1f883a8a5e7be397449e5cd42f8b9e4b8d",
         "description": "Install path."
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "da8bb1ab7eee657218bd1d1e6f43a6ff2b5c19380316d2b555413f5a745ee262",
+        "sha256": "c784bc29f53f4deb07dac012e6827ac592d7557e3add2867325eafc6f06ce6fc",
         "description": "Inspection path."
       },
       {
         "path": "CONTRIBUTING.md",
-        "sha256": "b3cdbadcda1cb29d93bbc9731d8aebfa9e1e41fa216a0dad2daf7cd94b127e7e",
+        "sha256": "fe31673af6c1df10d5e631bbd865ddeb10e25c22ebc736f493f867097c29b2bc",
         "description": "Maintenance path."
       },
       {
@@ -165,32 +180,41 @@
       },
       {
         "path": "docs/KUNGFU-CLI-FORMULA.md",
-        "sha256": "b088e595488fd289ee408a411da6b30f4d9f6cb254efe5985ac8cb051aa1f0ca",
+        "sha256": "c5e971f3f7d4d5da51776e62847bedb6cd3183096704b0efc7667460ffdb07d3",
         "description": "Kungfu CLI Formula publication path."
       },
       {
+        "path": "docs/KFD-FORMULA.md",
+        "sha256": "71b04226b5952d11c12cefc041e986aeab2aea5a01b2d539359ed54d2f85f17e",
+        "description": "KFD Formula update path."
+      },
+      {
         "path": "scripts/update-managed-products.mjs",
-        "sha256": "edddf9931bab8354546cad24aa3126388031110455b92f9b86f7f4fac96ce160",
+        "sha256": "1fc24d369cd4f0f457d4c69ecb062e11893a7f9b2fd11e33fb6acb129afb3e4c",
         "description": "Managed update path."
       },
       {
         "path": "kfd/kfd-2.release-claims.json",
-        "sha256": "730e87d67972e26ff0fb7a31cc8c38a5e22812014a9b7e6067fd971c11f181b6",
+        "sha256": "31ec0fc868f44411b506ccfec2ba9ada8b9e4a38702aee613b93d4f5d2af7a1c",
         "description": "Public trust claim path."
       }
     ],
     "manuals": [
       {
         "path": "README.md",
-        "sha256": "c3445dcf199884cb77e8f06a44a1f504e040f2a25e25fdfa3aed56b2631844ab"
+        "sha256": "4fcb9bc8b1de09edf2a505b20395bd1f883a8a5e7be397449e5cd42f8b9e4b8d"
       },
       {
         "path": "AGENTS.md",
-        "sha256": "29c3a3a649a56185eaea01bdc499b62289947f05e3504a95304a35193a5ad633"
+        "sha256": "77fc13e5f4cbe3cb4740c4a30bbc5d1a191a9a6b8173723dc88f4535e909d105"
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "da8bb1ab7eee657218bd1d1e6f43a6ff2b5c19380316d2b555413f5a745ee262"
+        "sha256": "c784bc29f53f4deb07dac012e6827ac592d7557e3add2867325eafc6f06ce6fc"
+      },
+      {
+        "path": "docs/KFD-FORMULA.md",
+        "sha256": "71b04226b5952d11c12cefc041e986aeab2aea5a01b2d539359ed54d2f85f17e"
       },
       {
         "path": "docs/KUNGFU-GUI-CASK.md",
@@ -198,11 +222,11 @@
       },
       {
         "path": "docs/KUNGFU-CLI-FORMULA.md",
-        "sha256": "b088e595488fd289ee408a411da6b30f4d9f6cb254efe5985ac8cb051aa1f0ca"
+        "sha256": "c5e971f3f7d4d5da51776e62847bedb6cd3183096704b0efc7667460ffdb07d3"
       },
       {
         "path": "CONTRIBUTING.md",
-        "sha256": "b3cdbadcda1cb29d93bbc9731d8aebfa9e1e41fa216a0dad2daf7cd94b127e7e"
+        "sha256": "fe31673af6c1df10d5e631bbd865ddeb10e25c22ebc736f493f867097c29b2bc"
       },
       {
         "path": "kfd/README.md",
@@ -219,6 +243,7 @@
       "tap-manifest",
       "kfd-readme",
       "managed-product-updater",
+      "kfd-formula-guide",
       "kungfu-cli-formula-guide",
       "kungfu-gui-cask-guide"
     ],
@@ -229,6 +254,7 @@
       "tap-manifest",
       "kfd-readme",
       "managed-product-updater",
+      "kfd-formula-guide",
       "kungfu-cli-formula-guide",
       "kungfu-gui-cask-guide"
     ],
@@ -243,6 +269,8 @@
       "AGENTS.md",
       "CONTRIBUTING.md",
       "Formula/buildchain.rb",
+      "Formula/kfd.rb",
+      "Formula/kungfu.rb",
       "LICENSE",
       "PROVIDER_COMPLIANCE.md",
       "README.md",
@@ -251,6 +279,7 @@
       "buildchain.alpha-contract-lock.json",
       "buildchain.contract-lock.json",
       "buildchain.toml",
+      "docs/KFD-FORMULA.md",
       "docs/KUNGFU-CLI-FORMULA.md",
       "docs/KUNGFU-GUI-CASK.md",
       "docs/MAP.md",

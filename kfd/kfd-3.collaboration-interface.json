@@ -28,6 +28,8 @@
         "AGENTS.md",
         "CONTRIBUTING.md",
         "Formula/buildchain.rb",
+        "Formula/kfd.rb",
+        "Formula/kungfu.rb",
         "LICENSE",
         "PROVIDER_COMPLIANCE.md",
         "README.md",
@@ -36,6 +38,7 @@
         "buildchain.alpha-contract-lock.json",
         "buildchain.contract-lock.json",
         "buildchain.toml",
+        "docs/KFD-FORMULA.md",
         "docs/KUNGFU-CLI-FORMULA.md",
         "docs/KUNGFU-GUI-CASK.md",
         "docs/MAP.md",
@@ -138,6 +141,17 @@
         "release-system"
       ],
       "purpose": "Update managed formulae from upstream release passports and refresh compatible Buildchain runtime locks."
+    },
+    {
+      "id": "kfd-formula-guide",
+      "surface": "docs/KFD-FORMULA.md",
+      "participants": [
+        "installer",
+        "agent-reader",
+        "maintainer",
+        "release-system"
+      ],
+      "purpose": "Install or audit the native KFD Formula and its provenance boundary."
     },
     {
       "id": "kungfu-cli-formula-guide",
@@ -249,6 +263,22 @@
       "maturity": "stable"
     },
     {
+      "id": "managed-kfd-formula",
+      "kind": "config",
+      "participants": [
+        "installer",
+        "agent-reader",
+        "maintainer",
+        "release-system"
+      ],
+      "value": "Native KFD Formula with four-platform archive digests, per-target provenance, and a stable kfd command name.",
+      "discoverability": {
+        "fromMinimalEntrypoint": true,
+        "path": "tap-manifest.json, docs/KFD-FORMULA.md, Formula/kfd.rb"
+      },
+      "maturity": "stable"
+    },
+    {
       "id": "managed-cli-formula",
       "kind": "config",
       "participants": [
@@ -257,12 +287,12 @@
         "maintainer",
         "release-system"
       ],
-      "value": "Release-passport-gated standalone Kungfu CLI Formula projection with exact Homebrew update and verification argv; planned until official CLI artifacts exist.",
+      "value": "Release-passport-bound standalone Kungfu CLI Formula projection with exact Homebrew update and verification argv.",
       "discoverability": {
         "fromMinimalEntrypoint": true,
         "path": "tap-manifest.json, docs/KUNGFU-CLI-FORMULA.md, Formula/kungfu.rb"
       },
-      "maturity": "prepared"
+      "maturity": "stable"
     },
     {
       "id": "managed-cask-support",
@@ -375,6 +405,7 @@
       "appliesTo": [
         "tap-manifest",
         "formula-buildchain",
+        "managed-kfd-formula",
         "managed-cli-formula",
         "managed-cask-support"
       ],
@@ -383,14 +414,15 @@
       "reviewPath": "scripts/check-tap.mjs"
     },
     {
-      "id": "planned-cli-formula-is-not-installable",
+      "id": "native-formula-evidence-is-truthful",
       "appliesTo": [
+        "managed-kfd-formula",
         "managed-cli-formula",
         "tap-verification"
       ],
-      "restriction": "The planned Kungfu CLI Formula must not create Formula/kungfu.rb until an exact official release passport materializes it into installable entries.",
-      "rationale": "Homebrew metadata must not advertise unpublished or unverifiable standalone CLI bytes.",
-      "reviewPath": "docs/KUNGFU-CLI-FORMULA.md"
+      "restriction": "Formula archives must remain bound to exact upstream digests, while upstream KFD status and native capability boundaries are projected without promotion or omission.",
+      "rationale": "Homebrew installability is a distribution decision, not KFD certification or an expansion of native capabilities.",
+      "reviewPath": "scripts/check-tap.mjs"
     },
     {
       "id": "planned-cask-is-not-installable",
@@ -465,8 +497,12 @@
           "label": "Run the managed updater, then regenerate KFD witnesses"
         },
         {
-          "id": "materialize-kungfu-formula",
-          "label": "Materialize the standalone Kungfu CLI Formula from an exact release passport"
+          "id": "update-kfd-formula",
+          "label": "Update KFD from an exact passport and native provenance set"
+        },
+        {
+          "id": "update-kungfu-formula",
+          "label": "Update the standalone Kungfu CLI Formula from an exact release passport"
         },
         {
           "id": "materialize-kungfu-cask",
@@ -508,6 +544,8 @@
       "AGENTS.md",
       "CONTRIBUTING.md",
       "Formula/buildchain.rb",
+      "Formula/kfd.rb",
+      "Formula/kungfu.rb",
       "LICENSE",
       "PROVIDER_COMPLIANCE.md",
       "README.md",
@@ -516,6 +554,7 @@
       "buildchain.alpha-contract-lock.json",
       "buildchain.contract-lock.json",
       "buildchain.toml",
+      "docs/KFD-FORMULA.md",
       "docs/KUNGFU-CLI-FORMULA.md",
       "docs/KUNGFU-GUI-CASK.md",
       "docs/MAP.md",
