@@ -19,7 +19,7 @@
       "source": {
         "kind": "file",
         "path": "tap-manifest.json",
-        "sha256": "3735a2b154bf5614aac11814e94c71fd5de84e956a388d243beef8b5ad3fc3ec"
+        "sha256": "9e8e1b10b632853e87b93f328920d693071dc0fbc773cbafa41b261bf336fb63"
       },
       "evidence": [
         {
@@ -27,7 +27,7 @@
           "pointer": {
             "kind": "file",
             "path": "tap-manifest.json",
-            "sha256": "3735a2b154bf5614aac11814e94c71fd5de84e956a388d243beef8b5ad3fc3ec"
+            "sha256": "9e8e1b10b632853e87b93f328920d693071dc0fbc773cbafa41b261bf336fb63"
           },
           "description": "Tap entry declares upstream release passport and KFD status."
         },
@@ -45,7 +45,7 @@
           "pointer": {
             "kind": "file",
             "path": "Formula/kfd.rb",
-            "sha256": "397d52227e971b5d811c71b8b9ed400633c527b9250e16369302268eae5b1d63"
+            "sha256": "3eeb5ba1bb387f55f229b6af35ab5c5d4b613b50b1eca7fe1df8b80d5139c88f"
           },
           "description": "Native KFD Formula archives are bound to GitHub Release digests and per-target provenance."
         },
@@ -218,7 +218,7 @@
           "pointer": {
             "kind": "file",
             "path": "kfd/kfd-1.witness.json",
-            "sha256": "c28cdd24300226e75cc3d6632bffb6015fce73d72e92edd20021a7fba0a40bc9"
+            "sha256": "b8d3bbab6daa251c197cf1fcffdae31b4bbce766f4cfccf6e1b7fb792a8e3503"
           },
           "description": "KFD-1 witness for declared fact surfaces."
         },
