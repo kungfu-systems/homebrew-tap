@@ -43,8 +43,8 @@
         "repository": "kungfu-systems/kfd",
         "releasePassportAsset": "buildchain.release.json",
         "channel": "alpha",
-        "tag": "v1.0.0-alpha.63",
-        "releasePassportUrl": "https://github.com/kungfu-systems/kfd/releases/download/v1.0.0-alpha.63/buildchain.release.json"
+        "tag": "v1.0.0-alpha.65",
+        "releasePassportUrl": "https://github.com/kungfu-systems/kfd/releases/download/v1.0.0-alpha.65/buildchain.release.json"
       },
       "formula": {
         "kind": "kfd-native-cli",
@@ -52,66 +52,66 @@
         "homepage": "https://kfd.libkungfu.dev",
         "license": "Apache-2.0"
       },
-      "version": "1.0.0-alpha.63",
+      "version": "1.0.0-alpha.65",
       "releaseEvidence": {
         "kind": "kfd-native-release-provenance/v1",
         "capabilityBoundary": [
           "verify",
           "bundle"
         ],
-        "sourceTree": "56e120a31bfb60ef418651a6cde0d48d5d481a26"
+        "sourceTree": "43bccacc2b792c52868336498607a67603033435"
       },
       "artifacts": [
         {
-          "name": "kfd-1.0.0-alpha.63-aarch64-apple-darwin.tar.gz",
+          "name": "kfd-1.0.0-alpha.65-aarch64-apple-darwin.tar.gz",
           "platform": "darwin-arm64",
-          "url": "https://github.com/kungfu-systems/kfd/releases/download/v1.0.0-alpha.63/kfd-1.0.0-alpha.63-aarch64-apple-darwin.tar.gz",
-          "sha256": "80b1d9531e30509f038b2672bc6e85160475adbebe4e9b4033e3be7e840c91fa",
+          "url": "https://github.com/kungfu-systems/kfd/releases/download/v1.0.0-alpha.65/kfd-1.0.0-alpha.65-aarch64-apple-darwin.tar.gz",
+          "sha256": "edbd833435c56c6ff0a16b73806677e2179936228e94bc53651d193c7066f2aa",
           "provenance": {
-            "name": "kfd-1.0.0-alpha.63-aarch64-apple-darwin.provenance.json",
-            "url": "https://github.com/kungfu-systems/kfd/releases/download/v1.0.0-alpha.63/kfd-1.0.0-alpha.63-aarch64-apple-darwin.provenance.json",
-            "sha256": "829b8c5403ce023e5e5c42c4cc2c7fca152f78f6b636a87f76dfbbbbf734021a",
-            "sourceSha": "73de46d66090fe71621fb32ceb70c5962e53d10c",
-            "sourceTree": "56e120a31bfb60ef418651a6cde0d48d5d481a26"
+            "name": "kfd-1.0.0-alpha.65-aarch64-apple-darwin.provenance.json",
+            "url": "https://github.com/kungfu-systems/kfd/releases/download/v1.0.0-alpha.65/kfd-1.0.0-alpha.65-aarch64-apple-darwin.provenance.json",
+            "sha256": "050caa4c3f2df33f5ce35cc309103237df64c98ff616822285b8b3793a733a5d",
+            "sourceSha": "790992240985794e5f528d7b415c13de213e9556",
+            "sourceTree": "43bccacc2b792c52868336498607a67603033435"
           }
         },
         {
-          "name": "kfd-1.0.0-alpha.63-x86_64-apple-darwin.tar.gz",
+          "name": "kfd-1.0.0-alpha.65-x86_64-apple-darwin.tar.gz",
           "platform": "darwin-x64",
-          "url": "https://github.com/kungfu-systems/kfd/releases/download/v1.0.0-alpha.63/kfd-1.0.0-alpha.63-x86_64-apple-darwin.tar.gz",
-          "sha256": "5de2fa2fe4f1ec61132279667841151e3fecd815c67ff88595c36fe5eaa31530",
+          "url": "https://github.com/kungfu-systems/kfd/releases/download/v1.0.0-alpha.65/kfd-1.0.0-alpha.65-x86_64-apple-darwin.tar.gz",
+          "sha256": "e0d7d07d38b18a1bf091558d410e78fe3adcc3c5158216a4685b2717d882f6f3",
           "provenance": {
-            "name": "kfd-1.0.0-alpha.63-x86_64-apple-darwin.provenance.json",
-            "url": "https://github.com/kungfu-systems/kfd/releases/download/v1.0.0-alpha.63/kfd-1.0.0-alpha.63-x86_64-apple-darwin.provenance.json",
-            "sha256": "c4558786e52ec9a7d9044c141c5f893d9f5245398b6d457599057f5de44eda2e",
-            "sourceSha": "73de46d66090fe71621fb32ceb70c5962e53d10c",
-            "sourceTree": "56e120a31bfb60ef418651a6cde0d48d5d481a26"
+            "name": "kfd-1.0.0-alpha.65-x86_64-apple-darwin.provenance.json",
+            "url": "https://github.com/kungfu-systems/kfd/releases/download/v1.0.0-alpha.65/kfd-1.0.0-alpha.65-x86_64-apple-darwin.provenance.json",
+            "sha256": "719139129d9d80033f500aab9cd6cdc37ec3cc57c93c82d22b92de33911e8908",
+            "sourceSha": "790992240985794e5f528d7b415c13de213e9556",
+            "sourceTree": "43bccacc2b792c52868336498607a67603033435"
           }
         },
         {
-          "name": "kfd-1.0.0-alpha.63-aarch64-unknown-linux-gnu.tar.gz",
+          "name": "kfd-1.0.0-alpha.65-aarch64-unknown-linux-gnu.tar.gz",
           "platform": "linux-arm64",
-          "url": "https://github.com/kungfu-systems/kfd/releases/download/v1.0.0-alpha.63/kfd-1.0.0-alpha.63-aarch64-unknown-linux-gnu.tar.gz",
-          "sha256": "dd23d74c5010218e9336d5422897b8504e47d722fc6697d72f18396401bcc941",
+          "url": "https://github.com/kungfu-systems/kfd/releases/download/v1.0.0-alpha.65/kfd-1.0.0-alpha.65-aarch64-unknown-linux-gnu.tar.gz",
+          "sha256": "5bae00053feb2adb3c2b4f121e8274f47d2af359fa43ddd1b374248b14242ced",
           "provenance": {
-            "name": "kfd-1.0.0-alpha.63-aarch64-unknown-linux-gnu.provenance.json",
-            "url": "https://github.com/kungfu-systems/kfd/releases/download/v1.0.0-alpha.63/kfd-1.0.0-alpha.63-aarch64-unknown-linux-gnu.provenance.json",
-            "sha256": "762684c39ecb751c8a5381aa32e25a1413f322d0e1a96c45e601fc84c7bdcd58",
-            "sourceSha": "73de46d66090fe71621fb32ceb70c5962e53d10c",
-            "sourceTree": "56e120a31bfb60ef418651a6cde0d48d5d481a26"
+            "name": "kfd-1.0.0-alpha.65-aarch64-unknown-linux-gnu.provenance.json",
+            "url": "https://github.com/kungfu-systems/kfd/releases/download/v1.0.0-alpha.65/kfd-1.0.0-alpha.65-aarch64-unknown-linux-gnu.provenance.json",
+            "sha256": "86baf68a79cc15181c57e4bfcb9374f4a492d07b6cd393434d8ddb38f3bc407b",
+            "sourceSha": "790992240985794e5f528d7b415c13de213e9556",
+            "sourceTree": "43bccacc2b792c52868336498607a67603033435"
           }
         },
         {
-          "name": "kfd-1.0.0-alpha.63-x86_64-unknown-linux-gnu.tar.gz",
+          "name": "kfd-1.0.0-alpha.65-x86_64-unknown-linux-gnu.tar.gz",
           "platform": "linux-x64",
-          "url": "https://github.com/kungfu-systems/kfd/releases/download/v1.0.0-alpha.63/kfd-1.0.0-alpha.63-x86_64-unknown-linux-gnu.tar.gz",
-          "sha256": "e85c3071958b1e665b73c20555b874a9bfdf2090ec7b343afe7fa98ae43cacf2",
+          "url": "https://github.com/kungfu-systems/kfd/releases/download/v1.0.0-alpha.65/kfd-1.0.0-alpha.65-x86_64-unknown-linux-gnu.tar.gz",
+          "sha256": "8d1f419e1e0c3c93b80238beb0ac67718775a3aac532d2aa464a841b1e94937f",
           "provenance": {
-            "name": "kfd-1.0.0-alpha.63-x86_64-unknown-linux-gnu.provenance.json",
-            "url": "https://github.com/kungfu-systems/kfd/releases/download/v1.0.0-alpha.63/kfd-1.0.0-alpha.63-x86_64-unknown-linux-gnu.provenance.json",
-            "sha256": "3bb9af60ad820a5d7d3bdc2c6474ccf3d30c06970bd0b859501537ccdd5ee525",
-            "sourceSha": "73de46d66090fe71621fb32ceb70c5962e53d10c",
-            "sourceTree": "56e120a31bfb60ef418651a6cde0d48d5d481a26"
+            "name": "kfd-1.0.0-alpha.65-x86_64-unknown-linux-gnu.provenance.json",
+            "url": "https://github.com/kungfu-systems/kfd/releases/download/v1.0.0-alpha.65/kfd-1.0.0-alpha.65-x86_64-unknown-linux-gnu.provenance.json",
+            "sha256": "4e0ada3dc6f48631841d903981964f45920a2b6c0c07f1110e96856f264c7cb7",
+            "sourceSha": "790992240985794e5f528d7b415c13de213e9556",
+            "sourceTree": "43bccacc2b792c52868336498607a67603033435"
           }
         }
       ]
