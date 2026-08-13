@@ -30,7 +30,7 @@
     {
       "kind": "file",
       "path": "Formula/kungfu.rb",
-      "sha256": "982439c1699c3b0804f091fb465b1c7d84bb356955231ed1f8f60bde8942eb4a"
+      "sha256": "d2f1ec084c3530b4ba86f127854aea7c8273a63ea319555a2c2616729ec2c13f"
     },
     {
       "kind": "file",
@@ -65,7 +65,7 @@
     {
       "kind": "file",
       "path": "scripts/update-managed-products.mjs",
-      "sha256": "1fc24d369cd4f0f457d4c69ecb062e11893a7f9b2fd11e33fb6acb129afb3e4c"
+      "sha256": "d125fc8d671cbac8984fd771596cf6138dd42c0ccca404f9ef2312aa5982602e"
     },
     {
       "kind": "file",

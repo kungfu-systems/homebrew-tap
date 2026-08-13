@@ -81,6 +81,9 @@ test("Kungfu Formula projects only standalone CLI archives and exact manager arg
   });
   assert.match(formula, /class Kungfu < Formula/);
   assert.match(formula, /libexec\.install/);
+  assert.match(formula, /mach_o_magics/);
+  assert.match(formula, /system "codesign", "--force", "--sign", "-", path/);
+  assert.match(formula, /manifest_path\.atomic_write/);
   assert.match(formula, /bin\.install_symlink libexec\/"kungfu"/);
   assert.match(
     formula,
