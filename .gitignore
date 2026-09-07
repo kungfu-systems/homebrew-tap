@@ -1,4 +1,7 @@
 .DS_Store
-.buildchain/
+.buildchain/*
+!.buildchain/buildchain.toml
+!.buildchain/contract-lock.json
+!.buildchain/alpha-contract-lock.json
 *.log
 dist/

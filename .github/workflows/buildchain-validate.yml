@@ -15,10 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Validate buildchain.toml
+      - name: Validate .buildchain/buildchain.toml
         uses: kungfu-systems/buildchain/actions/validate-config@v4
         with:
           require-lifecycle-stages: "verify"
       - name: Require Buildchain contract lock
         shell: bash
-        run: test -f buildchain.contract-lock.json
+        run: test -f .buildchain/contract-lock.json

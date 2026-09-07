@@ -50,7 +50,7 @@ The tap uses the floating Buildchain `@v4` runtime only with a checked consumer
 contract lock:
 
 ```sh
-buildchain.contract-lock.json
+.buildchain/contract-lock.json
 ```
 
 The private zero-dependency `package.json` pins `pnpm@11.7.0` for Buildchain
