@@ -9,22 +9,22 @@
   },
   "collaborationInterface": {
     "schemaId": "https://kfd.libkungfu.dev/schemas/kfd-3/collaboration-interface.schema.json",
-    "digest": "sha256:3b7e1906244ea314549eed7b2c76baa82717f820f2107cb8ff143c199bf4ba3d"
+    "digest": "sha256:ecbd394a75d21456ee5b6cb92ada4a269b2a82f36a006a33dd0386c9d004892c"
   },
   "sourceRegistry": {
     "path": "kfd/kfd-3.collaboration-interface.json",
-    "sha256": "3b7e1906244ea314549eed7b2c76baa82717f820f2107cb8ff143c199bf4ba3d"
+    "sha256": "ecbd394a75d21456ee5b6cb92ada4a269b2a82f36a006a33dd0386c9d004892c"
   },
   "evidence": {
     "minimalEntrypoints": [
       {
         "path": "README.md",
-        "sha256": "4fcb9bc8b1de09edf2a505b20395bd1f883a8a5e7be397449e5cd42f8b9e4b8d",
+        "sha256": "73a5503a175e7e6bc1b1ed261ac098cd1810e3a5677f25ad1a6f3731f8cfa006",
         "description": "Install packages and understand the tap role."
       },
       {
         "path": "AGENTS.md",
-        "sha256": "77fc13e5f4cbe3cb4740c4a30bbc5d1a191a9a6b8173723dc88f4535e909d105",
+        "sha256": "1262df751099048b3ed445babe3e6384b22adcb8089932058db15742e65d916b",
         "description": "Route agents to usage, repository map, contribution, and verification surfaces."
       },
       {
@@ -44,7 +44,7 @@
       },
       {
         "path": "scripts/update-managed-products.mjs",
-        "sha256": "d125fc8d671cbac8984fd771596cf6138dd42c0ccca404f9ef2312aa5982602e",
+        "sha256": "adfda8c28f71962ba398ed2bca2e35068dbcd9fff1877cfe9f7daf0d2c9f4632",
         "description": "Update managed formulae from upstream release passports and refresh compatible Buildchain runtime locks."
       },
       {
@@ -66,12 +66,12 @@
     "discoverability": [
       {
         "path": "README.md",
-        "sha256": "4fcb9bc8b1de09edf2a505b20395bd1f883a8a5e7be397449e5cd42f8b9e4b8d",
+        "sha256": "73a5503a175e7e6bc1b1ed261ac098cd1810e3a5677f25ad1a6f3731f8cfa006",
         "description": "Install and release-evidence entrypoint."
       },
       {
         "path": "AGENTS.md",
-        "sha256": "77fc13e5f4cbe3cb4740c4a30bbc5d1a191a9a6b8173723dc88f4535e909d105",
+        "sha256": "1262df751099048b3ed445babe3e6384b22adcb8089932058db15742e65d916b",
         "description": "Agent routing entrypoint."
       },
       {
@@ -101,7 +101,7 @@
       },
       {
         "path": "scripts/update-managed-products.mjs",
-        "sha256": "d125fc8d671cbac8984fd771596cf6138dd42c0ccca404f9ef2312aa5982602e",
+        "sha256": "adfda8c28f71962ba398ed2bca2e35068dbcd9fff1877cfe9f7daf0d2c9f4632",
         "description": "Managed update command."
       },
       {
@@ -118,7 +118,7 @@
     "transparentConstraints": [
       {
         "path": "scripts/check-tap.mjs",
-        "sha256": "28314295e13eef1cdb2bf35480f03f9007db1ae5876285627d192447cc182103",
+        "sha256": "cc5e7f9afb892865569be81e123016194565c114a772be6e317a6a9668ead9c9",
         "description": "Closed-world verification command."
       },
       {
@@ -138,17 +138,17 @@
       },
       {
         "path": ".github/workflows/tap-check.yml",
-        "sha256": "24a64bea84d7eb6b1a2def7f8bf3c415bca16bc5cd14bbb131b565326028e1e4",
+        "sha256": "5206b0da461b6ce95b2be8a64a48f93d187d3a6c9125ed347244b305973fe55f",
         "description": "Buildchain reusable workflow trust gate."
       },
       {
         "path": ".github/workflows/buildchain-validate.yml",
-        "sha256": "866edf54161cfb87214c962c11b1ca8eb8b1d6c6b0d456b925e5732a18ba24bd",
+        "sha256": "6e6969d242d2dbf8502eba05238be418bad1068166f4aacafcaca7c303e5e542",
         "description": "Config and lock presence validation."
       },
       {
         "path": "scripts/update-managed-products.mjs",
-        "sha256": "d125fc8d671cbac8984fd771596cf6138dd42c0ccca404f9ef2312aa5982602e",
+        "sha256": "adfda8c28f71962ba398ed2bca2e35068dbcd9fff1877cfe9f7daf0d2c9f4632",
         "description": "Managed update lock refresh gate."
       },
       {
@@ -160,7 +160,7 @@
     "choicePaths": [
       {
         "path": "README.md",
-        "sha256": "4fcb9bc8b1de09edf2a505b20395bd1f883a8a5e7be397449e5cd42f8b9e4b8d",
+        "sha256": "73a5503a175e7e6bc1b1ed261ac098cd1810e3a5677f25ad1a6f3731f8cfa006",
         "description": "Install path."
       },
       {
@@ -170,7 +170,7 @@
       },
       {
         "path": "CONTRIBUTING.md",
-        "sha256": "fe31673af6c1df10d5e631bbd865ddeb10e25c22ebc736f493f867097c29b2bc",
+        "sha256": "1a86c4f910d77ea99a8f435d1b7cd567f16a632523a665a9556d61246b3b7335",
         "description": "Maintenance path."
       },
       {
@@ -190,23 +190,23 @@
       },
       {
         "path": "scripts/update-managed-products.mjs",
-        "sha256": "d125fc8d671cbac8984fd771596cf6138dd42c0ccca404f9ef2312aa5982602e",
+        "sha256": "adfda8c28f71962ba398ed2bca2e35068dbcd9fff1877cfe9f7daf0d2c9f4632",
         "description": "Managed update path."
       },
       {
         "path": "kfd/kfd-2.release-claims.json",
-        "sha256": "7313905432780c59fd8484a087af2086c876a04930045bbd840496f549170cbc",
+        "sha256": "56059468f0105bce464f1686b9d570f856e15e67f8e5c7cbd1183397c29ea68c",
         "description": "Public trust claim path."
       }
     ],
     "manuals": [
       {
         "path": "README.md",
-        "sha256": "4fcb9bc8b1de09edf2a505b20395bd1f883a8a5e7be397449e5cd42f8b9e4b8d"
+        "sha256": "73a5503a175e7e6bc1b1ed261ac098cd1810e3a5677f25ad1a6f3731f8cfa006"
       },
       {
         "path": "AGENTS.md",
-        "sha256": "77fc13e5f4cbe3cb4740c4a30bbc5d1a191a9a6b8173723dc88f4535e909d105"
+        "sha256": "1262df751099048b3ed445babe3e6384b22adcb8089932058db15742e65d916b"
       },
       {
         "path": "docs/MAP.md",
@@ -226,7 +226,7 @@
       },
       {
         "path": "CONTRIBUTING.md",
-        "sha256": "fe31673af6c1df10d5e631bbd865ddeb10e25c22ebc736f493f867097c29b2bc"
+        "sha256": "1a86c4f910d77ea99a8f435d1b7cd567f16a632523a665a9556d61246b3b7335"
       },
       {
         "path": "kfd/README.md",
@@ -262,6 +262,7 @@
     "declaredFiles": [
       ".github/ISSUE_TEMPLATE/config.yml",
       ".github/pull_request_template.md",
+      ".github/workflows/alpha-release.yml",
       ".github/workflows/buildchain-validate.yml",
       ".github/workflows/managed-product-updates.yml",
       ".github/workflows/tap-check.yml",
@@ -283,6 +284,7 @@
       "docs/KUNGFU-CLI-FORMULA.md",
       "docs/KUNGFU-GUI-CASK.md",
       "docs/MAP.md",
+      "docs/versioning.md",
       "kfd/README.md",
       "kfd/kfd-1.contract-world.json",
       "kfd/kfd-1.witness.json",
@@ -290,6 +292,8 @@
       "kfd/kfd-3.collaboration-interface.json",
       "kfd/kfd-3.witness.json",
       "package.json",
+      "repository.release.json",
+      "scripts/build-release-bundle.mjs",
       "scripts/check-tap.mjs",
       "scripts/update-kfd-witnesses.mjs",
       "scripts/update-managed-products.mjs",

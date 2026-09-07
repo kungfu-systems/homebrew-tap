@@ -1,3 +1,16 @@
+---
+status: active
+period: ongoing
+theme: buildchain-managed-repository
+doc_type: product-manual
+source_level: repository-contracts
+confidence: high
+sensitivity: public
+evidence_grade: B
+review_state: unreviewed
+last_reviewed: 2026-09-07
+---
+
 # Contributing
 
 Thank you for improving the Kungfu Systems Homebrew tap.
@@ -66,7 +79,7 @@ The private zero-dependency `package.json` exists only to declare
 `pnpm@11.7.0` to Buildchain's package-manager trust gate and isolated runtime
 bootstrap; local checks do not require `pnpm install` and no lockfile is
 expected.
-When Buildchain `@v3` advances, the managed updater may refresh the lock only
+When Buildchain `@v4` advances, the managed updater may refresh the lock only
 when the compatibility digest still matches the accepted major-compatible
 policy; incompatible drift fails closed.
 

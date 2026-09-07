@@ -1,3 +1,16 @@
+---
+status: active
+period: ongoing
+theme: buildchain-managed-repository
+doc_type: product-manual
+source_level: repository-contracts
+confidence: high
+sensitivity: public
+evidence_grade: B
+review_state: unreviewed
+last_reviewed: 2026-09-07
+---
+
 # AGENTS.md
 
 This repository is a public Homebrew tap for Kungfu Systems release artifacts.
@@ -11,7 +24,7 @@ process.
 - Uses Buildchain checks to keep tap metadata from drifting away from upstream
   release passports.
 - Provides a managed updater that projects upstream release passports into
-  formula, cask, manifest, and compatible Buildchain `@v3` lock changes.
+  formula, cask, manifest, and compatible Buildchain `@v4` lock changes.
 - Declares tap-local KFD-1 / KFD-2 / KFD-3 support under [`kfd/`](kfd/).
 
 ## Where to start
@@ -33,7 +46,7 @@ buildchain validate --require-lifecycle-stages verify
 buildchain lifecycle run verify --required
 ```
 
-The tap uses the floating Buildchain `@v3` runtime only with a checked consumer
+The tap uses the floating Buildchain `@v4` runtime only with a checked consumer
 contract lock:
 
 ```sh

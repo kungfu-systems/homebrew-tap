@@ -6,3 +6,22 @@ name = "homebrew-tap"
 
 [lifecycle.verify]
 command = "node --test scripts/update-managed-products.test.mjs && node scripts/check-tap.mjs"
+
+[version]
+required = true
+strategy = "anchored"
+next = "manual"
+manifest = "repository.release.json"
+
+[[version.files]]
+type = "json"
+path = "package.json"
+key = "version"
+
+[lifecycle.build]
+command = "node scripts/build-release-bundle.mjs"
+
+[[version.files]]
+type = "json"
+path = "repository.release.json"
+key = "version"

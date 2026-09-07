@@ -21,6 +21,7 @@
       "canonicalPaths": [
         ".github/ISSUE_TEMPLATE/config.yml",
         ".github/pull_request_template.md",
+        ".github/workflows/alpha-release.yml",
         ".github/workflows/buildchain-validate.yml",
         ".github/workflows/managed-product-updates.yml",
         ".github/workflows/tap-check.yml",
@@ -42,6 +43,7 @@
         "docs/KUNGFU-CLI-FORMULA.md",
         "docs/KUNGFU-GUI-CASK.md",
         "docs/MAP.md",
+        "docs/versioning.md",
         "kfd/README.md",
         "kfd/kfd-1.contract-world.json",
         "kfd/kfd-1.witness.json",
@@ -49,6 +51,8 @@
         "kfd/kfd-3.collaboration-interface.json",
         "kfd/kfd-3.witness.json",
         "package.json",
+        "repository.release.json",
+        "scripts/build-release-bundle.mjs",
         "scripts/check-tap.mjs",
         "scripts/update-kfd-witnesses.mjs",
         "scripts/update-managed-products.mjs",
@@ -317,7 +321,7 @@
         "agent-reader",
         "release-system"
       ],
-      "value": "Accepted Buildchain @v3 stable and @v3-alpha runtime contract locks.",
+      "value": "Accepted Buildchain @v4 stable and @v4-alpha runtime contract locks.",
       "discoverability": {
         "fromMinimalEntrypoint": true,
         "path": "buildchain.contract-lock.json, buildchain.alpha-contract-lock.json"
@@ -376,7 +380,7 @@
         "release-system",
         "agent-reader"
       ],
-      "value": "Dry-run, check, or write managed formula and cask updates from upstream release passports, including compatible Buildchain @v3 lock refresh and automation PR auto-merge.",
+      "value": "Dry-run, check, or write managed formula and cask updates from upstream release passports, including compatible Buildchain @v4 lock refresh and automation PR auto-merge.",
       "discoverability": {
         "fromMinimalEntrypoint": true,
         "path": "node scripts/update-managed-products.mjs --help, .github/workflows/managed-product-updates.yml"
@@ -442,7 +446,7 @@
         "buildchain-lifecycle",
         "managed-product-updater"
       ],
-      "restriction": "Buildchain @v3 and @v3-alpha movement must pass their channel-specific consumer contract lock before lifecycle verification.",
+      "restriction": "Buildchain @v4 and @v4-alpha movement must pass their channel-specific consumer contract lock before lifecycle verification.",
       "rationale": "Floating refs are useful only when incompatible runtime contract drift fails closed.",
       "reviewPath": ".github/workflows/tap-check.yml"
     },
@@ -537,6 +541,7 @@
     "declaredFiles": [
       ".github/ISSUE_TEMPLATE/config.yml",
       ".github/pull_request_template.md",
+      ".github/workflows/alpha-release.yml",
       ".github/workflows/buildchain-validate.yml",
       ".github/workflows/managed-product-updates.yml",
       ".github/workflows/tap-check.yml",
@@ -558,6 +563,7 @@
       "docs/KUNGFU-CLI-FORMULA.md",
       "docs/KUNGFU-GUI-CASK.md",
       "docs/MAP.md",
+      "docs/versioning.md",
       "kfd/README.md",
       "kfd/kfd-1.contract-world.json",
       "kfd/kfd-1.witness.json",
@@ -565,6 +571,8 @@
       "kfd/kfd-3.collaboration-interface.json",
       "kfd/kfd-3.witness.json",
       "package.json",
+      "repository.release.json",
+      "scripts/build-release-bundle.mjs",
       "scripts/check-tap.mjs",
       "scripts/update-kfd-witnesses.mjs",
       "scripts/update-managed-products.mjs",

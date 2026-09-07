@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - main
+      - alpha/v0/v0.1
 
 permissions:
   contents: read
@@ -15,7 +16,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Validate buildchain.toml
-        uses: kungfu-systems/buildchain/actions/validate-config@v3
+        uses: kungfu-systems/buildchain/actions/validate-config@v4
         with:
           require-lifecycle-stages: "verify"
       - name: Require Buildchain contract lock
