@@ -1,0 +1,12 @@
+{
+  "schema": "kungfu.buildchain.release-activation/v1",
+  "subject": {
+    "repository": "kungfu-systems/homebrew-tap",
+    "sourceSha": "7c197450de675189dff1962bd8772ed6f639d2aa",
+    "version": "0.1.0-alpha.1",
+    "tag": "v0.1.0-alpha.1",
+    "channel": "alpha"
+  },
+  "qualificationRoot": "sha256:90e2078c55d030cd2c85aef8bce6709f887803b65b078036a87d8f7c874b5860",
+  "signedChannelRoot": "sha256:e728f1a8f3f0a5ce7bad55f0ec3e6a97fec0f5aaf9263fc9a1db338e419c568a"
+}
