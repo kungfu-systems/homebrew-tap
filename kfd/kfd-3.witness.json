@@ -29,7 +29,7 @@
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "c784bc29f53f4deb07dac012e6827ac592d7557e3add2867325eafc6f06ce6fc",
+        "sha256": "ef0ab81101869334d89d3e2047d9bf89acd393f070cf515f02809289702c4808",
         "description": "Find tap structure, checks, KFD claims, and governance documents."
       },
       {
@@ -76,7 +76,7 @@
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "c784bc29f53f4deb07dac012e6827ac592d7557e3add2867325eafc6f06ce6fc",
+        "sha256": "ef0ab81101869334d89d3e2047d9bf89acd393f070cf515f02809289702c4808",
         "description": "Documentation map."
       },
       {
@@ -165,7 +165,7 @@
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "c784bc29f53f4deb07dac012e6827ac592d7557e3add2867325eafc6f06ce6fc",
+        "sha256": "ef0ab81101869334d89d3e2047d9bf89acd393f070cf515f02809289702c4808",
         "description": "Inspection path."
       },
       {
@@ -210,7 +210,7 @@
       },
       {
         "path": "docs/MAP.md",
-        "sha256": "c784bc29f53f4deb07dac012e6827ac592d7557e3add2867325eafc6f06ce6fc"
+        "sha256": "ef0ab81101869334d89d3e2047d9bf89acd393f070cf515f02809289702c4808"
       },
       {
         "path": "docs/KFD-FORMULA.md",
