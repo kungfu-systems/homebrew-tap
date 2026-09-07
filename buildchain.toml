@@ -1,8 +1,0 @@
-schema = 1
-
-[project]
-type = "package"
-name = "homebrew-tap"
-
-[lifecycle.verify]
-command = "node --test scripts/update-managed-products.test.mjs && node scripts/check-tap.mjs"

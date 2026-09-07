@@ -37,9 +37,13 @@ const files = {
   formulaBuildchain: "Formula/buildchain.rb",
   formulaKfd: "Formula/kfd.rb",
   formulaKungfu: "Formula/kungfu.rb",
-  buildchainConfig: "buildchain.toml",
-  buildchainAlphaContractLock: "buildchain.alpha-contract-lock.json",
-  buildchainContractLock: "buildchain.contract-lock.json",
+  versioningGuide: "docs/versioning.md",
+  releaseAnchor: "repository.release.json",
+  releaseBundleScript: "scripts/build-release-bundle.mjs",
+  alphaReleaseWorkflow: ".github/workflows/alpha-release.yml",
+  buildchainConfig: ".buildchain/buildchain.toml",
+  buildchainAlphaContractLock: ".buildchain/alpha-contract-lock.json",
+  buildchainContractLock: ".buildchain/contract-lock.json",
   buildchainValidateWorkflow: ".github/workflows/buildchain-validate.yml",
   managedProductUpdatesWorkflow: ".github/workflows/managed-product-updates.yml",
   tapCheckWorkflow: ".github/workflows/tap-check.yml",
@@ -172,7 +176,7 @@ const kfd1ContractWorld = {
     {
       id: "buildchain-runtime-lock",
       class: "integration-time",
-      description: "Accepted Buildchain @v3 runtime contract for CI lifecycle checks.",
+      description: "Accepted Buildchain @v4 runtime contract for CI lifecycle checks.",
       path: files.buildchainContractLock,
     },
     {
@@ -288,11 +292,11 @@ const kfd2Claims = {
     },
     {
       id: "buildchain-runtime-contract",
-      statement: "The tap uses Buildchain @v3 only with a reviewed consumer contract lock and CI trust gate.",
+      statement: "The tap uses Buildchain @v4 only with a reviewed consumer contract lock and CI trust gate.",
       category: "kfd-1",
       source: { kind: "file", path: files.buildchainContractLock, sha256: sha256File(files.buildchainContractLock) },
       evidence: [
-        evidencePointer(files.buildchainContractLock, "Accepted Buildchain @v3 contract digest and breaking-surface set."),
+        evidencePointer(files.buildchainContractLock, "Accepted Buildchain @v4 contract digest and breaking-surface set."),
         evidencePointer(files.packageManagerContract, "Exact zero-dependency package-manager declaration consumed by the Buildchain trust gate."),
         evidencePointer(files.tapCheckWorkflow, "Tap Check calls the Buildchain reusable workflow with buildchain-contract-lock-path."),
         evidencePointer(files.buildchainValidateWorkflow, "Buildchain Validate rejects a missing contract lock."),
@@ -379,11 +383,11 @@ const surfaces = [
   { id: "managed-kfd-formula", kind: "config", participants: ["installer", "agent-reader", "maintainer", "release-system"], value: "Native KFD Formula with four-platform archive digests, per-target provenance, and a stable kfd command name.", discoverability: { fromMinimalEntrypoint: true, path: `${files.tapManifest}, ${files.kfdFormulaGuide}, ${files.formulaKfd}` }, maturity: "stable" },
   { id: "managed-cli-formula", kind: "config", participants: ["installer", "agent-reader", "maintainer", "release-system"], value: "Release-passport-bound standalone Kungfu CLI Formula projection with exact Homebrew update and verification argv.", discoverability: { fromMinimalEntrypoint: true, path: `${files.tapManifest}, ${files.kungfuCliFormulaGuide}, ${files.formulaKungfu}` }, maturity: "stable" },
   { id: "managed-cask-support", kind: "config", participants: ["installer", "agent-reader", "maintainer", "release-system"], value: "Prepared Homebrew cask projection path for the Kungfu GUI App; planned entries are not installable until materialized from an upstream release passport.", discoverability: { fromMinimalEntrypoint: true, path: `${files.tapManifest}, ${files.kungfuGuiCaskGuide}, Casks/*.rb` }, maturity: "prepared" },
-  { id: "buildchain-runtime-lock", kind: "json-api", participants: ["agent-reader", "release-system"], value: "Accepted Buildchain @v3 stable and @v3-alpha runtime contract locks.", discoverability: { fromMinimalEntrypoint: true, path: `${files.buildchainContractLock}, ${files.buildchainAlphaContractLock}` }, maturity: "stable" },
+  { id: "buildchain-runtime-lock", kind: "json-api", participants: ["agent-reader", "release-system"], value: "Accepted Buildchain @v4 stable and @v4-alpha runtime contract locks.", discoverability: { fromMinimalEntrypoint: true, path: `${files.buildchainContractLock}, ${files.buildchainAlphaContractLock}` }, maturity: "stable" },
   { id: "buildchain-package-manager-contract", kind: "config", participants: ["agent-reader", "release-system", "maintainer"], value: "Private zero-dependency pnpm consumer declaration used only for Buildchain package-manager detection and runtime bootstrap.", discoverability: { fromMinimalEntrypoint: true, path: files.packageManagerContract }, maturity: "stable" },
-  { id: "buildchain-lifecycle", kind: "config", participants: ["maintainer", "release-system"], value: "Buildchain lifecycle declaration and GitHub workflow callers.", discoverability: { fromMinimalEntrypoint: true, path: "buildchain.toml, .github/workflows/*.yml" }, maturity: "stable" },
+  { id: "buildchain-lifecycle", kind: "config", participants: ["maintainer", "release-system"], value: "Buildchain lifecycle declaration and GitHub workflow callers.", discoverability: { fromMinimalEntrypoint: true, path: ".buildchain/buildchain.toml, .github/workflows/*.yml" }, maturity: "stable" },
   { id: "tap-verification", kind: "cli-command", participants: ["maintainer", "release-system", "agent-reader"], value: "Repository self-check for tap metadata, upstream release passports, KFD witnesses, and declared control surfaces.", discoverability: { fromMinimalEntrypoint: true, path: "node scripts/check-tap.mjs" }, maturity: "stable" },
-  { id: "managed-product-updater", kind: "cli-command", participants: ["maintainer", "release-system", "agent-reader"], value: "Dry-run, check, or write managed formula and cask updates from upstream release passports, including compatible Buildchain @v3 lock refresh and automation PR auto-merge.", discoverability: { fromMinimalEntrypoint: true, path: "node scripts/update-managed-products.mjs --help, .github/workflows/managed-product-updates.yml" }, maturity: "stable" },
+  { id: "managed-product-updater", kind: "cli-command", participants: ["maintainer", "release-system", "agent-reader"], value: "Dry-run, check, or write managed formula and cask updates from upstream release passports, including compatible Buildchain @v4 lock refresh and automation PR auto-merge.", discoverability: { fromMinimalEntrypoint: true, path: "node scripts/update-managed-products.mjs --help, .github/workflows/managed-product-updates.yml" }, maturity: "stable" },
   { id: "kfd-claims", kind: "json-api", participants: ["agent-reader", "release-system", "maintainer"], value: "Tap-local KFD-1/2/3 claims and witnesses.", discoverability: { fromMinimalEntrypoint: true, path: "kfd/*.json" }, maturity: "stable" },
 ];
 
@@ -439,7 +443,7 @@ const kfd3Interface = {
     {
       id: "floating-runtime-lock",
       appliesTo: ["buildchain-runtime-lock", "buildchain-package-manager-contract", "buildchain-lifecycle", "managed-product-updater"],
-      restriction: "Buildchain @v3 and @v3-alpha movement must pass their channel-specific consumer contract lock before lifecycle verification.",
+      restriction: "Buildchain @v4 and @v4-alpha movement must pass their channel-specific consumer contract lock before lifecycle verification.",
       rationale: "Floating refs are useful only when incompatible runtime contract drift fails closed.",
       reviewPath: files.tapCheckWorkflow,
     },

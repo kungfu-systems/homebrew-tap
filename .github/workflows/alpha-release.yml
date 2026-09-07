@@ -1,0 +1,67 @@
+name: Alpha Release
+
+on:
+  workflow_run:
+    workflows: ["Buildchain Validate"]
+    branches: ["alpha/v0/v0.1"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      sha:
+        description: Exact alpha channel commit to rehearse
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  actions: write
+  artifact-metadata: write
+  attestations: write
+  checks: write
+  issues: write
+  id-token: write
+  pull-requests: write
+
+jobs:
+  publish:
+    if: >-
+      ${{ github.event_name == 'workflow_dispatch' ||
+          (github.event.workflow_run.conclusion == 'success' &&
+           github.event.workflow_run.event == 'push' &&
+           github.event.workflow_run.head_branch == 'alpha/v0/v0.1') }}
+    uses: kungfu-systems/buildchain/.github/workflows/release-candidate-promote.yml@v4-alpha
+    secrets:
+      BUILDCHAIN_PROMOTION_TOKEN: ${{ secrets.BUILDCHAIN_PROMOTION_TOKEN }}
+    with:
+      target-ref: alpha/v0/v0.1
+      target-sha: ${{ github.event.workflow_run.head_sha || inputs.sha }}
+      buildchain-alpha-contract-lock-path: .buildchain/alpha-contract-lock.json
+      buildchain-stable-contract-lock-path: .buildchain/contract-lock.json
+      package-manager: pnpm
+      artifact-name: homebrew-tap
+      release-candidate-workflow-file: tap-check.yml
+      release-candidate-workflow-name: Tap Check
+      required-status-check: validate
+      artifact-patterns: homebrew-tap-linux-x64-*
+      required-artifact-count: 1
+      github-release-payload-patterns: |
+        homebrew-tap-*.tar.gz
+        homebrew-tap-*.tar.gz.sha256
+        homebrew-tap.artifact.json
+      publish-artifact-kind: custom
+      publish-target: github-release
+      publish-required-artifacts-json: >-
+        [{"group":"release","kind":"github-release","name":"homebrew-tap","ref_template":"v{version}"}]
+      trusted-publishing: false
+      declarative-release-tail: true
+      release-passport: true
+      release-passport-product-name: homebrew-tap
+      github-release: true
+      github-release-notes: Verified repository artifact bundle and Buildchain release evidence.
+      publication-auto-admission: true
+      publication-auto-no-gate: true
+      publication-publisher-workflow-path: .github/workflows/alpha-release.yml
+      publication-product: homebrew-tap
+      publication-target: github-release:kungfu-systems/homebrew-tap
+      publication-package-name: ""
+      dry-run: ${{ github.event_name == 'workflow_dispatch' }}

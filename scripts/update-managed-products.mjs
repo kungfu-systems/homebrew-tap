@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 
 const cwd = process.cwd();
 const manifestPath = path.join(cwd, "tap-manifest.json");
-const contractLockPath = path.join(cwd, "buildchain.contract-lock.json");
+const contractLockPath = path.join(cwd, ".buildchain/contract-lock.json");
 const supportedPlatforms = new Set(["darwin-arm64", "darwin-x64", "linux-arm64", "linux-x64"]);
 const supportedCaskPlatforms = new Set(["darwin-arm64"]);
 const kfdKeys = ["kfd-1", "kfd-2", "kfd-3"];
@@ -35,7 +35,7 @@ Options:
   --write                   Write formula/cask and tap-manifest projections.
   --check                   Exit non-zero when an update would be written.
   --include-planned         Include planned entries when checking all packages.
-  --update-lock             Also refresh buildchain.contract-lock.json from Buildchain @v3 when compatible.
+  --update-lock             Also refresh .buildchain/contract-lock.json from Buildchain @v4 when compatible.
   --json                    Print machine-readable JSON.
 `;
 }
@@ -593,33 +593,42 @@ async function projectEntry({ entry, releasePassportOverride = "", planned = fal
   };
 }
 
-async function updateContractLock({ write = false, buildchainRepository = "kungfu-systems/buildchain", buildchainRef = "v3" } = {}) {
-  const contractUrl = `https://raw.githubusercontent.com/${normalizeRepository(buildchainRepository)}/${encodeURIComponent(buildchainRef)}/dist/site/buildchain-contract.json`;
-  const currentContract = await fetchJson(contractUrl);
-  const currentSha = lsRemoteSha(buildchainRepository, buildchainRef);
-  const lock = readJson(contractLockPath);
-  if (lock.contract !== "kungfu-buildchain-contract-lock") {
-    throw new Error("buildchain.contract-lock.json must be a Buildchain contract lock");
-  }
-  const accepted = lock.buildchain || {};
-  const compatibilityPolicy = accepted.compatibilityPolicy || "major-compatible";
-  if (compatibilityPolicy === "major-compatible" && accepted.compatibilityDigest !== currentContract.compatibilityDigest) {
-    throw new Error(`Buildchain ${buildchainRef} has breaking contract drift: ${accepted.compatibilityDigest} -> ${currentContract.compatibilityDigest}`);
-  }
-  const nextBuildchain = {
+export function projectBuildchainLockMetadata(currentContract, buildchainRef, currentSha, compatibilityPolicy) {
+  return {
     ref: buildchainRef,
     resolvedSha: currentSha,
     contract: currentContract.contract,
     contractDigest: currentContract.contractDigest,
     compatibilityDigest: currentContract.compatibilityDigest,
+    compatibilityFactRegistryRoot: currentContract.compatibilityFactRegistryRoot,
+    compatibilityFactCutRoot: currentContract.compatibilityFactCutRoot,
+    compatibilityProofRegistryRoot: currentContract.compatibilityProofRegistryRoot,
     majorLine: currentContract.majorLine || buildchainRef,
     compatibilityPolicy,
     surfaces: (currentContract.surfaces || []).map((surface) => ({
       id: surface.id,
       kind: surface.kind,
       breakingDigest: surface.breakingDigest,
+      compatibilityProofRoots: surface.compatibilityProofRoots || [],
+      compatibilityFactRoots: surface.compatibilityFactRoots || [],
     })),
   };
+}
+
+async function updateContractLock({ write = false, buildchainRepository = "kungfu-systems/buildchain", buildchainRef = "v4" } = {}) {
+  const currentSha = lsRemoteSha(buildchainRepository, buildchainRef);
+  const contractUrl = `https://raw.githubusercontent.com/${normalizeRepository(buildchainRepository)}/${currentSha}/dist/site/buildchain-contract.json`;
+  const currentContract = await fetchJson(contractUrl);
+  const lock = readJson(contractLockPath);
+  if (lock.contract !== "kungfu-buildchain-contract-lock") {
+    throw new Error(".buildchain/contract-lock.json must be a Buildchain contract lock");
+  }
+  const accepted = lock.buildchain || {};
+  const compatibilityPolicy = accepted.compatibilityPolicy || "major-compatible";
+  if (compatibilityPolicy === "major-compatible" && accepted.compatibilityDigest !== currentContract.compatibilityDigest) {
+    throw new Error(`Buildchain ${buildchainRef} has breaking contract drift: ${accepted.compatibilityDigest} -> ${currentContract.compatibilityDigest}`);
+  }
+  const nextBuildchain = projectBuildchainLockMetadata(currentContract, buildchainRef, currentSha, compatibilityPolicy);
   const acceptedComparable = { ...accepted };
   delete acceptedComparable.acceptedAt;
   const materialChanged = JSON.stringify(acceptedComparable) !== JSON.stringify(nextBuildchain);
@@ -766,7 +775,7 @@ async function main(argv = process.argv.slice(2)) {
       process.stdout.write(`[managed-products] ${projection.type}/${projection.package}: ${marker} ${projection.version} (${projection.tag})\n`);
     }
     if (updateLock) {
-      process.stdout.write(`[managed-products] buildchain.contract-lock.json: ${lock.changed ? "update" : "current"} ${lock.resolvedSha || ""}\n`);
+      process.stdout.write(`[managed-products] .buildchain/contract-lock.json: ${lock.changed ? "update" : "current"} ${lock.resolvedSha || ""}\n`);
     }
   }
 

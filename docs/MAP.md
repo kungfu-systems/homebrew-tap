@@ -8,8 +8,9 @@
 | How will the Kungfu GUI App be published as a cask? | [`docs/KUNGFU-GUI-CASK.md`](KUNGFU-GUI-CASK.md) |
 | How is tap metadata checked? | [`scripts/check-tap.mjs`](../scripts/check-tap.mjs) and [`tap-manifest.json`](../tap-manifest.json) |
 | How are managed product versions updated? | [`scripts/update-managed-products.mjs`](../scripts/update-managed-products.mjs) and [`managed-product-updates.yml`](../.github/workflows/managed-product-updates.yml) |
-| How does Buildchain manage this repository? | [`buildchain.toml`](../buildchain.toml) |
-| How is the floating Buildchain runtime pinned? | [`buildchain.contract-lock.json`](../buildchain.contract-lock.json) and [`tap-check.yml`](../.github/workflows/tap-check.yml) |
+| How are repository alpha snapshots versioned? | [`versioning.md`](versioning.md) and [Alpha Release](../.github/workflows/alpha-release.yml) |
+| How does Buildchain manage this repository? | [`.buildchain/buildchain.toml`](../.buildchain/buildchain.toml) |
+| How is the floating Buildchain runtime pinned? | [`.buildchain/contract-lock.json`](../.buildchain/contract-lock.json) and [`tap-check.yml`](../.github/workflows/tap-check.yml) |
 | How does the tap support KFD-1/2/3? | [`kfd/README.md`](../kfd/README.md), [`kfd/kfd-1.witness.json`](../kfd/kfd-1.witness.json), [`kfd/kfd-2.release-claims.json`](../kfd/kfd-2.release-claims.json), and [`kfd/kfd-3.witness.json`](../kfd/kfd-3.witness.json) |
 | How do I contribute? | [`CONTRIBUTING.md`](../CONTRIBUTING.md) |
 | How do I report a vulnerability? | [`SECURITY.md`](../SECURITY.md) |
@@ -25,9 +26,9 @@ scripts/update-managed-products.mjs
 scripts/check-tap.mjs Drift check for formulae, casks, and upstream release evidence
 .github/workflows/managed-product-updates.yml
                       Scheduled/manual update PR and auto-merge workflow
-buildchain.toml       Buildchain lifecycle declaration
-buildchain.contract-lock.json
-                      Accepted Buildchain @v3 runtime contract lock
+.buildchain/buildchain.toml       Buildchain lifecycle declaration
+.buildchain/contract-lock.json
+                      Accepted Buildchain @v4 runtime contract lock
 kfd/                  Tap-local KFD-1/2/3 claims and witnesses
 ```
 
@@ -44,7 +45,7 @@ only after the managed updater materializes it into installable `entries` from
 an exact upstream release passport.
 
 The Buildchain floating runtime is also not accepted blindly. The tap records
-the reviewed `@v3` runtime contract in `buildchain.contract-lock.json`; CI
+the reviewed `@v4` runtime contract in `.buildchain/contract-lock.json`; CI
 checks that contract before running repository lifecycle verification.
 `package.json` is a private, zero-dependency consumer declaration that pins
 `pnpm@11.7.0` solely for Buildchain package-manager detection and its isolated

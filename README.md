@@ -1,3 +1,16 @@
+---
+status: active
+period: ongoing
+theme: buildchain-managed-repository
+doc_type: product-manual
+source_level: repository-contracts
+confidence: high
+sensitivity: public
+evidence_grade: B
+review_state: unreviewed
+last_reviewed: 2026-09-07
+---
+
 # Kungfu Systems Homebrew Tap
 
 [![Buildchain Validate](https://github.com/kungfu-systems/homebrew-tap/actions/workflows/buildchain-validate.yml/badge.svg)](https://github.com/kungfu-systems/homebrew-tap/actions/workflows/buildchain-validate.yml)
@@ -57,8 +70,8 @@ Homebrew installation metadata.
 
 ## Buildchain Management
 
-This tap uses Buildchain's floating `@v3` runtime with
-`buildchain.contract-lock.json`. CI checks the accepted Buildchain runtime
+This tap uses Buildchain's floating `@v4` runtime with
+`.buildchain/contract-lock.json`. CI checks the accepted Buildchain runtime
 contract before running tap verification, so compatible runtime movement is
 visible and breaking contract drift fails before lifecycle work proceeds.
 
@@ -100,3 +113,22 @@ workflows, formulae, manuals, or KFD surfaces.
 - [Kungfu GUI App cask preparation](docs/KUNGFU-GUI-CASK.md)
 - [Contributing](CONTRIBUTING.md)
 - [Security](SECURITY.md)
+
+## Repository Alpha Releases
+
+The initial repository artifact line is `0.1.0-alpha.1`. Its version is explicit
+in `repository.release.json` and `package.json` using anchored/manual versioning; the manifest remains private and is not published to npm.
+A reviewed `main` commit is promoted by pull request to `alpha/v0/v0.1`.
+Buildchain v4-alpha validates the PR source and seals its release candidate.
+After channel checks pass, Alpha Release promotes those exact artifacts to an
+immutable GitHub prerelease with a Release Passport and provider evidence.
+Manual Alpha Release dispatch is a dry-run for the supplied exact channel SHA.
+
+`node scripts/build-release-bundle.mjs` creates the committed-source archive,
+SHA-256 sidecar and artifact metadata in `dist/release/`. Release verification
+compares the downloaded archive digest, source SHA and version with that
+metadata and the Buildchain evidence. Existing release tags and assets are
+never overwritten; fixes use a new reviewed alpha version.
+
+Tap alpha versions identify the distribution index snapshot. Formula and cask
+versions continue to follow their independently verified upstream releases.

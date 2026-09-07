@@ -8,7 +8,10 @@ import crypto from "node:crypto";
 
 const cwd = process.cwd();
 const manifestPath = path.join(cwd, "tap-manifest.json");
-const contractLockPath = path.join(cwd, "buildchain.contract-lock.json");
+const contractLockPath = path.join(cwd, ".buildchain/contract-lock.json");
+for (const legacy of ["buildchain.toml", "buildchain.contract-lock.json", "buildchain.alpha-contract-lock.json"]) {
+  if (fs.existsSync(path.join(cwd, legacy))) throw new Error(`Legacy Buildchain layout is not accepted: ${legacy}`);
+}
 const packageConfigPath = path.join(cwd, "package.json");
 const kfdPaths = {
   readme: "kfd/README.md",
@@ -122,10 +125,11 @@ function actualControlFiles() {
     "README.md",
     "SECURITY.md",
     "TRADEMARK.md",
-    "buildchain.alpha-contract-lock.json",
-    "buildchain.contract-lock.json",
-    "buildchain.toml",
+    ".buildchain/alpha-contract-lock.json",
+    ".buildchain/contract-lock.json",
+    ".buildchain/buildchain.toml",
     "package.json",
+    "repository.release.json",
     "tap-manifest.json",
     ...listFiles("Formula").filter((file) => file.endsWith(".rb")),
     ...listFiles("Casks").filter((file) => file.endsWith(".rb")),
@@ -449,19 +453,19 @@ const buildchain = manifest.entries.find(
 );
 
 if (contractLock.contract !== "kungfu-buildchain-contract-lock") {
-  fail("buildchain.contract-lock.json must be a Buildchain contract lock");
+  fail(".buildchain/contract-lock.json must be a Buildchain contract lock");
 }
-if (contractLock.buildchain?.ref !== "v3") {
-  fail("buildchain.contract-lock.json must accept the Buildchain v3 floating runtime");
+if (contractLock.buildchain?.ref !== "v4") {
+  fail(".buildchain/contract-lock.json must accept the Buildchain v4 floating runtime");
 }
 if (contractLock.buildchain?.compatibilityPolicy !== "major-compatible") {
-  fail("buildchain.contract-lock.json must use the major-compatible policy");
+  fail(".buildchain/contract-lock.json must use the major-compatible policy");
 }
 if (!/^[0-9a-f]{40}$/i.test(contractLock.buildchain?.resolvedSha || "")) {
-  fail("buildchain.contract-lock.json must record the resolved Buildchain SHA");
+  fail(".buildchain/contract-lock.json must record the resolved Buildchain SHA");
 }
 if (!Array.isArray(contractLock.buildchain?.surfaces) || contractLock.buildchain.surfaces.length === 0) {
-  fail("buildchain.contract-lock.json must record accepted Buildchain contract surfaces");
+  fail(".buildchain/contract-lock.json must record accepted Buildchain contract surfaces");
 }
 if (
   packageConfig.name !== "@kungfu-systems/homebrew-tap"
