@@ -8,6 +8,7 @@ import {
   formulaArchiveArtifacts,
   kfdNativeArtifacts,
   projectEntry,
+  projectBuildchainLockMetadata,
   renderFormula,
 } from "./update-managed-products.mjs";
 
@@ -260,4 +261,21 @@ test("shared Kungfu token requires an explicit Formula or Cask type", () => {
   );
   assert.equal(result.status, 1);
   assert.match(result.stderr, /ambiguous; pass --type formula or --type cask/);
+});
+
+test("managed v4 lock refresh retains fact and proof roots", () => {
+  const contract = {
+    contract: "kungfu-buildchain-runtime-contract-world",
+    majorLine: "v4",
+    contractDigest: "sha256:" + "1".repeat(64),
+    compatibilityDigest: "sha256:" + "2".repeat(64),
+    compatibilityFactRegistryRoot: "sha256:" + "3".repeat(64),
+    compatibilityFactCutRoot: "sha256:" + "4".repeat(64),
+    compatibilityProofRegistryRoot: "sha256:" + "5".repeat(64),
+    surfaces: [{ id: "build", kind: "workflow", breakingDigest: "sha256:" + "6".repeat(64), compatibilityProofRoots: ["sha256:" + "7".repeat(64)], compatibilityFactRoots: ["sha256:" + "8".repeat(64)] }],
+  };
+  const result = projectBuildchainLockMetadata(contract, "v4", "a".repeat(40), "major-compatible");
+  for (const key of ["compatibilityFactRegistryRoot", "compatibilityFactCutRoot", "compatibilityProofRegistryRoot", "surfaces"]) assert.deepEqual(result[key], contract[key]);
+  assert.equal(result.ref, "v4");
+  assert.equal(result.resolvedSha, "a".repeat(40));
 });

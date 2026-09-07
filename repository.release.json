@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "contract": "repository-artifact-release-anchor",
+  "repository": "kungfu-systems/homebrew-tap",
+  "line": "v0.1",
+  "channel": "alpha",
+  "version": "0.1.0-alpha.1",
+  "sourceBranch": "alpha/v0/v0.1",
+  "rationale": "Repository artifact snapshots use explicit reviewed versions independently of infrastructure deployment or upstream product versions."
+}

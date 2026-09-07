@@ -9,7 +9,7 @@
   },
   "contractWorld": {
     "schemaId": "https://kfd.libkungfu.dev/schemas/kfd-1/contract-world.schema.json",
-    "digest": "sha256:85b6f8a83f4e359a6628a574d048cfb077b84192d7df19989e3271cd0ca40978"
+    "digest": "sha256:fa3ba0190f8dc2093eaab5610b3ffbf84d7c6ff7cd1bdf2806536c97f235f088"
   },
   "evidence": [
     {
@@ -50,12 +50,12 @@
     {
       "kind": "file",
       "path": "buildchain.contract-lock.json",
-      "sha256": "ee6d70ab9b147bddc6c7d078466269d0aa3679fcc6a6bb5bf10f8ed9ff841b5b"
+      "sha256": "12df05b8893316103be0dc2a69a3db41f04ff23dc70c5dc37402c21845ec5862"
     },
     {
       "kind": "file",
       "path": "package.json",
-      "sha256": "7e9a5abfc694716ef4fdafbcf5618acd32d3c485cb119ba18ddb27daa8ad196c"
+      "sha256": "20bbbd3a024a3436b67fe247d2b476ac4a062b5a28c4eee1c3c556594d121ac6"
     },
     {
       "kind": "file",
@@ -65,22 +65,22 @@
     {
       "kind": "file",
       "path": "scripts/update-managed-products.mjs",
-      "sha256": "d125fc8d671cbac8984fd771596cf6138dd42c0ccca404f9ef2312aa5982602e"
+      "sha256": "adfda8c28f71962ba398ed2bca2e35068dbcd9fff1877cfe9f7daf0d2c9f4632"
     },
     {
       "kind": "file",
       "path": ".github/workflows/tap-check.yml",
-      "sha256": "24a64bea84d7eb6b1a2def7f8bf3c415bca16bc5cd14bbb131b565326028e1e4"
+      "sha256": "5206b0da461b6ce95b2be8a64a48f93d187d3a6c9125ed347244b305973fe55f"
     },
     {
       "kind": "file",
       "path": "scripts/check-tap.mjs",
-      "sha256": "28314295e13eef1cdb2bf35480f03f9007db1ae5876285627d192447cc182103"
+      "sha256": "cc5e7f9afb892865569be81e123016194565c114a772be6e317a6a9668ead9c9"
     },
     {
       "kind": "file",
       "path": "kfd/kfd-1.contract-world.json",
-      "sha256": "85b6f8a83f4e359a6628a574d048cfb077b84192d7df19989e3271cd0ca40978"
+      "sha256": "fa3ba0190f8dc2093eaab5610b3ffbf84d7c6ff7cd1bdf2806536c97f235f088"
     }
   ],
   "closure": {
@@ -88,6 +88,7 @@
     "declaredFiles": [
       ".github/ISSUE_TEMPLATE/config.yml",
       ".github/pull_request_template.md",
+      ".github/workflows/alpha-release.yml",
       ".github/workflows/buildchain-validate.yml",
       ".github/workflows/managed-product-updates.yml",
       ".github/workflows/tap-check.yml",
@@ -109,6 +110,7 @@
       "docs/KUNGFU-CLI-FORMULA.md",
       "docs/KUNGFU-GUI-CASK.md",
       "docs/MAP.md",
+      "docs/versioning.md",
       "kfd/README.md",
       "kfd/kfd-1.contract-world.json",
       "kfd/kfd-1.witness.json",
@@ -116,6 +118,8 @@
       "kfd/kfd-3.collaboration-interface.json",
       "kfd/kfd-3.witness.json",
       "package.json",
+      "repository.release.json",
+      "scripts/build-release-bundle.mjs",
       "scripts/check-tap.mjs",
       "scripts/update-kfd-witnesses.mjs",
       "scripts/update-managed-products.mjs",

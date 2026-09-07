@@ -90,7 +90,7 @@
           "pointer": {
             "kind": "command",
             "path": "scripts/update-managed-products.mjs",
-            "sha256": "d125fc8d671cbac8984fd771596cf6138dd42c0ccca404f9ef2312aa5982602e"
+            "sha256": "adfda8c28f71962ba398ed2bca2e35068dbcd9fff1877cfe9f7daf0d2c9f4632"
           },
           "description": "Managed updater projects the latest upstream release passport into formula, cask, and manifest state."
         },
@@ -108,7 +108,7 @@
           "pointer": {
             "kind": "command",
             "path": "scripts/check-tap.mjs",
-            "sha256": "28314295e13eef1cdb2bf35480f03f9007db1ae5876285627d192447cc182103"
+            "sha256": "cc5e7f9afb892865569be81e123016194565c114a772be6e317a6a9668ead9c9"
           },
           "description": "Verification fetches upstream release passport and compares tag, version, KFD status, and artifact digests."
         }
@@ -132,12 +132,12 @@
     },
     {
       "id": "buildchain-runtime-contract",
-      "statement": "The tap uses Buildchain @v3 only with a reviewed consumer contract lock and CI trust gate.",
+      "statement": "The tap uses Buildchain @v4 only with a reviewed consumer contract lock and CI trust gate.",
       "category": "kfd-1",
       "source": {
         "kind": "file",
         "path": "buildchain.contract-lock.json",
-        "sha256": "ee6d70ab9b147bddc6c7d078466269d0aa3679fcc6a6bb5bf10f8ed9ff841b5b"
+        "sha256": "12df05b8893316103be0dc2a69a3db41f04ff23dc70c5dc37402c21845ec5862"
       },
       "evidence": [
         {
@@ -145,16 +145,16 @@
           "pointer": {
             "kind": "file",
             "path": "buildchain.contract-lock.json",
-            "sha256": "ee6d70ab9b147bddc6c7d078466269d0aa3679fcc6a6bb5bf10f8ed9ff841b5b"
+            "sha256": "12df05b8893316103be0dc2a69a3db41f04ff23dc70c5dc37402c21845ec5862"
           },
-          "description": "Accepted Buildchain @v3 contract digest and breaking-surface set."
+          "description": "Accepted Buildchain @v4 contract digest and breaking-surface set."
         },
         {
           "type": "file",
           "pointer": {
             "kind": "file",
             "path": "package.json",
-            "sha256": "7e9a5abfc694716ef4fdafbcf5618acd32d3c485cb119ba18ddb27daa8ad196c"
+            "sha256": "20bbbd3a024a3436b67fe247d2b476ac4a062b5a28c4eee1c3c556594d121ac6"
           },
           "description": "Exact zero-dependency package-manager declaration consumed by the Buildchain trust gate."
         },
@@ -163,7 +163,7 @@
           "pointer": {
             "kind": "file",
             "path": ".github/workflows/tap-check.yml",
-            "sha256": "24a64bea84d7eb6b1a2def7f8bf3c415bca16bc5cd14bbb131b565326028e1e4"
+            "sha256": "5206b0da461b6ce95b2be8a64a48f93d187d3a6c9125ed347244b305973fe55f"
           },
           "description": "Tap Check calls the Buildchain reusable workflow with buildchain-contract-lock-path."
         },
@@ -172,7 +172,7 @@
           "pointer": {
             "kind": "file",
             "path": ".github/workflows/buildchain-validate.yml",
-            "sha256": "866edf54161cfb87214c962c11b1ca8eb8b1d6c6b0d456b925e5732a18ba24bd"
+            "sha256": "6e6969d242d2dbf8502eba05238be418bad1068166f4aacafcaca7c303e5e542"
           },
           "description": "Buildchain Validate rejects a missing contract lock."
         }
@@ -209,7 +209,7 @@
           "pointer": {
             "kind": "file",
             "path": "kfd/kfd-1.contract-world.json",
-            "sha256": "85b6f8a83f4e359a6628a574d048cfb077b84192d7df19989e3271cd0ca40978"
+            "sha256": "fa3ba0190f8dc2093eaab5610b3ffbf84d7c6ff7cd1bdf2806536c97f235f088"
           },
           "description": "KFD-1 contract world for tap distribution facts."
         },
@@ -218,7 +218,7 @@
           "pointer": {
             "kind": "file",
             "path": "kfd/kfd-1.witness.json",
-            "sha256": "b8d3bbab6daa251c197cf1fcffdae31b4bbce766f4cfccf6e1b7fb792a8e3503"
+            "sha256": "c5b3bee66a2f9a23ecc4777a04c6654b564c9ef3b1a612803fe450df91f13db4"
           },
           "description": "KFD-1 witness for declared fact surfaces."
         },
@@ -236,7 +236,7 @@
           "pointer": {
             "kind": "command",
             "path": "scripts/check-tap.mjs",
-            "sha256": "28314295e13eef1cdb2bf35480f03f9007db1ae5876285627d192447cc182103"
+            "sha256": "cc5e7f9afb892865569be81e123016194565c114a772be6e317a6a9668ead9c9"
           },
           "description": "Verification rejects stale hashes and undeclared control surfaces."
         }

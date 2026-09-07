@@ -42,7 +42,7 @@
     {
       "id": "buildchain-runtime-lock",
       "class": "integration-time",
-      "description": "Accepted Buildchain @v3 runtime contract for CI lifecycle checks.",
+      "description": "Accepted Buildchain @v4 runtime contract for CI lifecycle checks.",
       "path": "buildchain.contract-lock.json"
     },
     {
