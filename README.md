@@ -71,7 +71,7 @@ Homebrew installation metadata.
 ## Buildchain Management
 
 This tap uses Buildchain's floating `@v4` runtime with
-`buildchain.contract-lock.json`. CI checks the accepted Buildchain runtime
+`.buildchain/contract-lock.json`. CI checks the accepted Buildchain runtime
 contract before running tap verification, so compatible runtime movement is
 visible and breaking contract drift fails before lifecycle work proceeds.
 

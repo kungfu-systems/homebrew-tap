@@ -9,7 +9,7 @@
   },
   "contractWorld": {
     "schemaId": "https://kfd.libkungfu.dev/schemas/kfd-1/contract-world.schema.json",
-    "digest": "sha256:fa3ba0190f8dc2093eaab5610b3ffbf84d7c6ff7cd1bdf2806536c97f235f088"
+    "digest": "sha256:ca0b23cbc3afbaff45debcede284da01f4442c5a270ce0306ef962896551c098"
   },
   "evidence": [
     {
@@ -49,7 +49,7 @@
     },
     {
       "kind": "file",
-      "path": "buildchain.contract-lock.json",
+      "path": ".buildchain/contract-lock.json",
       "sha256": "12df05b8893316103be0dc2a69a3db41f04ff23dc70c5dc37402c21845ec5862"
     },
     {
@@ -60,32 +60,35 @@
     {
       "kind": "file",
       "path": ".github/workflows/managed-product-updates.yml",
-      "sha256": "bf93a6c91ccb8656c4c45c6543ba7b18b8fc961481915fda301f63cbf5bcde03"
+      "sha256": "d6fb7b2a38d1724de291cc4c302d6153a246c42c63ff7c82e92f0cf69abf7204"
     },
     {
       "kind": "file",
       "path": "scripts/update-managed-products.mjs",
-      "sha256": "adfda8c28f71962ba398ed2bca2e35068dbcd9fff1877cfe9f7daf0d2c9f4632"
+      "sha256": "572e20bf7a171e984d78d86a7d775f5c572a2d9c4f1263ce31507881f0467c2a"
     },
     {
       "kind": "file",
       "path": ".github/workflows/tap-check.yml",
-      "sha256": "5206b0da461b6ce95b2be8a64a48f93d187d3a6c9125ed347244b305973fe55f"
+      "sha256": "8ff2efaba7d9f51466d9c3666fb10f9084baa991383f7e4fc8a8112e07894dfd"
     },
     {
       "kind": "file",
       "path": "scripts/check-tap.mjs",
-      "sha256": "cc5e7f9afb892865569be81e123016194565c114a772be6e317a6a9668ead9c9"
+      "sha256": "f631f999de0c49a1dd7b5e0fb054be0f8b601f006d67039d798e1b2cfc22cfdd"
     },
     {
       "kind": "file",
       "path": "kfd/kfd-1.contract-world.json",
-      "sha256": "fa3ba0190f8dc2093eaab5610b3ffbf84d7c6ff7cd1bdf2806536c97f235f088"
+      "sha256": "ca0b23cbc3afbaff45debcede284da01f4442c5a270ce0306ef962896551c098"
     }
   ],
   "closure": {
     "mode": "declared-files",
     "declaredFiles": [
+      ".buildchain/alpha-contract-lock.json",
+      ".buildchain/buildchain.toml",
+      ".buildchain/contract-lock.json",
       ".github/ISSUE_TEMPLATE/config.yml",
       ".github/pull_request_template.md",
       ".github/workflows/alpha-release.yml",
@@ -103,9 +106,6 @@
       "README.md",
       "SECURITY.md",
       "TRADEMARK.md",
-      "buildchain.alpha-contract-lock.json",
-      "buildchain.contract-lock.json",
-      "buildchain.toml",
       "docs/KFD-FORMULA.md",
       "docs/KUNGFU-CLI-FORMULA.md",
       "docs/KUNGFU-GUI-CASK.md",

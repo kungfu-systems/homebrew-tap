@@ -74,7 +74,7 @@ buildchain validate --require-lifecycle-stages verify
 buildchain lifecycle run verify --required
 ```
 
-CI also verifies `buildchain.contract-lock.json` before the lifecycle check.
+CI also verifies `.buildchain/contract-lock.json` before the lifecycle check.
 The private zero-dependency `package.json` exists only to declare
 `pnpm@11.7.0` to Buildchain's package-manager trust gate and isolated runtime
 bootstrap; local checks do not require `pnpm install` and no lockfile is

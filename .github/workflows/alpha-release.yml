@@ -35,8 +35,8 @@ jobs:
     with:
       target-ref: alpha/v0/v0.1
       target-sha: ${{ github.event.workflow_run.head_sha || inputs.sha }}
-      buildchain-alpha-contract-lock-path: buildchain.alpha-contract-lock.json
-      buildchain-stable-contract-lock-path: buildchain.contract-lock.json
+      buildchain-alpha-contract-lock-path: .buildchain/alpha-contract-lock.json
+      buildchain-stable-contract-lock-path: .buildchain/contract-lock.json
       package-manager: pnpm
       artifact-name: homebrew-tap
       release-candidate-workflow-file: tap-check.yml

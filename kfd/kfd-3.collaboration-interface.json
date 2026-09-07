@@ -19,6 +19,9 @@
       "url": "https://github.com/kungfu-systems/homebrew-tap",
       "loadBearingCoordinate": "commit-addressed repository contents",
       "canonicalPaths": [
+        ".buildchain/alpha-contract-lock.json",
+        ".buildchain/buildchain.toml",
+        ".buildchain/contract-lock.json",
         ".github/ISSUE_TEMPLATE/config.yml",
         ".github/pull_request_template.md",
         ".github/workflows/alpha-release.yml",
@@ -36,9 +39,6 @@
         "README.md",
         "SECURITY.md",
         "TRADEMARK.md",
-        "buildchain.alpha-contract-lock.json",
-        "buildchain.contract-lock.json",
-        "buildchain.toml",
         "docs/KFD-FORMULA.md",
         "docs/KUNGFU-CLI-FORMULA.md",
         "docs/KUNGFU-GUI-CASK.md",
@@ -324,7 +324,7 @@
       "value": "Accepted Buildchain @v4 stable and @v4-alpha runtime contract locks.",
       "discoverability": {
         "fromMinimalEntrypoint": true,
-        "path": "buildchain.contract-lock.json, buildchain.alpha-contract-lock.json"
+        "path": ".buildchain/contract-lock.json, .buildchain/alpha-contract-lock.json"
       },
       "maturity": "stable"
     },
@@ -353,7 +353,7 @@
       "value": "Buildchain lifecycle declaration and GitHub workflow callers.",
       "discoverability": {
         "fromMinimalEntrypoint": true,
-        "path": "buildchain.toml, .github/workflows/*.yml"
+        "path": ".buildchain/buildchain.toml, .github/workflows/*.yml"
       },
       "maturity": "stable"
     },
@@ -539,6 +539,9 @@
     "unclassifiedEntrypointsPolicy": "fail",
     "reachableSurfaceSource": "scripts/check-tap.mjs",
     "declaredFiles": [
+      ".buildchain/alpha-contract-lock.json",
+      ".buildchain/buildchain.toml",
+      ".buildchain/contract-lock.json",
       ".github/ISSUE_TEMPLATE/config.yml",
       ".github/pull_request_template.md",
       ".github/workflows/alpha-release.yml",
@@ -556,9 +559,6 @@
       "README.md",
       "SECURITY.md",
       "TRADEMARK.md",
-      "buildchain.alpha-contract-lock.json",
-      "buildchain.contract-lock.json",
-      "buildchain.toml",
       "docs/KFD-FORMULA.md",
       "docs/KUNGFU-CLI-FORMULA.md",
       "docs/KUNGFU-GUI-CASK.md",

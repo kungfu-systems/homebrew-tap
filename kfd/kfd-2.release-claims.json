@@ -90,7 +90,7 @@
           "pointer": {
             "kind": "command",
             "path": "scripts/update-managed-products.mjs",
-            "sha256": "adfda8c28f71962ba398ed2bca2e35068dbcd9fff1877cfe9f7daf0d2c9f4632"
+            "sha256": "572e20bf7a171e984d78d86a7d775f5c572a2d9c4f1263ce31507881f0467c2a"
           },
           "description": "Managed updater projects the latest upstream release passport into formula, cask, and manifest state."
         },
@@ -99,7 +99,7 @@
           "pointer": {
             "kind": "file",
             "path": ".github/workflows/managed-product-updates.yml",
-            "sha256": "bf93a6c91ccb8656c4c45c6543ba7b18b8fc961481915fda301f63cbf5bcde03"
+            "sha256": "d6fb7b2a38d1724de291cc4c302d6153a246c42c63ff7c82e92f0cf69abf7204"
           },
           "description": "Scheduled and manual workflow opens and auto-merges update PRs for managed entries."
         },
@@ -108,7 +108,7 @@
           "pointer": {
             "kind": "command",
             "path": "scripts/check-tap.mjs",
-            "sha256": "cc5e7f9afb892865569be81e123016194565c114a772be6e317a6a9668ead9c9"
+            "sha256": "f631f999de0c49a1dd7b5e0fb054be0f8b601f006d67039d798e1b2cfc22cfdd"
           },
           "description": "Verification fetches upstream release passport and compares tag, version, KFD status, and artifact digests."
         }
@@ -136,7 +136,7 @@
       "category": "kfd-1",
       "source": {
         "kind": "file",
-        "path": "buildchain.contract-lock.json",
+        "path": ".buildchain/contract-lock.json",
         "sha256": "12df05b8893316103be0dc2a69a3db41f04ff23dc70c5dc37402c21845ec5862"
       },
       "evidence": [
@@ -144,7 +144,7 @@
           "type": "file",
           "pointer": {
             "kind": "file",
-            "path": "buildchain.contract-lock.json",
+            "path": ".buildchain/contract-lock.json",
             "sha256": "12df05b8893316103be0dc2a69a3db41f04ff23dc70c5dc37402c21845ec5862"
           },
           "description": "Accepted Buildchain @v4 contract digest and breaking-surface set."
@@ -163,7 +163,7 @@
           "pointer": {
             "kind": "file",
             "path": ".github/workflows/tap-check.yml",
-            "sha256": "5206b0da461b6ce95b2be8a64a48f93d187d3a6c9125ed347244b305973fe55f"
+            "sha256": "8ff2efaba7d9f51466d9c3666fb10f9084baa991383f7e4fc8a8112e07894dfd"
           },
           "description": "Tap Check calls the Buildchain reusable workflow with buildchain-contract-lock-path."
         },
@@ -172,7 +172,7 @@
           "pointer": {
             "kind": "file",
             "path": ".github/workflows/buildchain-validate.yml",
-            "sha256": "6e6969d242d2dbf8502eba05238be418bad1068166f4aacafcaca7c303e5e542"
+            "sha256": "2d2583dfdd7cbe83fdeebda8800b0165c8bcbc8190e05506d73a8310a770e18e"
           },
           "description": "Buildchain Validate rejects a missing contract lock."
         }
@@ -209,7 +209,7 @@
           "pointer": {
             "kind": "file",
             "path": "kfd/kfd-1.contract-world.json",
-            "sha256": "fa3ba0190f8dc2093eaab5610b3ffbf84d7c6ff7cd1bdf2806536c97f235f088"
+            "sha256": "ca0b23cbc3afbaff45debcede284da01f4442c5a270ce0306ef962896551c098"
           },
           "description": "KFD-1 contract world for tap distribution facts."
         },
@@ -218,7 +218,7 @@
           "pointer": {
             "kind": "file",
             "path": "kfd/kfd-1.witness.json",
-            "sha256": "c5b3bee66a2f9a23ecc4777a04c6654b564c9ef3b1a612803fe450df91f13db4"
+            "sha256": "9d602a352352eaf25ca8c293c7ecea7e45fe39d5b2607b9ef898e86e571f9f6d"
           },
           "description": "KFD-1 witness for declared fact surfaces."
         },
@@ -236,7 +236,7 @@
           "pointer": {
             "kind": "command",
             "path": "scripts/check-tap.mjs",
-            "sha256": "cc5e7f9afb892865569be81e123016194565c114a772be6e317a6a9668ead9c9"
+            "sha256": "f631f999de0c49a1dd7b5e0fb054be0f8b601f006d67039d798e1b2cfc22cfdd"
           },
           "description": "Verification rejects stale hashes and undeclared control surfaces."
         }

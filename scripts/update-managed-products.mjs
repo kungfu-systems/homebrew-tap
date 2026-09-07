@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 
 const cwd = process.cwd();
 const manifestPath = path.join(cwd, "tap-manifest.json");
-const contractLockPath = path.join(cwd, "buildchain.contract-lock.json");
+const contractLockPath = path.join(cwd, ".buildchain/contract-lock.json");
 const supportedPlatforms = new Set(["darwin-arm64", "darwin-x64", "linux-arm64", "linux-x64"]);
 const supportedCaskPlatforms = new Set(["darwin-arm64"]);
 const kfdKeys = ["kfd-1", "kfd-2", "kfd-3"];
@@ -35,7 +35,7 @@ Options:
   --write                   Write formula/cask and tap-manifest projections.
   --check                   Exit non-zero when an update would be written.
   --include-planned         Include planned entries when checking all packages.
-  --update-lock             Also refresh buildchain.contract-lock.json from Buildchain @v4 when compatible.
+  --update-lock             Also refresh .buildchain/contract-lock.json from Buildchain @v4 when compatible.
   --json                    Print machine-readable JSON.
 `;
 }
@@ -621,7 +621,7 @@ async function updateContractLock({ write = false, buildchainRepository = "kungf
   const currentContract = await fetchJson(contractUrl);
   const lock = readJson(contractLockPath);
   if (lock.contract !== "kungfu-buildchain-contract-lock") {
-    throw new Error("buildchain.contract-lock.json must be a Buildchain contract lock");
+    throw new Error(".buildchain/contract-lock.json must be a Buildchain contract lock");
   }
   const accepted = lock.buildchain || {};
   const compatibilityPolicy = accepted.compatibilityPolicy || "major-compatible";
@@ -775,7 +775,7 @@ async function main(argv = process.argv.slice(2)) {
       process.stdout.write(`[managed-products] ${projection.type}/${projection.package}: ${marker} ${projection.version} (${projection.tag})\n`);
     }
     if (updateLock) {
-      process.stdout.write(`[managed-products] buildchain.contract-lock.json: ${lock.changed ? "update" : "current"} ${lock.resolvedSha || ""}\n`);
+      process.stdout.write(`[managed-products] .buildchain/contract-lock.json: ${lock.changed ? "update" : "current"} ${lock.resolvedSha || ""}\n`);
     }
   }
 
